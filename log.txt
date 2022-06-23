@@ -1,0 +1,17 @@
+
+-------------------------------------------------------------------------------
+   ROBOCOPY     ::     Robust File Copy for Windows                              
+-------------------------------------------------------------------------------
+
+  Started : Ÿtvrtek 23. Ÿervna 2022 17:56:53
+   Source : C:\Users\vojvo\Desktop\skola\ICT\SOC\Code\Text\
+     Dest : C:\Users\vojvo\OneDrive\SOC-text\
+
+    Files : *.*
+	    
+  Options : *.* /FFT /X /TEE /UNICODE /S /E /DCOPY:DA /COPY:DAT /PURGE /MIR /NP /ETA /R:1000000 /W:30 
+
+------------------------------------------------------------------------------
+
+2022/06/23 17:56:53 ERROR 2 (0x00000002) Accessing Source Directory C:\Users\vojvo\Desktop\skola\ICT\SOC\Code\Text\
+Syst‚m nem…§e nal‚zt uvedenì soubor.
