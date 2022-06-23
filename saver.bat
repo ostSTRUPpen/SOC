@@ -10,4 +10,3 @@ git add .
 git commit -m "%change%" >> ..\log.txt
 git push -u origin main
 TITLE saved
-PAUSE
