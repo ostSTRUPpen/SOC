@@ -1,1 +1,4 @@
 saver.bat
+node_modules
+.env
+.vscode
