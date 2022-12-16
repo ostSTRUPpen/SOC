@@ -17,22 +17,16 @@ const mentorSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	gmail: [
-		{
-			type: String,
-		},
-	],
-	email: [
-		{
-			type: String,
-		},
-	],
-	phone_num: [
-		{
-			type: String,
-			required: true,
-		},
-	],
+	gmail: {
+		type: String,
+	},
+	email: {
+		type: String,
+	},
+	phone_num: {
+		type: String,
+		required: true,
+	},
 	active: {
 		type: Boolean,
 		default: true,

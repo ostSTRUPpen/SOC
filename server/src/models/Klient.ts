@@ -29,38 +29,26 @@ const klientSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	gmail_parent: [
-		{
-			type: String,
-		},
-	],
-	email_parent: [
-		{
-			type: String,
-		},
-	],
-	gmail_child: [
-		{
-			type: String,
-		},
-	],
-	email_child: [
-		{
-			type: String,
-		},
-	],
-	phone_num_parent: [
-		{
-			type: String,
-			required: true,
-		},
-	],
-	phone_num_child: [
-		{
-			type: String,
-			required: true,
-		},
-	],
+	gmail_parent: {
+		type: String,
+	},
+	email_parent: {
+		type: String,
+	},
+	gmail_child: {
+		type: String,
+	},
+	email_child: {
+		type: String,
+	},
+	phone_num_parent: {
+		type: String,
+		required: true,
+	},
+	phone_num_child: {
+		type: String,
+		required: true,
+	},
 	active: {
 		type: Boolean,
 		default: true,

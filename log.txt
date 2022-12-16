@@ -37,3 +37,30 @@ nothing to commit, working tree clean
  1 file changed, 27 insertions(+)
 [main 5666c3d] setting_up
  1 file changed, 2 insertions(+)
+[main 75355c0] coding_time_p1
+ 26 files changed, 632 insertions(+), 31 deletions(-)
+ create mode 100644 server/dist/config/allowedOrigins.js
+ create mode 100644 server/dist/config/corsOptions.js
+ create mode 100644 server/dist/config/dbConn.js
+ create mode 100644 server/dist/logs/reqLog.log
+ create mode 100644 server/dist/middleware/errorHandler.js
+ create mode 100644 server/dist/middleware/logger.js
+ create mode 100644 server/dist/models/Klient.js
+ create mode 100644 server/dist/models/Lektor.js
+ create mode 100644 server/dist/models/Mentor.js
+ create mode 100644 server/dist/public/css/404_style.css
+ create mode 100644 server/dist/public/css/index_style.css
+ create mode 100644 server/dist/routes/root.js
+ rewrite server/dist/server.js (86%)
+ create mode 100644 server/dist/views/404.html
+ create mode 100644 server/dist/views/index.html
+ create mode 100644 server/src/config/allowedOrigins.ts
+ create mode 100644 server/src/config/corsOptions.ts
+ create mode 100644 server/src/config/dbConn.ts
+ create mode 100644 server/src/middleware/errorHandler.ts
+ create mode 100644 server/src/middleware/logger.ts
+ create mode 100644 server/src/models/Klient.ts
+ create mode 100644 server/src/models/Lektor.ts
+ create mode 100644 server/src/models/Mentor.ts
+ create mode 100644 server/src/routes/root.ts
+ rewrite server/src/server.ts (97%)
