@@ -1,6 +1,6 @@
 "use strict";
 const mongoose = require("mongoose");
-const klientSchema = new mongoose.Schema({
+const clientSchema = new mongoose.Schema({
     username: {
         type: String,
         required: true,
@@ -54,4 +54,4 @@ const klientSchema = new mongoose.Schema({
         default: true,
     },
 });
-module.exports = mongoose.model("Klient", klientSchema);
+module.exports = mongoose.model("Client", clientSchema);

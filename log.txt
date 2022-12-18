@@ -64,3 +64,9 @@ nothing to commit, working tree clean
  create mode 100644 server/src/models/Mentor.ts
  create mode 100644 server/src/routes/root.ts
  rewrite server/src/server.ts (97%)
+[main c498f48] finished_models
+ 8 files changed, 195 insertions(+), 64 deletions(-)
+ create mode 100644 server/src/models/Invoice.ts
+ create mode 100644 server/src/models/Lesson.ts
+ create mode 100644 server/src/models/Salary.ts
+ create mode 100644 server/src/models/Tutoring.ts

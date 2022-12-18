@@ -14,15 +14,24 @@ const connectDB = require("./config/dbConn");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || "3500";
 //Main code:
-console.log(require("dotenv").config());
+//console.log(require("dotenv").config());
 console.log(process.env.NODE_ENV);
 connectDB();
 app.use(logger);
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "/public")));
+// Routing
 app.use("/", require("./routes/root"));
+app.use("/mentors", require("./routes/mentorRoutes"));
+app.use("/lektors", require("./routes/lektorRoutes"));
+app.use("/clients", require("./routes/clientRoutes"));
+app.use("/tutorings", require("./routes/tutoringRoutes"));
+app.use("/lessons", require("./routes/lessonRoutes"));
+app.use("/invoices", require("./routes/invoiceRoutes"));
+app.use("/salaries", require("./routes/salaryRoutes"));
+// Not catched by routing
 app.all("*"),
     (req, res) => {
         res.status(404);
