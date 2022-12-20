@@ -107,3 +107,6 @@ nothing to commit, working tree clean
  create mode 100644 server/src/routes/mentorRoutes.ts
  create mode 100644 server/src/routes/salaryRoutes.ts
  create mode 100644 server/src/routes/tutoringRoutes.ts
+[main 8f51dd4] added controllers and changed models
+ 34 files changed, 2247 insertions(+), 92 deletions(-)
+ create mode 100644 server/dist/logs/errLog.log
