@@ -70,3 +70,40 @@ nothing to commit, working tree clean
  create mode 100644 server/src/models/Lesson.ts
  create mode 100644 server/src/models/Salary.ts
  create mode 100644 server/src/models/Tutoring.ts
+[main f03c1c2] added_boilerplateCode_for_controllers
+ 44 files changed, 837 insertions(+), 73 deletions(-)
+ create mode 100644 server/dist/controllers/clientsController.js
+ create mode 100644 server/dist/controllers/invoicesController.js
+ create mode 100644 server/dist/controllers/lektorController.js
+ create mode 100644 server/dist/controllers/lektorsController.js
+ create mode 100644 server/dist/controllers/lessonsController.js
+ create mode 100644 server/dist/controllers/mentorsController.js
+ create mode 100644 server/dist/controllers/salariesController.js
+ create mode 100644 server/dist/controllers/tutoringsController.js
+ create mode 100644 server/dist/models/Client.js
+ create mode 100644 server/dist/models/Invoice.js
+ create mode 100644 server/dist/models/Lesson.js
+ create mode 100644 server/dist/models/Salary.js
+ create mode 100644 server/dist/models/Tutoring.js
+ create mode 100644 server/dist/routes/clientRoutes.js
+ create mode 100644 server/dist/routes/invoiceRoutes.js
+ create mode 100644 server/dist/routes/lektorRoutes.js
+ create mode 100644 server/dist/routes/lessonRoutes.js
+ create mode 100644 server/dist/routes/mentorRoutes.js
+ create mode 100644 server/dist/routes/salaryRoutes.js
+ create mode 100644 server/dist/routes/tutoringRoutes.js
+ create mode 100644 server/src/controllers/clientsController.ts
+ create mode 100644 server/src/controllers/invoicesController.ts
+ create mode 100644 server/src/controllers/lektorsController.ts
+ create mode 100644 server/src/controllers/lessonsController.ts
+ create mode 100644 server/src/controllers/mentorsController.ts
+ create mode 100644 server/src/controllers/salariesController.ts
+ create mode 100644 server/src/controllers/tutoringsController.ts
+ rename server/src/models/{Klient.ts => Client.ts} (88%)
+ create mode 100644 server/src/routes/clientRoutes.ts
+ create mode 100644 server/src/routes/invoiceRoutes.ts
+ create mode 100644 server/src/routes/lektorRoutes.ts
+ create mode 100644 server/src/routes/lessonRoutes.ts
+ create mode 100644 server/src/routes/mentorRoutes.ts
+ create mode 100644 server/src/routes/salaryRoutes.ts
+ create mode 100644 server/src/routes/tutoringRoutes.ts

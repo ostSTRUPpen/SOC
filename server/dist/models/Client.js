@@ -25,10 +25,6 @@ const clientSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    subject: {
-        type: String,
-        required: true,
-    },
     gmail_parent: {
         type: String,
     },
@@ -48,6 +44,17 @@ const clientSchema = new mongoose.Schema({
     phone_num_child: {
         type: String,
         required: true,
+    },
+    bank_account: {
+        type: String,
+        required: true,
+    },
+    date_of_birth_child: {
+        type: String,
+    },
+    others: {
+        type: Array,
+        default: [],
     },
     active: {
         type: Boolean,

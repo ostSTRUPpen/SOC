@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+require("express-async-errors");
 const path = require("path");
 //Pokud bude dělat problém, tak smaž {*} (problém = nemůže najít .env/dist pokud to spustíš rovnou z dist)
 require("dotenv").config({ path: "./dist/.env" });

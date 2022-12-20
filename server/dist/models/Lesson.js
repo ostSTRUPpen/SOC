@@ -1,14 +1,17 @@
 "use strict";
 const mongoose = require("mongoose");
-const AutoIncrement = require("mongoose-sequence")(mongoose);
 const lessonSchema = new mongoose.Schema({
     tutoring: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: "Tutoring",
     },
+    lesson_number: {
+        type: Number,
+        required: true,
+    },
     date: {
-        type: Date,
+        type: String,
         required: true,
     },
     theme: {
@@ -16,7 +19,7 @@ const lessonSchema = new mongoose.Schema({
         required: true,
     },
     length: {
-        type: String,
+        type: Number,
         required: true,
         default: 60,
     },
@@ -24,10 +27,5 @@ const lessonSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-});
-lessonSchema.plugin(AutoIncrement, {
-    inc_field: "lesson_number",
-    id: "lessonNum",
-    start_seq: 0,
 });
 module.exports = mongoose.model("Lesson", lessonSchema);

@@ -11,6 +11,10 @@ const tutoringSchema = new mongoose.Schema({
         required: true,
         ref: "Client",
     },
+    subject: {
+        type: String,
+        required: true,
+    },
     active: {
         type: Boolean,
         default: true,

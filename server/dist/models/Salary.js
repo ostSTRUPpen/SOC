@@ -12,12 +12,12 @@ const salarySchema = new mongoose.Schema({
         required: true,
         ref: "Lektor",
     },
-    value: {
+    date: {
         type: String,
         required: true,
     },
-    date: {
-        type: Date,
+    value: {
+        type: String,
         required: true,
     },
 }, {

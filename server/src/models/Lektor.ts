@@ -32,6 +32,18 @@ const lektorSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	bank_account: {
+		type: String,
+		required: true,
+	},
+	date_of_birth: {
+		type: String,
+		required: true,
+	},
+	others: {
+		type: Array,
+		default: [],
+	},
 	active: {
 		type: Boolean,
 		default: true,

@@ -13,6 +13,10 @@ const invoiceSchema = new mongoose.Schema(
 			required: true,
 			ref: "Client",
 		},
+		date: {
+			type: String,
+			required: true,
+		},
 		value: {
 			type: String,
 			required: true,

@@ -1,0 +1,19 @@
+20221220	16:49:56	c543c417-df6b-4fcf-821c-507177d86e1d	ValidationError: Mentor validation failed: phone_num: Path `phone_num` is required.	POST	/mentors	undefined
+20221220	17:22:45	10295fa6-a8b2-4bf2-94a3-180fa7815ade	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	17:23:20	edbc4595-8d27-4290-92d3-5c2adb76c4d6	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	17:23:38	6ee5268a-618e-4842-bf1d-39ecd2d8efdb	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	17:27:57	d5704d7d-fde4-4b5a-9bab-b3cffc15dcf3	TypeError: Mentor.save is not a function	PATCH	/mentors	undefined
+20221220	17:29:15	2d8ff60b-1708-4f85-9168-f9152b3a3dad	SyntaxError: Unexpected string in JSON at position 162	PATCH	/mentors	undefined
+20221220	20:57:28	5f188bbd-1d23-4da5-a98d-3c689bbe5a5a	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	21:12:28	94b8f37c-2178-4dea-8399-0b3511e74820	SyntaxError: Unexpected string in JSON at position 40	PATCH	/tutorings	undefined
+20221220	21:12:34	f7cae615-bfd7-4cc6-9b7f-5c93c5e1ef19	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:13:09	f3e7072f-1a0b-4382-a420-ee4503d65246	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:13:47	e130143f-706d-43f5-a195-7915d13bb45b	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:14:47	32eb4d7a-2898-474b-9e65-6b30132a5ea2	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:15:45	dd478acf-06a6-4b11-bbf1-7d70d4f50082	CastError: Cast to ObjectId failed for value "{ id: '63a216f355493bf0f2f04e43' }" (type Object) at path "_id" for model "Tutoring"	PATCH	/tutorings	undefined
+20221220	21:15:51	b229c60e-8434-4630-852e-3f6e4e3e5100	CastError: Cast to ObjectId failed for value "{ id: '63a216f355493bf0f2f04e43' }" (type Object) at path "_id" for model "Tutoring"	PATCH	/tutorings	undefined
+20221220	21:16:42	c2159a6d-da7f-4a84-90d0-64beb3cbc2b7	CastError: Cast to ObjectId failed for value "{ id: '63a216f355493bf0f2f04e43' }" (type Object) at path "_id" for model "Tutoring"	PATCH	/tutorings	undefined
+20221220	21:24:11	307af5ae-981a-46ed-8a31-5df84ddd3f81	SyntaxError: Unexpected string in JSON at position 117	POST	/lessons	undefined
+20221220	21:25:18	a1488e8b-514a-4366-8db4-d733f885e91e	SyntaxError: Unexpected string in JSON at position 39	PATCH	/lessons	undefined
+20221220	21:55:54	1a27bbb1-120b-4fe7-87ef-0b832db7975c	SyntaxError: Unexpected string in JSON at position 38	PATCH	/invoices	undefined
+20221220	22:01:17	fc96d98c-ebd7-436f-895d-6181d906d1f6	SyntaxError: Unexpected string in JSON at position 39	PATCH	/salaries	undefined

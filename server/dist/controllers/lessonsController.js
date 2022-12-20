@@ -15,21 +15,114 @@ const Lesson = require("../models/Lesson");
 // @route GET /lessons
 // @access Private
 const getAllLessons = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.json({ message: "OK" });
+    // Get all lessons from MongoDB
+    const lessons = yield Lesson.find().select().lean();
+    // No lessons
+    if (!lessons.length) {
+        return res.status(400).json({ message: "No lessons found" });
+    }
+    res.json(lessons);
 });
 exports.getAllLessons = getAllLessons;
 // @desc Create new lesson
 // @route POST /lessons
 // @access Private
-const createNewLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const createNewLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { tutoring, lesson_number, date, theme, length, info } = req.body;
+    if (!tutoring || !lesson_number || !date || !theme || !length || !info) {
+        return res.status(400).json({
+            message: "Všechna pole jsou povinná",
+        });
+    }
+    // Duplicates
+    if (yield Lesson.findOne({
+        lesson_number: lesson_number,
+        tutoring: tutoring,
+    })
+        .lean()
+        .exec()) {
+        return res.status(400).json({
+            message: `Zápis hodiny s tímto čísle již existuje`,
+        });
+    }
+    const lessonObject = {
+        tutoring,
+        lesson_number,
+        date,
+        theme,
+        length,
+        info,
+    };
+    const lesson = yield Lesson.create(lessonObject);
+    if (lesson) {
+        res.status(201).json({
+            message: `Nový zápis hodiny s datem ${date} zaznamenán`,
+        });
+    }
+    else {
+        res.status(400).json({ message: `Došlo k chybě` });
+    }
+});
 exports.createNewLesson = createNewLesson;
 // @desc Update a lesson
 // @route PATCH /lessons
 // @access Private
-const updateLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const updateLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id, tutoring, lesson_number, date, theme, length, info } = req.body;
+    if (!id ||
+        !tutoring ||
+        !lesson_number ||
+        !date ||
+        !theme ||
+        !length ||
+        !info) {
+        return res.status(400).json({
+            message: "Všechna pole jsou povinná",
+        });
+    }
+    const lessonToUpdate = yield Lesson.findById(id).exec();
+    // The lesson does not exist
+    if (!lessonToUpdate) {
+        return res.status(400).json({ message: "Zápis hodiny nenalezen" });
+    }
+    const duplicate = yield Lesson.findOne({
+        lesson_number: lesson_number,
+        tutoring: tutoring,
+    })
+        .lean()
+        .exec();
+    if (duplicate && (duplicate === null || duplicate === void 0 ? void 0 : duplicate._id.toString()) !== id) {
+        return res.status(400).json({
+            message: `Zápis hodiny s tímto číslem již existuje`,
+        });
+    }
+    lessonToUpdate.tutoring = tutoring;
+    lessonToUpdate.lesson_number = lesson_number;
+    lessonToUpdate.date = date;
+    lessonToUpdate.theme = theme;
+    lessonToUpdate.length = length;
+    lessonToUpdate.info = info;
+    const updatedLesson = yield lessonToUpdate.save();
+    res.json({
+        message: `Zápis hodiny číslo ${updatedLesson.lesson_number} upravena`,
+    });
+});
 exports.updateLesson = updateLesson;
 // @desc Delete a lesson
 // @route DELETE /lessons
 // @access Private
-const deleteLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () { });
+const deleteLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.body;
+    if (!id) {
+        return res.status(400).json({ message: "Je potřeba ID hodiny" });
+    }
+    const lessonToDelete = yield Lesson.findById(id).exec();
+    // Does the lesson exist?
+    if (!lessonToDelete) {
+        return res.status(400).json({ message: "Zápis hodiny nenalezen" });
+    }
+    const result = yield lessonToDelete.deleteOne();
+    const reply = `Zápis hodiny číslo ${result.lesson_number} s ID ${result._id} byl smazán`;
+    res.json(reply);
+});
 exports.deleteLesson = deleteLesson;
