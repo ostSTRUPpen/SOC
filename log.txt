@@ -112,3 +112,27 @@ nothing to commit, working tree clean
  create mode 100644 server/dist/logs/errLog.log
 [main 6368e80] saving2
  1 file changed, 3 insertions(+)
+[main b55adbe] Added displaying of tutoring, coresponding lessons and some minor bug fixes
+ 36 files changed, 992 insertions(+), 97 deletions(-)
+ rewrite frontend/public/index.html (97%)
+ rewrite frontend/src/App.tsx (92%)
+ create mode 100644 frontend/src/app/api/apiSlice.ts
+ create mode 100644 frontend/src/app/store.ts
+ create mode 100644 frontend/src/components/Layout.tsx
+ create mode 100644 frontend/src/components/PublicPage.tsx
+ create mode 100644 frontend/src/components/SecureFooter.tsx
+ create mode 100644 frontend/src/components/SecureHeader.tsx
+ create mode 100644 frontend/src/components/SecureLayout.tsx
+ create mode 100644 frontend/src/features/Tables/Lessons/EditLesson.tsx
+ create mode 100644 frontend/src/features/Tables/Lessons/EditLessonForm.tsx
+ create mode 100644 frontend/src/features/Tables/Lessons/Lesson.tsx
+ create mode 100644 frontend/src/features/Tables/Lessons/LessonsList.tsx
+ create mode 100644 frontend/src/features/Tables/Lessons/lessonsApiSlice.ts
+ create mode 100644 frontend/src/features/Tables/MentorsList.tsx
+ create mode 100644 frontend/src/features/Tables/Tutorings/DisplayLessons.tsx
+ create mode 100644 frontend/src/features/Tables/Tutorings/Tutoring.tsx
+ create mode 100644 frontend/src/features/Tables/Tutorings/TutoringsList.tsx
+ create mode 100644 frontend/src/features/Tables/Tutorings/tutoringsApiSlice.ts
+ create mode 100644 frontend/src/features/auth/Dashboard.tsx
+ create mode 100644 frontend/src/features/auth/Login.tsx
+ rewrite frontend/src/index.tsx (81%)
