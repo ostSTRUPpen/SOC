@@ -47,7 +47,6 @@ const clientSchema = new mongoose.Schema({
 	},
 	bank_account: {
 		type: String,
-		required: true,
 	},
 	date_of_birth_child: {
 		type: String,

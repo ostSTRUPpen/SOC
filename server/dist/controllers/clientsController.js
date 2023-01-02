@@ -40,8 +40,7 @@ const createNewClient = (req, res) => __awaiter(void 0, void 0, void 0, function
         !surname_parent ||
         !surname_child ||
         !phone_num_parent ||
-        !phone_num_child ||
-        !bank_account) {
+        !phone_num_child) {
         return res.status(400).json({
             message: "Veškerá pole, kromě data narození dítěte, emailu a gmailu na rodiče i děti, jsou povinná",
         });
@@ -97,8 +96,7 @@ const updateClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         !surname_child ||
         !phone_num_parent ||
         !phone_num_child ||
-        typeof active !== "boolean" ||
-        !bank_account) {
+        typeof active !== "boolean") {
         return res.status(400).json({
             message: "Veškerá pole, kromě hesla, datumu narození dítěte a emailu či gmailu na rodiče i děti, jsou povinná",
         });

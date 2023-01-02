@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from "react-router-dom";
+import Layout from "./components/Layout";
+import PublicPage from "./components/PublicPage";
+import Login from "./features/auth/Login";
+import SecureLayout from "./components/SecureLayout";
+import Dashboard from "./features/auth/Dashboard";
+import TutoringsList from "./features/Tables/Tutorings/TutoringsList";
+import DisplayLessons from "./features/Tables/Tutorings/DisplayLessons";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	return (
+		<Routes>
+			<Route path="/" element={<Layout />}>
+				<Route index element={<PublicPage />} />
+				<Route path="login" element={<Login />} />
+
+				<Route path="sec" element={<SecureLayout />}>
+					<Route index element={<Dashboard />} />
+					<Route path="tutorings">
+						<Route index element={<TutoringsList />} />
+						<Route path=":id" element={<DisplayLessons />} />
+					</Route>
+				</Route>
+				{/* End Secure */}
+			</Route>
+		</Routes>
+	);
 }
 
 export default App;

@@ -1,6 +1,6 @@
 const allowedOrigins: string[] = require("./allowedOrigins");
 
-const corsOptions: any = {
+const corsOptions: unknown = {
 	origin: (origin: string, callback: any) => {
 		if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
 			callback(null, true);

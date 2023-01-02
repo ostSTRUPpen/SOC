@@ -110,3 +110,5 @@ nothing to commit, working tree clean
 [main 8f51dd4] added controllers and changed models
  34 files changed, 2247 insertions(+), 92 deletions(-)
  create mode 100644 server/dist/logs/errLog.log
+[main 6368e80] saving2
+ 1 file changed, 3 insertions(+)

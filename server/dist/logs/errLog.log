@@ -17,3 +17,11 @@
 20221220	21:25:18	a1488e8b-514a-4366-8db4-d733f885e91e	SyntaxError: Unexpected string in JSON at position 39	PATCH	/lessons	undefined
 20221220	21:55:54	1a27bbb1-120b-4fe7-87ef-0b832db7975c	SyntaxError: Unexpected string in JSON at position 38	PATCH	/invoices	undefined
 20221220	22:01:17	fc96d98c-ebd7-436f-895d-6181d906d1f6	SyntaxError: Unexpected string in JSON at position 39	PATCH	/salaries	undefined
+20221227	17:01:28	41694903-cfdd-4ae2-ba3e-62656e4178cb	SyntaxError: Unexpected string in JSON at position 169	POST	/lektors	undefined
+20221227	17:02:21	e4ab13e8-9d90-4ae6-9959-7815571937b0	SyntaxError: Unexpected string in JSON at position 240	POST	/clients	undefined
+20230102	15:23:41	ee2e689e-b6af-4114-81aa-ea565eb972b3	TypeError: Cannot read properties of null (reading 'name')	PATCH	/tutorings	undefined
+20230102	15:23:59	46d20138-ce4f-42c2-ab23-d079e1c75ebf	TypeError: Cannot read properties of null (reading 'name')	PATCH	/tutorings	undefined
+20230102	15:25:37	6f2ecf71-217d-445f-b484-8fa8d9b65644	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
+20230102	15:25:39	901119a2-6005-4de6-8df9-8533b71141d1	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
+20230102	15:26:10	60bbea9f-b6dd-49a7-b67c-ad7c2f5989a6	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
+20230102	15:27:24	44a3685b-1fd0-4082-9ff8-553b7e3ca0ac	TypeError: Cannot read properties of null (reading 'name')	DELETE	/tutorings	undefined

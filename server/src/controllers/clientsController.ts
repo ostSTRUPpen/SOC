@@ -48,8 +48,7 @@ const createNewClient = async (req: any, res: any) => {
 		!surname_parent ||
 		!surname_child ||
 		!phone_num_parent ||
-		!phone_num_child ||
-		!bank_account
+		!phone_num_child
 	) {
 		return res.status(400).json({
 			message:
@@ -131,8 +130,7 @@ const updateClient = async (req: any, res: any) => {
 		!surname_child ||
 		!phone_num_parent ||
 		!phone_num_child ||
-		typeof active !== "boolean" ||
-		!bank_account
+		typeof active !== "boolean"
 	) {
 		return res.status(400).json({
 			message:
