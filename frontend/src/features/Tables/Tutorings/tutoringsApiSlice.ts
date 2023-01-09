@@ -20,7 +20,7 @@ export const tutoringsApiSlice = apiSlice.injectEndpoints({
 				return response.status === 200 && !result.isError;
 			},*/
 			// 5 sekund - smazat až půjde do production (PROD)
-			keepUnusedDataFor: 5,
+			//keepUnusedDataFor: 5,
 			transformResponse: (responseData: any) => {
 				const loadedTutorings = responseData.map((tutoring: any) => {
 					tutoring.id = tutoring._id;

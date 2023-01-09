@@ -1,4 +1,4 @@
 const Login = () => {
-	return <h1>Login</h1>;
+	return <div className="loading"></div>;
 };
 export default Login;

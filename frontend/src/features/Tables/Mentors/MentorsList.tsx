@@ -1,19 +1,19 @@
-import { useGetLessonsQuery } from "./lessonsApiSlice";
-import Lesson from "./Lesson";
+import { useGetMentorsQuery } from "./mentorsApiSlice";
+import Mentor from "./Mentor";
 import { Link } from "react-router-dom";
 
-const LessonsList = ({ amount, tutoringId }: any) => {
+const MentorsList = ({ amount, tutoringId }: any) => {
 	const {
-		data: lessons,
+		data: mentors,
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetLessonsQuery("");
+	} = useGetMentorsQuery("");
 	let content: any;
 
 	if (isLoading) {
 		// Změnit na nějakou animaci
-		content = <div className="loading"></div>;
+		content = <p>Načítání</p>;
 	}
 	if (error) {
 		if ("status" in error) {
@@ -33,14 +33,14 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 		}
 	}
 	if (isSuccess) {
-		const { ids, entities } = lessons;
+		const { ids, entities } = mentors;
 
 		let filteredIds;
 		if (amount === "-1" && tutoringId === "") {
 			filteredIds = [...ids];
 		} else {
 			filteredIds = ids.filter(
-				(lessonId) => entities[lessonId].tutoring === tutoringId
+				(mentorId) => entities[mentorId].tutoring === tutoringId
 			);
 			//Kvůli složitosti dropuju Adamovu představu o zobrazení dvou osledních lekcí
 			/*if (amount !== -1) {
@@ -50,41 +50,41 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 		// console.log("0");
 		const tableContent =
 			ids?.length &&
-			filteredIds.map((lessonId) => (
-				<Lesson
-					key={lessonId}
-					lessonId={lessonId}
+			filteredIds.map((mentorId) => (
+				<Mentor
+					key={mentorId}
+					mentorId={mentorId}
 					tutoringId={tutoringId}
 				/>
 			));
 
 		content = (
 			<>
-				<table className="table table--lessons">
+				<table className="table table--mentors">
 					<thead className="table_header">
 						<tr>
 							<th
 								scope="col"
-								className="table__th lesson__number"
+								className="table__th mentor__number"
 							>
 								Číslo lekce
 							</th>
-							<th scope="col" className="table__th lesson__date">
+							<th scope="col" className="table__th mentor__date">
 								Datum lekce
 							</th>
-							<th scope="col" className="table__th lesson__theme">
+							<th scope="col" className="table__th mentor__theme">
 								Téma lekce
 							</th>
 							<th
 								scope="col"
-								className="table__th lesson__length"
+								className="table__th mentor__length"
 							>
 								Délka lekce
 							</th>
-							<th scope="col" className="table__th lesson__info">
+							<th scope="col" className="table__th mentor__info">
 								Poznámka k lekci
 							</th>
-							<th scope="col" className="table__th lesson__edit">
+							<th scope="col" className="table__th mentor__edit">
 								Upravit
 							</th>
 						</tr>
@@ -92,7 +92,7 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 					<tbody>{tableContent}</tbody>
 				</table>
 				<p>
-					<Link to={`/sec/lessons/new/${tutoringId}`}>
+					<Link to={`/sec/mentors/new/${tutoringId}`}>
 						Nová lekce
 					</Link>
 				</p>
@@ -103,4 +103,4 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 	return content;
 };
 
-export default LessonsList;
+export default MentorsList;

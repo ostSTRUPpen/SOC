@@ -1,55 +1,52 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useAddNewLessonMutation } from "./lessonsApiSlice";
 import { useNavigate } from "react-router-dom";
-import {
-	useUpdateLessonMutation,
-	useDeleteLessonMutation,
-} from "./lessonsApiSlice";
-import {
-	faSave,
-	faTrashCan,
-	faTimesCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { useState, useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
-const EditLessonForm = ({ lesson }: any) => {
-	const [updateLesson, { isLoading, isSuccess, isError, error }] =
-		useUpdateLessonMutation();
+const NewLessonForm = ({ tutoring }: any) => {
+	const day = new Date();
+	const today: string = `${day.getFullYear()}-${String(
+		day.getMonth() + 1
+	).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
 
-	const [
-		deleteLesson,
-		{ isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-	] = useDeleteLessonMutation();
+	const defaultLength: string = "60";
 
+	const [addNewLesson, { isLoading, isSuccess, isError, error }] =
+		useAddNewLessonMutation();
+	// console.log(tutoring);
 	const navigate = useNavigate();
 
-	const [number, setNumber] = useState(lesson.lesson_number);
-	const [date, setDate] = useState(lesson.date);
-	const [theme, setTheme] = useState(lesson.theme);
-	const [length, setLength] = useState(lesson.length);
-	const [info, setInfo] = useState(lesson.info);
-	const [navTo, setNavTo] = useState(lesson.tutoring);
+	const [number, setNumber] = useState("");
+	const [date, setDate] = useState(today);
+	const [theme, setTheme] = useState("");
+	const [length, setLength] = useState(defaultLength);
+	const [info, setInfo] = useState("");
 
 	useEffect(() => {
-		if (isSuccess || isDelSuccess) {
+		if (isSuccess) {
 			setNumber("");
 			setDate("");
 			setTheme("");
 			setLength("");
 			setInfo("");
-			navigate(`/sec/tutorings/${navTo}`);
-			setNavTo("");
+			navigate(`/sec/tutorings/${tutoring}`);
 		}
-	}, [isSuccess, isDelSuccess, navigate, navTo]);
+	}, [isSuccess, navigate, tutoring]);
 
 	const canSave =
 		[number, date, theme, length, info].every(Boolean) && !isLoading;
 
 	const onSaveLessonClicked = async (e: any) => {
+		e.preventDefault();
 		if (canSave) {
-			await updateLesson({
-				id: lesson.id,
-				tutoring: lesson.tutoring,
-				lesson_number: lesson.lesson_number,
+			const lesson_number = number;
+			/*console.log(
+				`${tutoring}| ${lesson_number}, ${date}, ${theme}, ${length} ${info}`
+			);*/
+			await addNewLesson({
+				tutoring: tutoring,
+				lesson_number,
 				date,
 				theme,
 				length,
@@ -58,27 +55,24 @@ const EditLessonForm = ({ lesson }: any) => {
 		}
 	};
 
-	const onDeleteLessonClicked = async () => {
-		await deleteLesson({ id: lesson.id });
-	};
-
-	const onStopEditingClicked = (e: any) => {
+	const onStopEditingClicked = async (e: any) => {
 		e.preventDefault();
 		setNumber("");
 		setDate("");
 		setTheme("");
 		setLength("");
 		setInfo("");
-		navigate(`/sec/tutorings/${navTo}`);
-		setNavTo("");
+		navigate(`/sec/tutorings/${tutoring}`);
 	};
 
+	const onNumberChanged = (e: any) => setNumber(e.target.value);
 	const onDateChanged = (e: any) => setDate(e.target.value);
 	const onThemeChanged = (e: any) => setTheme(e.target.value);
 	const onLengthChanged = (e: any) => setLength(e.target.value);
 	const onInfoChanged = (e: any) => setInfo(e.target.value);
 
-	const errorClass = isError || isDelError ? "errorMessage" : "hide";
+	const errorClass = isError ? "errorMessage" : "hide";
+	const validNumberClass = !number ? "from__input--incomplete" : "";
 	const validDateClass = !date ? "from__input--incomplete" : "";
 	const validThemeClass = !theme ? "from__input--incomplete" : "";
 	const validLengthClass = !length ? "from__input--incomplete" : "";
@@ -97,20 +91,6 @@ const EditLessonForm = ({ lesson }: any) => {
 			errorContent = error.message;
 		}
 	}
-	if (delerror) {
-		if ("status" in delerror) {
-			// you can access all properties of `FetchBaseQueryError` here
-			const errMsg =
-				"error" in delerror
-					? delerror.error
-					: JSON.stringify(delerror.data);
-
-			errorContent = errMsg;
-		} else {
-			// you can access all properties of `SerializedError` here
-			errorContent = delerror.message;
-		}
-	}
 
 	const content = (
 		<>
@@ -118,31 +98,36 @@ const EditLessonForm = ({ lesson }: any) => {
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
 				<div className="form__lesson-number">
-					<h2>Úprava zápisu lekce číslo {lesson.lesson_number}</h2>
+					<h2>Nový zápis lekce</h2>
 					<div className="form__action-buttons">
 						<button
 							className="icon-button form--save-button"
-							title="Uložit změny"
+							title="Vytvořit nový zápis"
 							onClick={onSaveLessonClicked}
 						>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
-							title="Zahodit změny"
+							title="Zahodit zápis"
 							onClick={onStopEditingClicked}
 						>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
-						<button
-							className="icon-button form--delete-button"
-							title="Smazat lekci"
-							onClick={onDeleteLessonClicked}
-						>
-							<FontAwesomeIcon icon={faTrashCan} />
-						</button>
 					</div>
 				</div>
+				<label className="form__label" htmlFor="lesson-number">
+					Číslo lekce:
+				</label>
+				<input
+					className={`form__input ${validNumberClass}`}
+					id="lesson-number"
+					name="číslo"
+					type="number"
+					autoComplete="off"
+					value={number}
+					onChange={onNumberChanged}
+				/>
 				<label className="form__label" htmlFor="lesson-date">
 					Datum lekce:
 				</label>
@@ -153,6 +138,7 @@ const EditLessonForm = ({ lesson }: any) => {
 					type="date"
 					autoComplete="off"
 					value={date}
+					defaultValue={today}
 					onChange={onDateChanged}
 				/>
 				<label className="form__label" htmlFor="lesson-theme">
@@ -177,6 +163,7 @@ const EditLessonForm = ({ lesson }: any) => {
 					type="number"
 					autoComplete="off"
 					value={length}
+					defaultValue="60"
 					onChange={onLengthChanged}
 				/>
 				<label className="form__label" htmlFor="lesson-info">
@@ -198,4 +185,4 @@ const EditLessonForm = ({ lesson }: any) => {
 	return content;
 };
 
-export default EditLessonForm;
+export default NewLessonForm;

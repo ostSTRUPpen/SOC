@@ -20,7 +20,7 @@ const TutoringsList = () => {
 
 	if (isLoading) {
 		// Změnit na nějakou animaci
-		content = <p>Načítání</p>;
+		content = <div className="loading"></div>;
 	}
 	if (error) {
 		if ("status" in error) {

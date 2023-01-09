@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 
 import LessonsList from "../Lessons/LessonsList";
 
@@ -8,7 +9,7 @@ const DisplayLessons = (): JSX.Element => {
 	const content = id ? (
 		<LessonsList tutoringId={id} amount={-1} />
 	) : (
-		<p>Načítání</p>
+		<div className="loading"></div>
 	);
 
 	return content;

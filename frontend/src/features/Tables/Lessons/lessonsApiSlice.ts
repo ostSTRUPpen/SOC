@@ -20,7 +20,7 @@ export const lessonsApiSlice = apiSlice.injectEndpoints({
 				return response.status === 200 && !result.isError;
 			},*/
 			// 5 sekund - smazat až půjde do production (PROD)
-			keepUnusedDataFor: 5,
+			//keepUnusedDataFor: 5,
 			transformResponse: (responseData: any) => {
 				const loadedLessons = responseData.map((lesson: any) => {
 					lesson.id = lesson._id;
@@ -40,10 +40,47 @@ export const lessonsApiSlice = apiSlice.injectEndpoints({
 				} else return [{ type: "Lesson", id: "LIST" }];
 			},
 		}),
+		addNewLesson: builder.mutation({
+			query: (initialLesson) => ({
+				url: "/lessons",
+				method: "POST",
+				body: {
+					...initialLesson,
+				},
+			}),
+			invalidatesTags: [{ type: "Lesson", id: "LIST" }],
+		}),
+		updateLesson: builder.mutation({
+			query: (initialLesson) => ({
+				url: "/lessons",
+				method: "PATCH",
+				body: {
+					...initialLesson,
+				},
+			}),
+			invalidatesTags: (result, error, arg) => [
+				{ type: "Lesson", id: arg.id },
+			],
+		}),
+		deleteLesson: builder.mutation({
+			query: ({ id }) => ({
+				url: `/lessons`,
+				method: "DELETE",
+				body: { id },
+			}),
+			invalidatesTags: (result, error, arg) => [
+				{ type: "Lesson", id: arg.id },
+			],
+		}),
 	}),
 });
 
-export const { useGetLessonsQuery } = lessonsApiSlice;
+export const {
+	useGetLessonsQuery,
+	useAddNewLessonMutation,
+	useDeleteLessonMutation,
+	useUpdateLessonMutation,
+} = lessonsApiSlice;
 
 // returns the query result object
 export const selectLessonsResult =
