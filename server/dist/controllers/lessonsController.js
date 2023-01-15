@@ -19,7 +19,7 @@ const getAllLessons = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const lessons = yield Lesson.find().select().lean();
     // No lessons
     if (!lessons.length) {
-        return res.status(400).json({ message: "No lessons found" });
+        return res.status(400).json({ message: "Nenalezena žádná data" });
     }
     res.json(lessons);
 });
@@ -42,7 +42,7 @@ const createNewLesson = (req, res) => __awaiter(void 0, void 0, void 0, function
         .lean()
         .exec()) {
         return res.status(400).json({
-            message: `Zápis hodiny s tímto čísle již existuje`,
+            message: `Zápis hodiny s tímto číslem, pro toto doučování, již existuje`,
         });
     }
     const lessonObject = {
@@ -93,7 +93,7 @@ const updateLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         .exec();
     if (duplicate && (duplicate === null || duplicate === void 0 ? void 0 : duplicate._id.toString()) !== id) {
         return res.status(400).json({
-            message: `Zápis hodiny s tímto číslem již existuje`,
+            message: `Zápis hodiny s tímto číslem, pro toto doučování, již existuje`,
         });
     }
     lessonToUpdate.tutoring = tutoring;
@@ -104,7 +104,7 @@ const updateLesson = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     lessonToUpdate.info = info;
     const updatedLesson = yield lessonToUpdate.save();
     res.json({
-        message: `Zápis hodiny číslo ${updatedLesson.lesson_number} upravena`,
+        message: `Zápis hodiny číslo ${updatedLesson.lesson_number} upraven`,
     });
 });
 exports.updateLesson = updateLesson;

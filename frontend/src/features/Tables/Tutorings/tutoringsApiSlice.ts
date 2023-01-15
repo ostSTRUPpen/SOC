@@ -40,10 +40,47 @@ export const tutoringsApiSlice = apiSlice.injectEndpoints({
 				} else return [{ type: "Tutoring", id: "LIST" }];
 			},
 		}),
+		addNewTutoring: builder.mutation({
+			query: (initialTutoring) => ({
+				url: "/tutorings",
+				method: "POST",
+				body: {
+					...initialTutoring,
+				},
+			}),
+			invalidatesTags: [{ type: "Tutoring", id: "LIST" }],
+		}),
+		updateTutoring: builder.mutation({
+			query: (initialTutoring) => ({
+				url: "/tutorings",
+				method: "PATCH",
+				body: {
+					...initialTutoring,
+				},
+			}),
+			invalidatesTags: (result, error, arg) => [
+				{ type: "Tutoring", id: arg.id },
+			],
+		}),
+		deleteTutoring: builder.mutation({
+			query: ({ id }) => ({
+				url: `/tutorings`,
+				method: "DELETE",
+				body: { id },
+			}),
+			invalidatesTags: (result, error, arg) => [
+				{ type: "Tutoring", id: arg.id },
+			],
+		}),
 	}),
 });
 
-export const { useGetTutoringsQuery } = tutoringsApiSlice;
+export const {
+	useGetTutoringsQuery,
+	useAddNewTutoringMutation,
+	useDeleteTutoringMutation,
+	useUpdateTutoringMutation,
+} = tutoringsApiSlice;
 
 // returns the query result object
 export const selectTutoringsResult =

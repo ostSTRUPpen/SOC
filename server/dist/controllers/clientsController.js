@@ -22,7 +22,7 @@ const getAllClients = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const clients = yield Client.find().select("-password").lean();
     // No clients
     if (!clients.length) {
-        return res.status(400).json({ message: "No clients found" });
+        return res.status(400).json({ message: "Nenalezena žádná data" });
     }
     res.json(clients);
 });
@@ -31,16 +31,18 @@ exports.getAllClients = getAllClients;
 // @route POST /clients
 // @access Private
 const createNewClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, password, name_parent, surname_parent, name_child, surname_child, gmail_parent, email_parent, phone_num_parent, gmail_child, email_child, phone_num_child, bank_account, date_of_birth_child, others, } = req.body;
+    const { mentor, username, password, name_parent, surname_parent, name_child, surname_child, gmail_parent, email_parent, phone_num_parent, gmail_child, email_child, phone_num_child, bank_account, date_of_birth_child, others, } = req.body;
     // Required fields
-    if (!username ||
+    if (!mentor ||
+        !username ||
         !password ||
         !name_parent ||
         !name_child ||
         !surname_parent ||
         !surname_child ||
         !phone_num_parent ||
-        !phone_num_child) {
+        !phone_num_child ||
+        !date_of_birth_child) {
         return res.status(400).json({
             message: "Veškerá pole, kromě data narození dítěte, emailu a gmailu na rodiče i děti, jsou povinná",
         });
@@ -55,6 +57,7 @@ const createNewClient = (req, res) => __awaiter(void 0, void 0, void 0, function
     const hashedPassword = yield bcrypt.hash(password, 10); //10 salt rounds
     // Creation
     const clientObject = {
+        mentor,
         username,
         password: hashedPassword,
         name_parent,
@@ -86,19 +89,33 @@ exports.createNewClient = createNewClient;
 // @route PATCH /clients
 // @access Private
 const updateClient = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, username, password, name_parent, surname_parent, name_child, surname_child, gmail_parent, email_parent, phone_num_parent, gmail_child, email_child, phone_num_child, bank_account, date_of_birth_child, others, active, } = req.body;
+    const { id, mentor, username, password, name_parent, surname_parent, name_child, surname_child, gmail_parent, email_parent, phone_num_parent, gmail_child, email_child, phone_num_child, bank_account, date_of_birth_child, others, active, } = req.body;
     // All fields except password, gmail, email are required
-    if (!username ||
-        !password ||
+    if (!mentor ||
+        !username ||
         !name_parent ||
         !name_child ||
         !surname_parent ||
         !surname_child ||
         !phone_num_parent ||
         !phone_num_child ||
+        !date_of_birth_child ||
         typeof active !== "boolean") {
         return res.status(400).json({
-            message: "Veškerá pole, kromě hesla, datumu narození dítěte a emailu či gmailu na rodiče i děti, jsou povinná",
+            message: "Veškerá pole, kromě hesla, bankovního účtu a emailu či gmailu na rodiče i děti, jsou povinná" +
+                ` ${[
+                    id,
+                    mentor,
+                    username,
+                    name_parent,
+                    surname_parent,
+                    name_child,
+                    surname_child,
+                    phone_num_parent,
+                    phone_num_child,
+                    date_of_birth_child,
+                    typeof active,
+                ]}`,
         });
     }
     const clientToUpdate = yield Client.findById(id).exec();
@@ -113,13 +130,16 @@ const updateClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
             message: `Klient s uživatelským jménem: ${username} již existuje`,
         });
     }
+    clientToUpdate.mentor = mentor;
     clientToUpdate.username = username;
     clientToUpdate.name_parent = name_parent;
     clientToUpdate.surname_parent = surname_parent;
+    clientToUpdate.phone_num_parent = phone_num_parent;
     clientToUpdate.name_child = name_child;
     clientToUpdate.surname_child = surname_child;
     clientToUpdate.phone_num_child = phone_num_child;
     clientToUpdate.bank_account = bank_account;
+    clientToUpdate.date_of_birth_child = date_of_birth_child;
     clientToUpdate.active = active;
     // Changing password, email, gamil
     if (password) {
@@ -136,9 +156,6 @@ const updateClient = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     if (email_child) {
         clientToUpdate.email_child = email_child;
-    }
-    if (date_of_birth_child) {
-        clientToUpdate.date_of_birth_child = date_of_birth_child;
     }
     if (others) {
         clientToUpdate.others = others;

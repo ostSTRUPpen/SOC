@@ -11,7 +11,7 @@ const getAllSalaries = async (req: any, res: any) => {
 
 	// No salaries
 	if (!salaries.length) {
-		return res.status(400).json({ message: "No salaries found" });
+		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 	const salariesWithNames = await Promise.all(
 		salaries.map(async (salary: any) => {
@@ -48,7 +48,7 @@ const createNewSalary = async (req: any, res: any) => {
 		.exec();
 	if (duplicate) {
 		return res.status(400).json({
-			message: `Tato výplata už existuje`,
+			message: `Tato výplata již existuje`,
 		});
 	}
 
@@ -98,7 +98,7 @@ const updateSalary = async (req: any, res: any) => {
 		.exec();
 	if (duplicate && duplicate?._id.toString() !== id) {
 		return res.status(400).json({
-			message: `Tato výplata už existuje`,
+			message: `Tato výplata již existuje`,
 		});
 	}
 

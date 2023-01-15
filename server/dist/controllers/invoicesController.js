@@ -21,7 +21,7 @@ const getAllInvoices = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const invoices = yield Invoice.find().select().lean();
     // No invoices
     if (!invoices.length) {
-        return res.status(400).json({ message: "No invoices found" });
+        return res.status(400).json({ message: "Nenalezena žádná data" });
     }
     const invoicesWithNames = yield Promise.all(invoices.map((invoice) => __awaiter(void 0, void 0, void 0, function* () {
         const mentor = yield Mentor.findById(invoice.mentor).lean().exec();
@@ -51,7 +51,7 @@ const createNewInvoice = (req, res) => __awaiter(void 0, void 0, void 0, functio
         .exec();
     if (duplicate) {
         return res.status(400).json({
-            message: `Tato faktura už existuje`,
+            message: `Tato faktura již existuje`,
         });
     }
     const invoiceObject = {
@@ -97,7 +97,7 @@ const updateInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         .exec();
     if (duplicate && (duplicate === null || duplicate === void 0 ? void 0 : duplicate._id.toString()) !== id) {
         return res.status(400).json({
-            message: `Tato faktura už existuje`,
+            message: `Tato faktura již existuje`,
         });
     }
     invoiceToUpdate.client = client;

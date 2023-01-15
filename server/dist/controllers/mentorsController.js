@@ -14,6 +14,7 @@ const Mentor = require("../models/Mentor");
 const Salary = require("../models/Salary");
 const Lektor = require("../models/Lektor");
 const Invoice = require("../models/Invoice");
+const Klient = require("../models/Client");
 const bcrypt = require("bcrypt");
 // @desc Get all mentors
 // @route GET /mentors
@@ -23,7 +24,7 @@ const getAllMentors = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const mentors = yield Mentor.find().select("-password").lean();
     // No mentors
     if (!mentors.length) {
-        return res.status(400).json({ message: "No mentors found" });
+        return res.status(400).json({ message: "Nenalezena žádná data" });
     }
     res.json(mentors);
 });
@@ -150,13 +151,19 @@ const deleteMentor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     if (invoices) {
         return res
             .status(400)
-            .json({ message: "K mentorovi jsou vázané výplaty" });
+            .json({ message: "K mentorovi jsou vázané faktury" });
     }
     const lektors = yield Lektor.findOne({ mentor: id }).lean().exec();
     if (lektors) {
         return res
             .status(400)
             .json({ message: "K mentorovi jsou vázaní lektoři" });
+    }
+    const klients = yield Klient.findOne({ mentor: id }).lean().exec();
+    if (klients) {
+        return res
+            .status(400)
+            .json({ message: "K mentorovi jsou vázaní klienti" });
     }
     const mentorToDelete = yield Mentor.findById(id).exec();
     // Does the mentor exist?

@@ -22,7 +22,7 @@ const getAllLektors = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const lektors = yield Lektor.find().select("-password").lean();
     // No lektors
     if (!lektors.length) {
-        return res.status(400).json({ message: "No lektors found" });
+        return res.status(400).json({ message: "Nenalezena žádná data" });
     }
     res.json(lektors);
 });
@@ -71,7 +71,7 @@ const createNewLektor = (req, res) => __awaiter(void 0, void 0, void 0, function
     const lektor = yield Lektor.create(lektorObject);
     //Output
     if (lektor) {
-        res.status(201).json({ message: `Nový uživatel ${username} vytvořen` });
+        res.status(201).json({ message: `Nový lektor ${username} vytvořen` });
     }
     else {
         res.status(400).json({ message: `Došlo k chybě` });
@@ -94,7 +94,7 @@ const updateLektor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         !date_of_birth ||
         !bank_account) {
         return res.status(400).json({
-            message: "Pole zodpovídající lektor, uživatelské jméno, heslo, jméno, příjmení, bankovní účet, datum narození a telefoní číslo jsou povinná",
+            message: `Pole zodpovídající mentor, uživatelské jméno, jméno, příjmení, bankovní účet, datum narození, telefoní číslo a aktivní jsou povinná`,
         });
     }
     const lektorToUpdate = yield Lektor.findById(id).exec();
@@ -131,7 +131,7 @@ const updateLektor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         lektorToUpdate.others = others;
     }
     const updatedLektor = yield lektorToUpdate.save();
-    res.json({ message: `${updatedLektor.username} upraven` });
+    res.json({ message: `Lektor ${updatedLektor.username} upraven` });
 });
 exports.updateLektor = updateLektor;
 // @desc Delete a lektor

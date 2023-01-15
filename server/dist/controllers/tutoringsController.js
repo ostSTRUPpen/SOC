@@ -22,14 +22,14 @@ const getAllTutorings = (req, res) => __awaiter(void 0, void 0, void 0, function
     const tutorings = yield Tutoring.find().select().lean();
     // No tutorings
     if (!tutorings.length) {
-        return res.status(400).json({ message: "No tutorings found" });
+        return res.status(400).json({ message: "Nenalezena žádná data" });
     }
     const tutoringsWithNames = yield Promise.all(tutorings.map((tutoring) => __awaiter(void 0, void 0, void 0, function* () {
         const lektor = yield Lektor.findById(tutoring.lektor).lean().exec();
         const client = yield Client.findById(tutoring.client).lean().exec();
         return Object.assign(Object.assign({}, tutoring), { lektor: `${lektor.name} ${lektor.surname}`, client: `${client.name_child} ${client.surname_child}` });
     })));
-    res.json(tutoringsWithNames);
+    res.json(tutorings);
 });
 exports.getAllTutorings = getAllTutorings;
 // @desc Create new tutoring

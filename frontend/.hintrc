@@ -6,5 +6,13 @@
     "defaults",
     "not ie 11",
     "not safari <= 13.1"
-  ]
+  ],
+  "hints": {
+    "axe/forms": [
+      "default",
+      {
+        "select-name": "off"
+      }
+    ]
+  }
 }

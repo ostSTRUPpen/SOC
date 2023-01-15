@@ -25,3 +25,4 @@
 20230102	15:25:39	901119a2-6005-4de6-8df9-8533b71141d1	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
 20230102	15:26:10	60bbea9f-b6dd-49a7-b67c-ad7c2f5989a6	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
 20230102	15:27:24	44a3685b-1fd0-4082-9ff8-553b7e3ca0ac	TypeError: Cannot read properties of null (reading 'name')	DELETE	/tutorings	undefined
+20230114	14:59:57	80fc9d56-d6aa-49c0-8dce-d497f0922e19	TypeError: Client.find is not a function	GET	/clients	undefined

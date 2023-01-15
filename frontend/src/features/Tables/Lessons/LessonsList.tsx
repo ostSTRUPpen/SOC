@@ -91,6 +91,7 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 					</thead>
 					<tbody>{tableContent}</tbody>
 				</table>
+				<br />
 				<p>
 					<Link to={`/sec/lessons/new/${tutoringId}`}>
 						Nová lekce

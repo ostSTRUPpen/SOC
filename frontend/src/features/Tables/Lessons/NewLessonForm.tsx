@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
+const LENGTH_REGEX = /^[0-9]{1,3}$/;
+
 const NewLessonForm = ({ tutoring }: any) => {
 	const day = new Date();
 	const today: string = `${day.getFullYear()}-${String(
@@ -21,6 +23,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 	const [date, setDate] = useState(today);
 	const [theme, setTheme] = useState("");
 	const [length, setLength] = useState(defaultLength);
+	const [validLength, setValidLength] = useState(false);
 	const [info, setInfo] = useState("");
 
 	useEffect(() => {
@@ -34,8 +37,12 @@ const NewLessonForm = ({ tutoring }: any) => {
 		}
 	}, [isSuccess, navigate, tutoring]);
 
+	useEffect(() => {
+		setValidLength(LENGTH_REGEX.test(length));
+	}, [length]);
+
 	const canSave =
-		[number, date, theme, length, info].every(Boolean) && !isLoading;
+		[number, date, theme, validLength, info].every(Boolean) && !isLoading;
 
 	const onSaveLessonClicked = async (e: any) => {
 		e.preventDefault();
@@ -72,11 +79,11 @@ const NewLessonForm = ({ tutoring }: any) => {
 	const onInfoChanged = (e: any) => setInfo(e.target.value);
 
 	const errorClass = isError ? "errorMessage" : "hide";
-	const validNumberClass = !number ? "from__input--incomplete" : "";
-	const validDateClass = !date ? "from__input--incomplete" : "";
-	const validThemeClass = !theme ? "from__input--incomplete" : "";
-	const validLengthClass = !length ? "from__input--incomplete" : "";
-	const validInfoClass = !info ? "from__input--incomplete" : "";
+	const validNumberClass = !number ? "form__input--incomplete" : "";
+	const validDateClass = !date ? "form__input--incomplete" : "";
+	const validThemeClass = !theme ? "form__input--incomplete" : "";
+	const validLengthClass = !length ? "form__input--incomplete" : "";
+	const validInfoClass = !info ? "form__input--incomplete" : "";
 
 	let errorContent;
 	if (error) {
@@ -104,6 +111,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 							className="icon-button form--save-button"
 							title="Vytvořit nový zápis"
 							onClick={onSaveLessonClicked}
+							disabled={!canSave}
 						>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
@@ -127,7 +135,8 @@ const NewLessonForm = ({ tutoring }: any) => {
 					autoComplete="off"
 					value={number}
 					onChange={onNumberChanged}
-				/>
+				/>{" "}
+				<br />
 				<label className="form__label" htmlFor="lesson-date">
 					Datum lekce:
 				</label>
@@ -140,7 +149,8 @@ const NewLessonForm = ({ tutoring }: any) => {
 					value={date}
 					defaultValue={today}
 					onChange={onDateChanged}
-				/>
+				/>{" "}
+				<br />
 				<label className="form__label" htmlFor="lesson-theme">
 					Téma lekce:
 				</label>
@@ -152,7 +162,8 @@ const NewLessonForm = ({ tutoring }: any) => {
 					autoComplete="off"
 					value={theme}
 					onChange={onThemeChanged}
-				/>
+				/>{" "}
+				<br />
 				<label className="form__label" htmlFor="lesson-length">
 					Délka lekce:
 				</label>
@@ -165,7 +176,8 @@ const NewLessonForm = ({ tutoring }: any) => {
 					value={length}
 					defaultValue="60"
 					onChange={onLengthChanged}
-				/>
+				/>{" "}
+				<br />
 				<label className="form__label" htmlFor="lesson-info">
 					Poznámka k lekci:
 				</label>

@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const clientSchema = new mongoose.Schema({
+	mentor: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: "Mentor",
+	},
 	username: {
 		type: String,
 		required: true,

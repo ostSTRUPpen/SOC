@@ -21,7 +21,7 @@ const getAllSalaries = (req, res) => __awaiter(void 0, void 0, void 0, function*
     const salaries = yield Salary.find().select().lean();
     // No salaries
     if (!salaries.length) {
-        return res.status(400).json({ message: "No salaries found" });
+        return res.status(400).json({ message: "Nenalezena žádná data" });
     }
     const salariesWithNames = yield Promise.all(salaries.map((salary) => __awaiter(void 0, void 0, void 0, function* () {
         const mentor = yield Mentor.findById(salary.mentor).lean().exec();
@@ -51,7 +51,7 @@ const createNewSalary = (req, res) => __awaiter(void 0, void 0, void 0, function
         .exec();
     if (duplicate) {
         return res.status(400).json({
-            message: `Tato výplata už existuje`,
+            message: `Tato výplata již existuje`,
         });
     }
     const salaryObject = {
@@ -97,7 +97,7 @@ const updateSalary = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         .exec();
     if (duplicate && (duplicate === null || duplicate === void 0 ? void 0 : duplicate._id.toString()) !== id) {
         return res.status(400).json({
-            message: `Tato výplata už existuje`,
+            message: `Tato výplata již existuje`,
         });
     }
     salaryToUpdate.lektor = lektor;

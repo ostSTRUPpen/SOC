@@ -12,7 +12,7 @@ const getAllLektors = async (req: any, res: any) => {
 
 	// No lektors
 	if (!lektors.length) {
-		return res.status(400).json({ message: "No lektors found" });
+		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 	res.json(lektors);
 };
@@ -82,7 +82,7 @@ const createNewLektor = async (req: any, res: any) => {
 
 	//Output
 	if (lektor) {
-		res.status(201).json({ message: `Nový uživatel ${username} vytvořen` });
+		res.status(201).json({ message: `Nový lektor ${username} vytvořen` });
 	} else {
 		res.status(400).json({ message: `Došlo k chybě` });
 	}
@@ -121,8 +121,7 @@ const updateLektor = async (req: any, res: any) => {
 		!bank_account
 	) {
 		return res.status(400).json({
-			message:
-				"Pole zodpovídající lektor, uživatelské jméno, heslo, jméno, příjmení, bankovní účet, datum narození a telefoní číslo jsou povinná",
+			message: `Pole zodpovídající mentor, uživatelské jméno, jméno, příjmení, bankovní účet, datum narození, telefoní číslo a aktivní jsou povinná`,
 		});
 	}
 
@@ -166,7 +165,7 @@ const updateLektor = async (req: any, res: any) => {
 
 	const updatedLektor = await lektorToUpdate.save();
 
-	res.json({ message: `${updatedLektor.username} upraven` });
+	res.json({ message: `Lektor ${updatedLektor.username} upraven` });
 };
 
 // @desc Delete a lektor

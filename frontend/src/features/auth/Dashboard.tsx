@@ -7,11 +7,22 @@ const Welcome = () => {
 	// Ruším Adamův plán dashboardu plného inforamcí
 	const navigate = useNavigate();
 	const navToTutorings = () => navigate("/sec/tutorings");
+	const navToLektors = () => navigate("/sec/lektors");
+	const navToClients = () => navigate("/sec/clients");
 	const content = (
 		<section className="Dashboard">
 			<button className="middle__button" onClick={navToTutorings}>
 				Doučování
-			</button>
+			</button>{" "}
+			<br />
+			<button className="middle__button" onClick={navToLektors}>
+				Lektoři
+			</button>{" "}
+			<br />
+			<button className="middle__button" onClick={navToClients}>
+				Klienti
+			</button>{" "}
+			<br />
 		</section>
 	);
 

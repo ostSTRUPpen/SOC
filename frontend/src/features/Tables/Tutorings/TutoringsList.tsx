@@ -1,5 +1,7 @@
 import { useGetTutoringsQuery } from "./tutoringsApiSlice";
 import Tutoring from "./Tutoring";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // TOHLE CELÉ SE MUSÍ PŘEPSAT - NEPLNÍ TO FUNKCI
 /*
@@ -10,6 +12,7 @@ Každá tabulka musí být zároveň odkaz na správu všech zapsaných lekcí d
 */
 
 const TutoringsList = () => {
+	const { lektorId, klientId }: any = useParams();
 	const {
 		data: tutorings,
 		isLoading,
@@ -41,30 +44,58 @@ const TutoringsList = () => {
 	}
 
 	if (isSuccess) {
-		const { ids } = tutorings;
-
-		const tableContent = ids?.length
-			? ids.map((tutoringId: any) => (
+		const { ids, entities } = tutorings;
+		let filteredIds;
+		if (lektorId === undefined && klientId === undefined) {
+			filteredIds = [...ids];
+		} else if (lektorId !== undefined && klientId === undefined) {
+			filteredIds = ids.filter(
+				(tutoringId) => entities[tutoringId].lektor === lektorId
+			);
+		} else if (lektorId === undefined && klientId !== undefined) {
+			filteredIds = ids.filter(
+				(tutoringId) => entities[tutoringId].client === klientId
+			);
+		} else {
+			filteredIds = [...ids];
+		}
+		const tableContent = filteredIds?.length
+			? filteredIds.map((tutoringId: any) => (
 					<Tutoring key={tutoringId} tutoringId={tutoringId} />
 			  ))
 			: null;
 		content = (
-			<table className="table table--lessons">
-				<thead className="table_header">
-					<tr>
-						<th scope="col" className="table__th tutoring__lektor">
-							Lektor
-						</th>
-						<th scope="col" className="table__th tutoring__klient">
-							Klient
-						</th>
-						<th scope="col" className="table__th tutoring__theme">
-							Předmět
-						</th>
-					</tr>
-				</thead>
-				<tbody>{tableContent}</tbody>
-			</table>
+			<>
+				<table className="table table--tutorings">
+					<thead className="table_header">
+						<tr>
+							<th
+								scope="col"
+								className="table__th tutoring__lektor"
+							>
+								Lektor
+							</th>
+							<th
+								scope="col"
+								className="table__th tutoring__klient"
+							>
+								Klient
+							</th>
+							<th
+								scope="col"
+								className="table__th tutoring__theme"
+							>
+								Předmět
+							</th>
+						</tr>
+					</thead>
+					<tbody>{tableContent}</tbody>
+				</table>
+				<br />
+				<p>
+					<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
+				</p>
+			</>
 		);
 	}
 

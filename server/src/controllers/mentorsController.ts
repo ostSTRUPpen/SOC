@@ -2,6 +2,7 @@ const Mentor: any = require("../models/Mentor");
 const Salary = require("../models/Salary");
 const Lektor = require("../models/Lektor");
 const Invoice = require("../models/Invoice");
+const Klient = require("../models/Client");
 const bcrypt: any = require("bcrypt");
 
 // @desc Get all mentors
@@ -13,7 +14,7 @@ const getAllMentors = async (req: any, res: any) => {
 
 	// No mentors
 	if (!mentors.length) {
-		return res.status(400).json({ message: "No mentors found" });
+		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 	res.json(mentors);
 };
@@ -185,13 +186,19 @@ const deleteMentor = async (req: any, res: any) => {
 	if (invoices) {
 		return res
 			.status(400)
-			.json({ message: "K mentorovi jsou vázané výplaty" });
+			.json({ message: "K mentorovi jsou vázané faktury" });
 	}
 	const lektors = await Lektor.findOne({ mentor: id }).lean().exec();
 	if (lektors) {
 		return res
 			.status(400)
 			.json({ message: "K mentorovi jsou vázaní lektoři" });
+	}
+	const klients = await Klient.findOne({ mentor: id }).lean().exec();
+	if (klients) {
+		return res
+			.status(400)
+			.json({ message: "K mentorovi jsou vázaní klienti" });
 	}
 
 	const mentorToDelete = await Mentor.findById(id).exec();

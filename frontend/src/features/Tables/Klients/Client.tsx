@@ -3,22 +3,20 @@ import { faEye, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
-import { selectLektorById } from "./lektorsApiSlice";
+import { selectClientById } from "./clientsApiSlice";
 import { selectMentorById } from "../Mentors/mentorsApiSlice";
 
-const Lektor: any = ({ lektorId }: any) => {
-	const lektor = useSelector((state) => selectLektorById(state, lektorId));
+const Client: any = ({ clientId }: any) => {
+	const client = useSelector((state) => selectClientById(state, clientId));
 	const mentor = useSelector((state) =>
-		selectMentorById(state, lektor.mentor)
+		selectMentorById(state, client.mentor)
 	);
-
 	const navigate = useNavigate();
-	//console.log(tutoringId);
-	if (lektor && mentor) {
+	if (client && mentor) {
 		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleViewTutorings = () =>
-			navigate(`/sec/tutorings/show1/${lektorId}`);
-		const handleEdit = () => navigate(`/sec/lektors/${lektorId}`);
+			navigate(`/sec/tutorings/show2/${clientId}`);
+		const handleEdit = () => navigate(`/sec/clients/${clientId}`);
 		const canViewTutorings: boolean = true;
 		const canEdit: boolean = true;
 
@@ -54,18 +52,22 @@ const Lektor: any = ({ lektorId }: any) => {
 		} else {
 			editing = <td className="table__cell" hidden></td>;
 		}
-
 		return (
-			<tr className="table__row lektor">
+			<tr className="table__row client">
 				<td className="table__cell">{`${mentor.name} ${mentor.surname}`}</td>
-				<td className="table__cell">{lektor.username}</td>
-				<td className="table__cell">{lektor.name}</td>
-				<td className="table__cell">{lektor.surname}</td>
-				<td className="table__cell">{lektor.date_of_birth}</td>
-				<td className="table__cell">{lektor.gmail}</td>
-				<td className="table__cell">{lektor.email}</td>
-				<td className="table__cell">{lektor.phone_num}</td>
-				<td className="table__cell">{lektor.bank_account}</td>
+				<td className="table__cell">{client.username}</td>
+				<td className="table__cell">{client.name_parent}</td>
+				<td className="table__cell">{client.surname_parent}</td>
+				<td className="table__cell">{client.gmail_parent}</td>
+				<td className="table__cell">{client.email_parent}</td>
+				<td className="table__cell">{client.phone_num_parent}</td>
+				<td className="table__cell">{client.bank_account}</td>
+				<td className="table__cell">{client.name_child}</td>
+				<td className="table__cell">{client.surname_child}</td>
+				<td className="table__cell">{client.gmail_child}</td>
+				<td className="table__cell">{client.email_child}</td>
+				<td className="table__cell">{client.phone_num_child}</td>
+				<td className="table__cell">{client.date_of_birth_child}</td>
 				{viewTutorings}
 				{editing}
 			</tr>
@@ -73,4 +75,4 @@ const Lektor: any = ({ lektorId }: any) => {
 	} else return null;
 };
 
-export default Lektor;
+export default Client;

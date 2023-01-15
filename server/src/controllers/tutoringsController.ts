@@ -12,7 +12,7 @@ const getAllTutorings = async (req: any, res: any) => {
 
 	// No tutorings
 	if (!tutorings.length) {
-		return res.status(400).json({ message: "No tutorings found" });
+		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 	const tutoringsWithNames = await Promise.all(
 		tutorings.map(async (tutoring: any) => {
@@ -25,7 +25,7 @@ const getAllTutorings = async (req: any, res: any) => {
 			};
 		})
 	);
-	res.json(tutoringsWithNames);
+	res.json(tutorings);
 };
 
 // @desc Create new tutoring

@@ -9,7 +9,7 @@ const getAllLessons = async (req: any, res: any) => {
 
 	// No lessons
 	if (!lessons.length) {
-		return res.status(400).json({ message: "No lessons found" });
+		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 	res.json(lessons);
 };
@@ -36,7 +36,7 @@ const createNewLesson = async (req: any, res: any) => {
 			.exec()
 	) {
 		return res.status(400).json({
-			message: `Zápis hodiny s tímto čísle již existuje`,
+			message: `Zápis hodiny s tímto číslem, pro toto doučování, již existuje`,
 		});
 	}
 
@@ -94,7 +94,7 @@ const updateLesson = async (req: any, res: any) => {
 		.exec();
 	if (duplicate && duplicate?._id.toString() !== id) {
 		return res.status(400).json({
-			message: `Zápis hodiny s tímto číslem již existuje`,
+			message: `Zápis hodiny s tímto číslem, pro toto doučování, již existuje`,
 		});
 	}
 
@@ -108,7 +108,7 @@ const updateLesson = async (req: any, res: any) => {
 	const updatedLesson = await lessonToUpdate.save();
 
 	res.json({
-		message: `Zápis hodiny číslo ${updatedLesson.lesson_number} upravena`,
+		message: `Zápis hodiny číslo ${updatedLesson.lesson_number} upraven`,
 	});
 };
 

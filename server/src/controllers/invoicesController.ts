@@ -11,7 +11,7 @@ const getAllInvoices = async (req: any, res: any) => {
 
 	// No invoices
 	if (!invoices.length) {
-		return res.status(400).json({ message: "No invoices found" });
+		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 	const invoicesWithNames = await Promise.all(
 		invoices.map(async (invoice: any) => {
@@ -48,7 +48,7 @@ const createNewInvoice = async (req: any, res: any) => {
 		.exec();
 	if (duplicate) {
 		return res.status(400).json({
-			message: `Tato faktura už existuje`,
+			message: `Tato faktura již existuje`,
 		});
 	}
 
@@ -98,7 +98,7 @@ const updateInvoice = async (req: any, res: any) => {
 		.exec();
 	if (duplicate && duplicate?._id.toString() !== id) {
 		return res.status(400).json({
-			message: `Tato faktura už existuje`,
+			message: `Tato faktura již existuje`,
 		});
 	}
 

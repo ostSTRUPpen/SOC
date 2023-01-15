@@ -12,7 +12,7 @@ const getAllClients = async (req: any, res: any) => {
 
 	// No clients
 	if (!clients.length) {
-		return res.status(400).json({ message: "No clients found" });
+		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 	res.json(clients);
 };
@@ -22,6 +22,7 @@ const getAllClients = async (req: any, res: any) => {
 // @access Private
 const createNewClient = async (req: any, res: any) => {
 	const {
+		mentor,
 		username,
 		password,
 		name_parent,
@@ -41,6 +42,7 @@ const createNewClient = async (req: any, res: any) => {
 
 	// Required fields
 	if (
+		!mentor ||
 		!username ||
 		!password ||
 		!name_parent ||
@@ -48,7 +50,8 @@ const createNewClient = async (req: any, res: any) => {
 		!surname_parent ||
 		!surname_child ||
 		!phone_num_parent ||
-		!phone_num_child
+		!phone_num_child ||
+		!date_of_birth_child
 	) {
 		return res.status(400).json({
 			message:
@@ -68,6 +71,7 @@ const createNewClient = async (req: any, res: any) => {
 
 	// Creation
 	const clientObject = {
+		mentor,
 		username,
 		password: hashedPassword,
 		name_parent,
@@ -102,6 +106,7 @@ const createNewClient = async (req: any, res: any) => {
 const updateClient = async (req: any, res: any) => {
 	const {
 		id,
+		mentor,
 		username,
 		password,
 		name_parent,
@@ -122,19 +127,33 @@ const updateClient = async (req: any, res: any) => {
 
 	// All fields except password, gmail, email are required
 	if (
+		!mentor ||
 		!username ||
-		!password ||
 		!name_parent ||
 		!name_child ||
 		!surname_parent ||
 		!surname_child ||
 		!phone_num_parent ||
 		!phone_num_child ||
+		!date_of_birth_child ||
 		typeof active !== "boolean"
 	) {
 		return res.status(400).json({
 			message:
-				"Veškerá pole, kromě hesla, datumu narození dítěte a emailu či gmailu na rodiče i děti, jsou povinná",
+				"Veškerá pole, kromě hesla, bankovního účtu a emailu či gmailu na rodiče i děti, jsou povinná" +
+				` ${[
+					id,
+					mentor,
+					username,
+					name_parent,
+					surname_parent,
+					name_child,
+					surname_child,
+					phone_num_parent,
+					phone_num_child,
+					date_of_birth_child,
+					typeof active,
+				]}`,
 		});
 	}
 
@@ -153,13 +172,16 @@ const updateClient = async (req: any, res: any) => {
 		});
 	}
 
+	clientToUpdate.mentor = mentor;
 	clientToUpdate.username = username;
 	clientToUpdate.name_parent = name_parent;
 	clientToUpdate.surname_parent = surname_parent;
+	clientToUpdate.phone_num_parent = phone_num_parent;
 	clientToUpdate.name_child = name_child;
 	clientToUpdate.surname_child = surname_child;
 	clientToUpdate.phone_num_child = phone_num_child;
 	clientToUpdate.bank_account = bank_account;
+	clientToUpdate.date_of_birth_child = date_of_birth_child;
 	clientToUpdate.active = active;
 
 	// Changing password, email, gamil
@@ -177,9 +199,6 @@ const updateClient = async (req: any, res: any) => {
 	}
 	if (email_child) {
 		clientToUpdate.email_child = email_child;
-	}
-	if (date_of_birth_child) {
-		clientToUpdate.date_of_birth_child = date_of_birth_child;
 	}
 	if (others) {
 		clientToUpdate.others = others;
