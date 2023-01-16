@@ -35,6 +35,12 @@ const TutoringsList = () => {
 				<div>
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
+					<br />
+					<p>
+						<Link to={`/sec/tutorings/new`}>
+							Vytvořit první doučování
+						</Link>
+					</p>
 				</div>
 			);
 		} else {

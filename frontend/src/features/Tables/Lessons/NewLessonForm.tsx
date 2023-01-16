@@ -16,7 +16,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 
 	const [addNewLesson, { isLoading, isSuccess, isError, error }] =
 		useAddNewLessonMutation();
-	// console.log(tutoring);
+
 	const navigate = useNavigate();
 
 	const [number, setNumber] = useState("");
@@ -47,13 +47,9 @@ const NewLessonForm = ({ tutoring }: any) => {
 	const onSaveLessonClicked = async (e: any) => {
 		e.preventDefault();
 		if (canSave) {
-			const lesson_number = number;
-			/*console.log(
-				`${tutoring}| ${lesson_number}, ${date}, ${theme}, ${length} ${info}`
-			);*/
 			await addNewLesson({
 				tutoring: tutoring,
-				lesson_number,
+				lesson_number: number,
 				date,
 				theme,
 				length,
@@ -135,7 +131,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 					autoComplete="off"
 					value={number}
 					onChange={onNumberChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-date">
 					Datum lekce:
@@ -149,7 +145,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 					value={date}
 					defaultValue={today}
 					onChange={onDateChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-theme">
 					Téma lekce:
@@ -162,7 +158,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 					autoComplete="off"
 					value={theme}
 					onChange={onThemeChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-length">
 					Délka lekce:
@@ -176,7 +172,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 					value={length}
 					defaultValue="60"
 					onChange={onLengthChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-info">
 					Poznámka k lekci:

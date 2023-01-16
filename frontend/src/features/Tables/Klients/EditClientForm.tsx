@@ -383,7 +383,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					title="Příslušný mentor"
 				>
 					{options}
-				</select>{" "}
+				</select>
 				<br />
 				<label className="form__label" htmlFor="client-username">
 					Uživatelské jméno:
@@ -397,7 +397,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={username}
 					onChange={onUsernameChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-password">
 					Heslo:
@@ -410,7 +410,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={password}
 					onChange={onPasswordChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-name_parent">
 					Jméno rodiče:
@@ -424,7 +424,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={nameParent}
 					onChange={onParentNameChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-surname_parent">
 					Příjmení rodiče:
@@ -438,7 +438,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={surnameParent}
 					onChange={onParentSurnameChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-gmail_parent">
 					G-mail rodiče:
@@ -452,7 +452,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={gmailParent}
 					onChange={onParentGmailChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-email_parent">
 					E-mail rodiče:
@@ -466,7 +466,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={emailParent}
 					onChange={onParentEmailChanged}
-				/>{" "}
+				/>
 				<br />
 				<label
 					className="form__label"
@@ -482,7 +482,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={phoneNumberParent}
 					onChange={onParentPhoneNumberChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-bank_account">
 					Číslo účtu:
@@ -496,7 +496,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={bankAccount}
 					onChange={onBankAccountChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-name_child">
 					Jméno dítěte:
@@ -510,7 +510,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={nameChild}
 					onChange={onChildNameChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-surname_child">
 					Příjmení dítěte:
@@ -524,7 +524,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={surnameChild}
 					onChange={onChildSurnameChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-gmail_child">
 					G-mail dítěte:
@@ -538,7 +538,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={gmailChild}
 					onChange={onChildGmailChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="client-email_child">
 					E-mail dítěte:
@@ -552,7 +552,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={emailChild}
 					onChange={onChildEmailChanged}
-				/>{" "}
+				/>
 				<br />
 				<label
 					className="form__label"
@@ -568,7 +568,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					autoComplete="off"
 					value={phoneNumberChild}
 					onChange={onChildPhoneNumberChanged}
-				/>{" "}
+				/>
 				<br />
 				<label
 					className="form__label"

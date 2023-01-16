@@ -162,7 +162,7 @@ const EditLessonForm = ({ lesson }: any) => {
 					autoComplete="off"
 					value={date}
 					onChange={onDateChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-theme">
 					Téma lekce:
@@ -175,7 +175,7 @@ const EditLessonForm = ({ lesson }: any) => {
 					autoComplete="off"
 					value={theme}
 					onChange={onThemeChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-length">
 					Délka lekce:
@@ -188,7 +188,7 @@ const EditLessonForm = ({ lesson }: any) => {
 					autoComplete="off"
 					value={length}
 					onChange={onLengthChanged}
-				/>{" "}
+				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-info">
 					Poznámka k lekci:

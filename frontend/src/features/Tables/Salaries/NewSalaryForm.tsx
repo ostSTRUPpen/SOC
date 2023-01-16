@@ -1,55 +1,68 @@
-import { useAddNewTutoringMutation } from "./tutoringsApiSlice";
+import { useAddNewSalaryMutation } from "./salariesApiSlice";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
-const SUBJECT_REGEX = /^[A-z]{1,3}$/;
+const VALUE_REGEX = /^[0-9]{2,5}$/;
 
-const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
-	const [addNewTutoring, { isLoading, isSuccess, isError, error }] =
-		useAddNewTutoringMutation();
+const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
+	const [addNewSalary, { isLoading, isSuccess, isError, error }] =
+		useAddNewSalaryMutation();
 
 	const navigate = useNavigate();
 
+	const [mentor, setMentor] = useState("");
 	const [lektor, setLektor] = useState("");
-	const [client, setClient] = useState("");
-	const [subject, setSubject] = useState("");
-	const [validSubject, setValidSubject] = useState(false);
+	const [value, setValue] = useState("");
+	const [validValue, setValidValue] = useState(false);
+	const [date, setDate] = useState("");
 
 	useEffect(() => {
 		if (isSuccess) {
+			setMentor("");
 			setLektor("");
-			setClient("");
-			setSubject("");
-			navigate(`/sec/tutorings`);
+			setValue("");
+			setDate("");
+			navigate(`/sec/salaries`);
 			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, navigate]);
 
 	useEffect(() => {
-		setValidSubject(SUBJECT_REGEX.test(subject));
-	}, [subject]);
+		setValidValue(VALUE_REGEX.test(value));
+	}, [value]);
 
 	let canSave: boolean =
-		[lektor, client, validSubject].every(Boolean) && !isLoading;
+		[mentor, lektor, validValue, date].every(Boolean) && !isLoading;
 
-	const onSaveTutoringClicked = async (e: any) => {
-		await addNewTutoring({
+	const onSaveSalaryClicked = async (e: any) => {
+		await addNewSalary({
+			mentor,
 			lektor,
-			client,
-			subject,
+			value,
+			date,
 		});
 	};
 
 	const onStopEditingClicked = (e: any) => {
 		e.preventDefault();
+		setMentor("");
 		setLektor("");
-		setClient("");
-		setSubject("");
-		navigate(`/sec/tutorings`);
+		setValue("");
+		navigate(`/sec/salaries`);
 		/* Možná bude třeba změnit ^ TODO */
 	};
+
+	let optionsMentor: Array<JSX.Element> = [];
+	for (let i = 0; i < mentors.length; i++) {
+		optionsMentor.push(
+			<option
+				key={mentors[i].id}
+				value={mentors[i].id}
+			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
+		);
+	}
 
 	let optionsLektor: Array<JSX.Element> = [];
 	for (let i = 0; i < lektors.length; i++) {
@@ -61,24 +74,16 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 		);
 	}
 
-	let optionsClient: Array<JSX.Element> = [];
-	for (let i = 0; i < clients.length; i++) {
-		optionsClient.push(
-			<option
-				key={clients[i].id}
-				value={clients[i].id}
-			>{`${clients[i].name_child} ${clients[i].surname_child}`}</option>
-		);
-	}
-
+	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onLektorsChanged = (e: any) => setLektor(e.target.value);
-	const onClientsChanged = (e: any) => setClient(e.target.value);
-	const onSubjectsChanged = (e: any) => setSubject(e.target.value);
+	const onValuesChanged = (e: any) => setValue(e.target.value);
+	const onDateChanged = (e: any) => setDate(e.target.value);
 
 	const errorClass = isError ? "errorMessage" : "hide";
+	const validMentorClass = !mentor ? "form__input--incomplete" : "";
 	const validLektorClass = !lektor ? "form__input--incomplete" : "";
-	const validClientClass = !client ? "form__input--incomplete" : "";
-	const validSubjectClass = !validSubject ? "form__input--incomplete" : "";
+	const validValueClass = !validValue ? "form__input--incomplete" : "";
+	const validDateClass = !date ? "form__input--incomplete" : "";
 
 	let errorContent;
 	if (error) {
@@ -99,13 +104,13 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
-				<div className="form__client-number">
-					<h2>Tvorba nového doučování</h2>
+				<div className="form__salary-number">
+					<h2>Tvorba nové výplaty</h2>
 					<div className="form__action-buttons">
 						<button
 							className="icon-button form--save-button"
 							title="Uložit změny"
-							onClick={onSaveTutoringClicked}
+							onClick={onSaveSalaryClicked}
 							disabled={!canSave}
 						>
 							<FontAwesomeIcon icon={faSave} />
@@ -119,6 +124,22 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 						</button>
 					</div>
 				</div>
+				<label className="form__label" htmlFor="mentors">
+					Mentor:
+				</label>
+				<select
+					id="mentors"
+					name="mentor_select"
+					className={`form__select ${validMentorClass}`}
+					multiple={false}
+					size={1}
+					value={mentor}
+					onChange={onMentorsChanged}
+					title="Příslušný mentor"
+				>
+					{optionsMentor}
+				</select>
+				<br />
 				<label className="form__label" htmlFor="lektors">
 					Lektor:
 				</label>
@@ -130,39 +151,35 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 					size={1}
 					value={lektor}
 					onChange={onLektorsChanged}
-					title="Příslušný mentor"
+					title="Příslušný klient"
 				>
 					{optionsLektor}
 				</select>
 				<br />
-				<label className="form__label" htmlFor="clients">
-					Klient:
-				</label>
-				<select
-					id="clients"
-					name="client_select"
-					className={`form__select ${validClientClass}`}
-					multiple={false}
-					size={1}
-					value={client}
-					onChange={onClientsChanged}
-					title="Příslušný klient"
-				>
-					{optionsClient}
-				</select>
-				<br />
-				<label className="form__label" htmlFor="subject">
-					Předmět:
+				<label className="form__label" htmlFor="date">
+					Datum:
 				</label>
 				<input
-					className={`form__input ${validSubjectClass}`}
-					id="subject"
-					name="subject"
-					type="text"
-					maxLength={3}
+					className={`form__input ${validDateClass}`}
+					id="date"
+					name="date"
+					type="date"
 					autoComplete="off"
-					value={subject}
-					onChange={onSubjectsChanged}
+					value={date}
+					onChange={onDateChanged}
+				/>
+				<br />
+				<label className="form__label" htmlFor="value">
+					Hodnota:
+				</label>
+				<input
+					className={`form__input ${validValueClass}`}
+					id="value"
+					name="value"
+					type="number"
+					autoComplete="off"
+					value={value}
+					onChange={onValuesChanged}
 				/>
 				<br />
 			</form>
@@ -172,4 +189,4 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 	return content;
 };
 
-export default NewTutoringForm;
+export default NewSalaryForm;

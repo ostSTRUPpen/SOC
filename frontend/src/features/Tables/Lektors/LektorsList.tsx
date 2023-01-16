@@ -14,7 +14,6 @@ const LektorsList = () => {
 	let content: any;
 
 	if (isLoading) {
-		// Změnit na nějakou animaci
 		content = <div className="loading"></div>;
 	}
 	if (error) {
@@ -27,6 +26,12 @@ const LektorsList = () => {
 				<div>
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
+					<br />
+					<p>
+						<Link to="/sec/lektors/new/">
+							Vytvořit prvního lektora
+						</Link>
+					</p>
 				</div>
 			);
 		} else {
@@ -36,16 +41,23 @@ const LektorsList = () => {
 	}
 
 	if (isSuccess) {
-		const { ids } = lektors;
+		const { ids, entities } = lektors;
 		let tableContent;
+		let filteredIds;
 		if (mentorId === undefined) {
-			tableContent = ids?.length
-				? ids.map((lektorId: any) => (
-						<Lektor key={lektorId} lektorId={lektorId} />
-				  ))
-				: null;
+			filteredIds = [...ids];
 		} else {
+			filteredIds = ids.filter(
+				(lektorId) => entities[lektorId].mentor === mentorId
+			);
 		}
+
+		tableContent = filteredIds?.length
+			? filteredIds.map((lektorId: any) => (
+					<Lektor key={lektorId} lektorId={lektorId} />
+			  ))
+			: null;
+
 		content = (
 			<>
 				<table className="table table--lektors">

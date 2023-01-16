@@ -23,12 +23,7 @@ const getAllSalaries = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (!salaries.length) {
         return res.status(400).json({ message: "Nenalezena žádná data" });
     }
-    const salariesWithNames = yield Promise.all(salaries.map((salary) => __awaiter(void 0, void 0, void 0, function* () {
-        const mentor = yield Mentor.findById(salary.mentor).lean().exec();
-        const lektor = yield Lektor.findById(salary.lektor).lean().exec();
-        return Object.assign(Object.assign({}, salary), { mentor: `${mentor.name} ${mentor.surname}`, lektor: `${lektor.name} ${lektor.surname}` });
-    })));
-    res.json(salariesWithNames);
+    res.json(salaries);
 });
 exports.getAllSalaries = getAllSalaries;
 // @desc Create new salary

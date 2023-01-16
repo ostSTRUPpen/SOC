@@ -23,12 +23,7 @@ const getAllInvoices = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (!invoices.length) {
         return res.status(400).json({ message: "Nenalezena žádná data" });
     }
-    const invoicesWithNames = yield Promise.all(invoices.map((invoice) => __awaiter(void 0, void 0, void 0, function* () {
-        const mentor = yield Mentor.findById(invoice.mentor).lean().exec();
-        const client = yield Client.findById(invoice.client).lean().exec();
-        return Object.assign(Object.assign({}, invoice), { mentor: `${mentor.name} ${mentor.surname}`, client: `${client.name_parent} ${client.surname_parent}` });
-    })));
-    res.json(invoicesWithNames);
+    res.json(invoices);
 });
 exports.getAllInvoices = getAllInvoices;
 // @desc Create new invoice

@@ -5,7 +5,6 @@ import EditLessonForm from "./EditLessonForm";
 
 const EditLesson = () => {
 	const { id }: any = useParams();
-	// console.log("a");
 	const lesson = useSelector((state) => selectLessonById(state, id));
 
 	const content: JSX.Element = lesson ? (

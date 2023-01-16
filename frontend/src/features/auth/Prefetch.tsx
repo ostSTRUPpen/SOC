@@ -6,6 +6,8 @@ import { Outlet } from "react-router-dom";
 import { lektorsApiSlice } from "../Tables/Lektors/lektorsApiSlice";
 import { mentorsApiSlice } from "../Tables/Mentors/mentorsApiSlice";
 import { clientsApiSlice } from "../Tables/Klients/clientsApiSlice";
+import { invoicesApiSlice } from "../Tables/Invoices/invoicesApiSlice";
+import { salariesApiSlice } from "../Tables/Salaries/salariesApiSlice";
 
 const Prefetch = () => {
 	useEffect(() => {
@@ -25,6 +27,12 @@ const Prefetch = () => {
 		const clients = store.dispatch(
 			clientsApiSlice.endpoints.getClients.initiate("")
 		);
+		const invoices = store.dispatch(
+			invoicesApiSlice.endpoints.getInvoices.initiate("")
+		);
+		const salaries = store.dispatch(
+			salariesApiSlice.endpoints.getSalaries.initiate("")
+		);
 		return () => {
 			console.log("unsubscribing");
 			lessons.unsubscribe();
@@ -32,6 +40,8 @@ const Prefetch = () => {
 			lektors.unsubscribe();
 			mentors.unsubscribe();
 			clients.unsubscribe();
+			invoices.unsubscribe();
+			salaries.unsubscribe();
 		};
 	}, []);
 

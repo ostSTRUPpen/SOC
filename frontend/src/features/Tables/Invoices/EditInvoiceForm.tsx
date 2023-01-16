@@ -1,7 +1,7 @@
 import {
-	useUpdateTutoringMutation,
-	useDeleteTutoringMutation,
-} from "./tutoringsApiSlice";
+	useUpdateInvoiceMutation,
+	useDeleteInvoiceMutation,
+} from "./invoicesApiSlice";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,71 +11,73 @@ import {
 	faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
 
-const SUBJECT_REGEX = /^[A-z]{1,3}$/;
+const VALUE_REGEX = /^[0-9]{2,5}$/;
 
-const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
-	const [updateTutoring, { isLoading, isSuccess, isError, error }] =
-		useUpdateTutoringMutation();
+const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
+	const [updateInvoice, { isLoading, isSuccess, isError, error }] =
+		useUpdateInvoiceMutation();
 
 	const [
-		deleteTutoring,
+		deleteInvoice,
 		{ isSuccess: isDelSuccess, isError: isDelError, error: delerror },
-	] = useDeleteTutoringMutation();
+	] = useDeleteInvoiceMutation();
+
 	const navigate = useNavigate();
 
-	const [lektor, setLektor] = useState(tutoring.lektor);
-	const [client, setClient] = useState(tutoring.client);
-	const [subject, setSubject] = useState(tutoring.subject);
-	const [validSubject, setValidSubject] = useState(false);
-	const [active, setActive] = useState(tutoring.active);
+	const [mentor, setMentor] = useState(invoice.mentor);
+	const [client, setClient] = useState(invoice.client);
+	const [value, setValue] = useState(invoice.value);
+	const [validValue, setValidValue] = useState(false);
+	const [date, setDate] = useState(invoice.date);
 
 	useEffect(() => {
 		if (isSuccess || isDelSuccess) {
-			setLektor("");
+			setMentor("");
 			setClient("");
-			setSubject("");
-			navigate(`/sec/tutorings`);
+			setValue("");
+			setDate("");
+			navigate(`/sec/invoices`);
 			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, isDelSuccess, navigate]);
 
 	useEffect(() => {
-		setValidSubject(SUBJECT_REGEX.test(subject));
-	}, [subject]);
+		setValidValue(VALUE_REGEX.test(value));
+	}, [value]);
 
 	let canSave: boolean =
-		[lektor, client, validSubject].every(Boolean) && !isLoading;
+		[mentor, client, validValue, date].every(Boolean) && !isLoading;
 
-	const onSaveTutoringClicked = async (e: any) => {
-		await updateTutoring({
-			id: tutoring.id,
-			lektor,
+	const onSaveInvoiceClicked = async (e: any) => {
+		await updateInvoice({
+			id: invoice.id,
+			mentor,
 			client,
-			subject,
-			active: Boolean(active),
+			value,
+			date,
 		});
 	};
 
 	const onStopEditingClicked = (e: any) => {
 		e.preventDefault();
-		setLektor("");
+		setMentor("");
 		setClient("");
-		setSubject("");
-		navigate(`/sec/tutorings`);
+		setValue("");
+		navigate(`/sec/invoices`);
 		/* Možná bude třeba změnit ^ TODO */
 	};
 
-	const onDeleteTutoringClicked = async () => {
-		await deleteTutoring({ id: tutoring.id });
+	const onDeleteInvoiceClicked = async (e: any) => {
+		await deleteInvoice({ id: invoice.id });
 	};
 
-	let optionsLektor: Array<JSX.Element> = [];
-	for (let i = 0; i < lektors.length; i++) {
-		optionsLektor.push(
+	let optionsMentor: Array<JSX.Element> = [];
+	for (let i = 0; i < mentors.length; i++) {
+		optionsMentor.push(
 			<option
-				key={lektors[i].id}
-				value={lektors[i].id}
-			>{`${lektors[i].name} ${lektors[i].surname}`}</option>
+				key={mentors[i].id}
+				value={mentors[i].id}
+			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
 		);
 	}
 
@@ -85,19 +87,20 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 			<option
 				key={clients[i].id}
 				value={clients[i].id}
-			>{`${clients[i].name_child} ${clients[i].surname_child}`}</option>
+			>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
 		);
 	}
 
-	const onLektorsChanged = (e: any) => setLektor(e.target.value);
+	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onClientsChanged = (e: any) => setClient(e.target.value);
-	const onSubjectsChanged = (e: any) => setSubject(e.target.value);
-	const onActiveChanged = (e: any) => setActive(e.target.value);
+	const onValuesChanged = (e: any) => setValue(e.target.value);
+	const onDateChanged = (e: any) => setDate(e.target.value);
 
 	const errorClass = isError || isDelError ? "errorMessage" : "hide";
-	const validLektorClass = !lektor ? "form__input--incomplete" : "";
+	const validMentorClass = !mentor ? "form__input--incomplete" : "";
 	const validClientClass = !client ? "form__input--incomplete" : "";
-	const validSubjectClass = !validSubject ? "form__input--incomplete" : "";
+	const validValueClass = !validValue ? "form__input--incomplete" : "";
+	const validDateClass = !date ? "form__input--incomplete" : "";
 
 	let errorContent;
 	if (error) {
@@ -132,13 +135,13 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
-				<div className="form__client-number">
-					<h2>Úprava doučování</h2>
+				<div className="form__invoice-number">
+					<h2>Úprava faktury</h2>
 					<div className="form__action-buttons">
 						<button
 							className="icon-button form--save-button"
 							title="Uložit změny"
-							onClick={onSaveTutoringClicked}
+							onClick={onSaveInvoiceClicked}
 							disabled={!canSave}
 						>
 							<FontAwesomeIcon icon={faSave} />
@@ -152,27 +155,27 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 						</button>
 						<button
 							className="icon-button form--delete-button"
-							title="Smazat lekci"
-							onClick={onDeleteTutoringClicked}
+							title="Smazat fakturu"
+							onClick={onDeleteInvoiceClicked}
 						>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>
 					</div>
 				</div>
-				<label className="form__label" htmlFor="lektors">
-					Lektor:
+				<label className="form__label" htmlFor="mentors">
+					Mentor:
 				</label>
 				<select
-					id="lektors"
-					name="lektor_select"
-					className={`form__select ${validLektorClass}`}
+					id="mentors"
+					name="mentor_select"
+					className={`form__select ${validMentorClass}`}
 					multiple={false}
 					size={1}
-					value={lektor}
-					onChange={onLektorsChanged}
+					value={mentor}
+					onChange={onMentorsChanged}
 					title="Příslušný mentor"
 				>
-					{optionsLektor}
+					{optionsMentor}
 				</select>
 				<br />
 				<label className="form__label" htmlFor="clients">
@@ -191,34 +194,32 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 					{optionsClient}
 				</select>
 				<br />
-				<label className="form__label" htmlFor="subject">
-					Předmět:
+				<label className="form__label" htmlFor="date">
+					Datum:
 				</label>
 				<input
-					className={`form__input ${validSubjectClass}`}
-					id="subject"
-					name="subject"
-					type="text"
-					maxLength={3}
+					className={`form__input ${validDateClass}`}
+					id="date"
+					name="date"
+					type="date"
 					autoComplete="off"
-					value={subject}
-					onChange={onSubjectsChanged}
+					value={date}
+					onChange={onDateChanged}
 				/>
 				<br />
-				<label
-					className="form__label form__checkbox-container"
-					htmlFor="tutoring-active"
-				>
-					Doučování aktivní:
-					<input
-						className="form__checkbox"
-						id="tutoring-active"
-						name="tutoring-active"
-						type="checkbox"
-						checked={active}
-						onChange={onActiveChanged}
-					/>
+				<label className="form__label" htmlFor="value">
+					Hodnota:
 				</label>
+				<input
+					className={`form__input ${validValueClass}`}
+					id="value"
+					name="value"
+					type="number"
+					autoComplete="off"
+					value={value}
+					onChange={onValuesChanged}
+				/>
+				<br />
 			</form>
 		</>
 	);
@@ -226,4 +227,4 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 	return content;
 };
 
-export default EditTutoringForm;
+export default EditInvoiceForm;

@@ -48,6 +48,10 @@ const lektorSchema = new mongoose.Schema({
 		type: Boolean,
 		default: true,
 	},
+	role: {
+		type: String,
+		default: "lektor",
+	},
 });
 
 export = mongoose.model("Lektor", lektorSchema);

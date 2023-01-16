@@ -27,6 +27,12 @@ const ClientsList = () => {
 				<div>
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
+					<br />
+					<p>
+						<Link to="/sec/clients/new/">
+							Vytvořit prvního klienta
+						</Link>
+					</p>
 				</div>
 			);
 		} else {
@@ -36,16 +42,22 @@ const ClientsList = () => {
 	}
 
 	if (isSuccess) {
-		const { ids } = clients;
+		const { ids, entities } = clients;
 		let tableContent;
+		let filteredIds;
 		if (mentorId === undefined) {
-			tableContent = ids?.length
-				? ids.map((clientId: any) => (
-						<Client key={clientId} clientId={clientId} />
-				  ))
-				: null;
+			filteredIds = [...ids];
 		} else {
+			filteredIds = ids.filter(
+				(clientId) => entities[clientId].mentor === mentorId
+			);
 		}
+
+		tableContent = filteredIds?.length
+			? filteredIds.map((clientId: any) => (
+					<Client key={clientId} clientId={clientId} />
+			  ))
+			: null;
 		content = (
 			<>
 				<table className="table table--clients">

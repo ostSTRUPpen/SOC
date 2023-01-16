@@ -44,6 +44,10 @@ const mentorSchema = new mongoose.Schema({
 		type: Boolean,
 		default: true,
 	},
+	role: {
+		type: String,
+		default: "mentor",
+	},
 });
 
 export = mongoose.model("Mentor", mentorSchema);

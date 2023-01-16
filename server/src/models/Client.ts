@@ -64,6 +64,10 @@ const clientSchema = new mongoose.Schema({
 		type: Boolean,
 		default: true,
 	},
+	role: {
+		type: String,
+		default: "client",
+	},
 });
 
 export = mongoose.model("Client", clientSchema);

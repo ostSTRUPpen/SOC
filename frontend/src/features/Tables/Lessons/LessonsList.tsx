@@ -25,6 +25,12 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 				<div>
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
+					<br />
+					<p>
+						<Link to={`/sec/lessons/new/${tutoringId}`}>
+							Vytvořit první lekci
+						</Link>
+					</p>
 				</div>
 			);
 		} else {
@@ -47,9 +53,8 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 				Math.max(...entities.map((o: any) => o.number));
 			}*/
 		}
-		// console.log("0");
 		const tableContent =
-			ids?.length &&
+			filteredIds?.length &&
 			filteredIds.map((lessonId) => (
 				<Lesson
 					key={lessonId}

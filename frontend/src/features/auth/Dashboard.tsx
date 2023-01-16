@@ -9,19 +9,34 @@ const Welcome = () => {
 	const navToTutorings = () => navigate("/sec/tutorings");
 	const navToLektors = () => navigate("/sec/lektors");
 	const navToClients = () => navigate("/sec/clients");
+	const navToInvoices = () => navigate("/sec/invoices");
+	const navToSalaries = () => navigate("/sec/salaries");
+	const navToMentors = () => navigate("/sec/mentors");
 	const content = (
 		<section className="Dashboard">
-			<button className="middle__button" onClick={navToTutorings}>
-				Doučování
-			</button>{" "}
+			<button className="middle__button" onClick={navToMentors}>
+				Mentorři
+			</button>
 			<br />
 			<button className="middle__button" onClick={navToLektors}>
 				Lektoři
-			</button>{" "}
+			</button>
 			<br />
 			<button className="middle__button" onClick={navToClients}>
 				Klienti
-			</button>{" "}
+			</button>
+			<br />
+			<button className="middle__button" onClick={navToTutorings}>
+				Doučování
+			</button>
+			<br />
+			<button className="middle__button" onClick={navToInvoices}>
+				Faktury
+			</button>
+			<br />
+			<button className="middle__button" onClick={navToSalaries}>
+				Výplaty
+			</button>
 			<br />
 		</section>
 	);

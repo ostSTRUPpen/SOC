@@ -13,18 +13,8 @@ const getAllSalaries = async (req: any, res: any) => {
 	if (!salaries.length) {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
-	const salariesWithNames = await Promise.all(
-		salaries.map(async (salary: any) => {
-			const mentor = await Mentor.findById(salary.mentor).lean().exec();
-			const lektor = await Lektor.findById(salary.lektor).lean().exec();
-			return {
-				...salary,
-				mentor: `${mentor.name} ${mentor.surname}`,
-				lektor: `${lektor.name} ${lektor.surname}`,
-			};
-		})
-	);
-	res.json(salariesWithNames);
+
+	res.json(salaries);
 };
 
 // @desc Create new salary

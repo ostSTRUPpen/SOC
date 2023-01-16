@@ -14,17 +14,7 @@ const getAllTutorings = async (req: any, res: any) => {
 	if (!tutorings.length) {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
-	const tutoringsWithNames = await Promise.all(
-		tutorings.map(async (tutoring: any) => {
-			const lektor = await Lektor.findById(tutoring.lektor).lean().exec();
-			const client = await Client.findById(tutoring.client).lean().exec();
-			return {
-				...tutoring,
-				lektor: `${lektor.name} ${lektor.surname}`,
-				client: `${client.name_child} ${client.surname_child}`,
-			};
-		})
-	);
+
 	res.json(tutorings);
 };
 

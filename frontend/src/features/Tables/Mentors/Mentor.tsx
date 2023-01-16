@@ -9,7 +9,7 @@ const Mentor: any = ({ mentorId, tutoringId }: any) => {
 	const mentor = useSelector((state) => selectMentorById(state, mentorId));
 
 	const navigate = useNavigate();
-	//console.log(tutoringId);
+
 	if (mentor) {
 		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/mentors/${mentorId}`);
@@ -34,11 +34,14 @@ const Mentor: any = ({ mentorId, tutoringId }: any) => {
 
 		return (
 			<tr className="table__row mentor">
-				<td className="table__cell">{mentor.mentor_number}</td>
-				<td className="table__cell">{mentor.date}</td>
-				<td className="table__cell">{mentor.theme}</td>
-				<td className="table__cell">{mentor.length}</td>
-				<td className="table__cell">{mentor.info}</td>
+				<td className="table__cell">{mentor.username}</td>
+				<td className="table__cell">{mentor.name}</td>
+				<td className="table__cell">{mentor.surname}</td>
+				<td className="table__cell">{mentor.date_of_birth}</td>
+				<td className="table__cell">{mentor.gmail}</td>
+				<td className="table__cell">{mentor.email}</td>
+				<td className="table__cell">{mentor.phone_num}</td>
+				<td className="table__cell">{mentor.bank_account}</td>
 				{editing}
 			</tr>
 		);

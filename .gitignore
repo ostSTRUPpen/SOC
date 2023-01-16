@@ -2,5 +2,4 @@ saver.bat
 node_modules
 .env
 .vscode
-secrets.txt
 commit_log.txt

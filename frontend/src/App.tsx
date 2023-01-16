@@ -18,6 +18,15 @@ import EditClient from "./features/Tables/Klients/EditClient";
 import NewClient from "./features/Tables/Klients/NewClient";
 import NewTutoring from "./features/Tables/Tutorings/NewTutoring";
 import EditTutoring from "./features/Tables/Tutorings/EditTutoring";
+import InvoiceList from "./features/Tables/Invoices/InvoiceList";
+import EditInvoice from "./features/Tables/Invoices/EditInvoice";
+import NewInvoice from "./features/Tables/Invoices/NewInvoice";
+import SalaryList from "./features/Tables/Salaries/SalaryList";
+import EditSalary from "./features/Tables/Salaries/EditSalary";
+import NewSalary from "./features/Tables/Salaries/NewSalary";
+import MentorsList from "./features/Tables/Mentors/MentorsList";
+import NewMentor from "./features/Tables/Mentors/NewMentor";
+import EditMentor from "./features/Tables/Mentors/EditMentor";
 
 function App() {
 	return (
@@ -26,14 +35,18 @@ function App() {
 				<Route index element={<PublicPage />} />
 				<Route path="login" element={<Login />} />
 				<Route element={<Prefetch />}>
-					{" "}
 					{/* Prefetch >*/}
 					<Route path="sec" element={<SecureLayout />}>
-						{" "}
 						{/* /sec > */}
 						<Route index element={<Dashboard />} />
+						<Route path="mentors">
+							{/* /mentors > */}
+							<Route index element={<MentorsList />} />
+							<Route path=":id" element={<EditMentor />} />
+							<Route path="new" element={<NewMentor />} />
+						</Route>
+						{/* < /mentors */}
 						<Route path="tutorings">
-							{" "}
 							{/* /tutorings > */}
 							<Route index element={<TutoringsList />} />
 							<Route path=":id" element={<DisplayLessons />} />
@@ -43,91 +56,150 @@ function App() {
 									path=":tutoringId"
 									element={<EditTutoring />}
 								/>
-							</Route>{" "}
+							</Route>
 							{/* < /tutorings/edit */}
 							<Route path="new">
-								{" "}
 								{/* /tutorings/new > */}
 								<Route index element={<NewTutoring />} />
 								<Route
 									path=":mentorId"
 									element={<NewTutoring />}
 								/>
-							</Route>{" "}
+							</Route>
 							{/* < /tutorings/new */}
 							<Route path="show1">
-								{" "}
 								{/* /tutorings/show1 > */}
 								<Route
 									path=":lektorId"
 									element={<TutoringsList />}
 								/>
-							</Route>{" "}
+							</Route>
 							{/* < /tutorings/show1 */}
 							<Route path="show2">
-								{" "}
 								{/* /tutorings/show2 > */}
 								<Route
 									path=":klientId"
 									element={<TutoringsList />}
 								/>
-							</Route>{" "}
+							</Route>
 							{/* < /tutorings/show2 */}
-						</Route>{" "}
+						</Route>
 						{/* < /tutorings */}
 						<Route path="lessons">
-							{" "}
 							{/* /lessons > */}
 							<Route index element={<LessonsList />} />
 							<Route path=":id" element={<EditLesson />} />
 							<Route path="new">
-								{" "}
 								{/* /lessons/new > */}
 								<Route
 									path=":tutoringId"
 									element={<NewLesson />}
 								/>
-							</Route>{" "}
+							</Route>
 							{/* < /lessons/new */}
-						</Route>{" "}
+						</Route>
 						{/* < /lessons */}
 						<Route path="lektors">
-							{" "}
 							{/* /lektors > */}
 							<Route index element={<LektorsList />} />
 							<Route path=":id" element={<EditLektor />} />
 							<Route path="new" element={<NewLektor />} />
 							<Route path="show">
-								{" "}
 								{/* /lektors/show > */}
 								<Route
 									path="mentorId"
 									element={<LektorsList />}
 								/>
-							</Route>{" "}
+							</Route>
 							{/* < /lektors/show */}
-						</Route>{" "}
+						</Route>
 						{/* < /lektors */}
 						<Route path="clients">
-							{" "}
 							{/* /clients > */}
 							<Route index element={<ClientsList />} />
 							<Route path=":id" element={<EditClient />} />
 							<Route path="new" element={<NewClient />} />
 							<Route path="show">
-								{" "}
 								{/* /clients/show > */}
 								<Route
 									path=":mentorId"
 									element={<ClientsList />}
 								/>
-							</Route>{" "}
+							</Route>
 							{/* < /clients/show */}
-						</Route>{" "}
+						</Route>
 						{/* < /clients */}
+						<Route path="invoices">
+							{/* /invoices > */}
+							<Route index element={<InvoiceList />} />
+							<Route path="edit">
+								{/* /invoices/edit > */}
+								<Route
+									path=":invoiceId"
+									element={<EditInvoice />}
+								/>
+							</Route>
+							{/* < /invoices/edit */}
+							<Route path="new">
+								{/* /invoices/new > */}
+								<Route index element={<NewInvoice />} />
+							</Route>
+							{/* < /invoices/new */}
+							<Route path="show1">
+								{/* /invoices/show1 > */}
+								<Route
+									path=":mentorId"
+									element={<InvoiceList />}
+								/>
+							</Route>
+							{/* < /invoices/show1 */}
+							<Route path="show2">
+								{/* /invoices/show2 > */}
+								<Route
+									path=":klientId"
+									element={<InvoiceList />}
+								/>
+							</Route>
+							{/* < /invoices/show2 */}
+						</Route>
+						{/* < /invoices */}
+						<Route path="salaries">
+							{/* /salaries > */}
+							<Route index element={<SalaryList />} />
+							<Route path="edit">
+								{/* /salaries/edit > */}
+								<Route
+									path=":salaryId"
+									element={<EditSalary />}
+								/>
+							</Route>
+							{/* < /salaries/edit */}
+							<Route path="new">
+								{/* /salaries/new > */}
+								<Route index element={<NewSalary />} />
+							</Route>
+							{/* < /salaries/new */}
+							<Route path="show1">
+								{/* /salaries/show1 > */}
+								<Route
+									path=":mentorId"
+									element={<SalaryList />}
+								/>
+							</Route>
+							{/* < /salaries/show1 */}
+							<Route path="show2">
+								{/* /salaries/show2 > */}
+								<Route
+									path=":lektorId"
+									element={<SalaryList />}
+								/>
+							</Route>
+							{/* < /salaries/show2 */}
+						</Route>
+						{/* < /salaries */}
 					</Route>
 					{/* < /sec */}
-				</Route>{" "}
+				</Route>
 				{/* < Prefetch */}
 			</Route>
 		</Routes>

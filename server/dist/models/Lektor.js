@@ -48,5 +48,9 @@ const lektorSchema = new mongoose.Schema({
         type: Boolean,
         default: true,
     },
+    role: {
+        type: String,
+        default: "lektor",
+    },
 });
 module.exports = mongoose.model("Lektor", lektorSchema);

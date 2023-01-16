@@ -13,18 +13,8 @@ const getAllInvoices = async (req: any, res: any) => {
 	if (!invoices.length) {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
-	const invoicesWithNames = await Promise.all(
-		invoices.map(async (invoice: any) => {
-			const mentor = await Mentor.findById(invoice.mentor).lean().exec();
-			const client = await Client.findById(invoice.client).lean().exec();
-			return {
-				...invoice,
-				mentor: `${mentor.name} ${mentor.surname}`,
-				client: `${client.name_parent} ${client.surname_parent}`,
-			};
-		})
-	);
-	res.json(invoicesWithNames);
+
+	res.json(invoices);
 };
 
 // @desc Create new invoice

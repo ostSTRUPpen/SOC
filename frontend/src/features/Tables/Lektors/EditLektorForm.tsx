@@ -408,7 +408,7 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 					autoComplete="off"
 					value={bankAccount}
 					onChange={onBankAccountChanged}
-				/>{" "}
+				/>
 				<br />
 				<label
 					className="form__label form__checkbox-container"
