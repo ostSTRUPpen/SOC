@@ -1,7 +1,8 @@
-import React from "react";
+import NewMentorForm from "./NewMentorForm";
 
 const NewMentor = () => {
-	return <div>NewMentor</div>;
+	const content: JSX.Element = <NewMentorForm />;
+	return content;
 };
 
 export default NewMentor;

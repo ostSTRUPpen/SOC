@@ -107,7 +107,7 @@ function App() {
 							<Route path="show">
 								{/* /lektors/show > */}
 								<Route
-									path="mentorId"
+									path=":mentorId"
 									element={<LektorsList />}
 								/>
 							</Route>

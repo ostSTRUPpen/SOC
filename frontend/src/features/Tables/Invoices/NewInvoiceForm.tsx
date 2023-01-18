@@ -6,14 +6,14 @@ import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
 
-const NewInvoiceForm = ({ mentorId, mentors, lektors }: any) => {
+const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 	const [addNewInvoice, { isLoading, isSuccess, isError, error }] =
 		useAddNewInvoiceMutation();
 
 	const navigate = useNavigate();
 
 	const [mentor, setMentor] = useState("");
-	const [lektor, setClient] = useState("");
+	const [client, setClient] = useState("");
 	const [value, setValue] = useState("");
 	const [validValue, setValidValue] = useState(false);
 	const [date, setDate] = useState("");
@@ -34,12 +34,19 @@ const NewInvoiceForm = ({ mentorId, mentors, lektors }: any) => {
 	}, [value]);
 
 	let canSave: boolean =
-		[mentor, lektor, validValue, date].every(Boolean) && !isLoading;
+		[
+			mentor,
+			client,
+			validValue,
+			date,
+			mentor !== "0",
+			client !== "0",
+		].every(Boolean) && !isLoading;
 
 	const onSaveInvoiceClicked = async (e: any) => {
 		await addNewInvoice({
 			mentor,
-			lektor,
+			client,
 			value,
 			date,
 		});
@@ -54,7 +61,11 @@ const NewInvoiceForm = ({ mentorId, mentors, lektors }: any) => {
 		/* Možná bude třeba změnit ^ TODO */
 	};
 
-	let optionsMentor: Array<JSX.Element> = [];
+	let optionsMentor: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat mentora
+		</option>,
+	];
 	for (let i = 0; i < mentors.length; i++) {
 		optionsMentor.push(
 			<option
@@ -64,13 +75,17 @@ const NewInvoiceForm = ({ mentorId, mentors, lektors }: any) => {
 		);
 	}
 
-	let optionsClient: Array<JSX.Element> = [];
-	for (let i = 0; i < lektors.length; i++) {
+	let optionsClient: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat klient
+		</option>,
+	];
+	for (let i = 0; i < clients.length; i++) {
 		optionsClient.push(
 			<option
-				key={lektors[i].id}
-				value={lektors[i].id}
-			>{`${lektors[i].name_parent} ${lektors[i].surname_parent}`}</option>
+				key={clients[i].id}
+				value={clients[i].id}
+			>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
 		);
 	}
 
@@ -80,8 +95,10 @@ const NewInvoiceForm = ({ mentorId, mentors, lektors }: any) => {
 	const onDateChanged = (e: any) => setDate(e.target.value);
 
 	const errorClass = isError ? "errorMessage" : "hide";
-	const validMentorClass = !mentor ? "form__input--incomplete" : "";
-	const validClientClass = !lektor ? "form__input--incomplete" : "";
+	const validMentorClass =
+		!mentor || mentor === "0" ? "form__input--incomplete" : "";
+	const validClientClass =
+		!client || client === "0" ? "form__input--incomplete" : "";
 	const validValueClass = !validValue ? "form__input--incomplete" : "";
 	const validDateClass = !date ? "form__input--incomplete" : "";
 
@@ -140,18 +157,18 @@ const NewInvoiceForm = ({ mentorId, mentors, lektors }: any) => {
 					{optionsMentor}
 				</select>
 				<br />
-				<label className="form__label" htmlFor="lektors">
+				<label className="form__label" htmlFor="clients">
 					Klient:
 				</label>
 				<select
-					id="lektors"
-					name="lektor_select"
+					id="clients"
+					name="client_select"
 					className={`form__select ${validClientClass}`}
 					multiple={false}
 					size={1}
-					value={lektor}
+					value={client}
 					onChange={onClientsChanged}
-					title="Příslušný lektor"
+					title="Příslušný client"
 				>
 					{optionsClient}
 				</select>

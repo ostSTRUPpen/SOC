@@ -44,7 +44,9 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 	}, [subject]);
 
 	let canSave: boolean =
-		[lektor, client, validSubject].every(Boolean) && !isLoading;
+		[lektor, client, validSubject, lektor !== "0", client !== "0"].every(
+			Boolean
+		) && !isLoading;
 
 	const onSaveTutoringClicked = async (e: any) => {
 		await updateTutoring({
@@ -69,7 +71,11 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 		await deleteTutoring({ id: tutoring.id });
 	};
 
-	let optionsLektor: Array<JSX.Element> = [];
+	let optionsLektor: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat lektora
+		</option>,
+	];
 	for (let i = 0; i < lektors.length; i++) {
 		optionsLektor.push(
 			<option
@@ -79,7 +85,11 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 		);
 	}
 
-	let optionsClient: Array<JSX.Element> = [];
+	let optionsClient: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat klienta
+		</option>,
+	];
 	for (let i = 0; i < clients.length; i++) {
 		optionsClient.push(
 			<option
@@ -92,11 +102,13 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 	const onLektorsChanged = (e: any) => setLektor(e.target.value);
 	const onClientsChanged = (e: any) => setClient(e.target.value);
 	const onSubjectsChanged = (e: any) => setSubject(e.target.value);
-	const onActiveChanged = (e: any) => setActive(e.target.value);
+	const onActiveChanged = (e: any) => setActive((prev: any) => !prev);
 
 	const errorClass = isError || isDelError ? "errorMessage" : "hide";
-	const validLektorClass = !lektor ? "form__input--incomplete" : "";
-	const validClientClass = !client ? "form__input--incomplete" : "";
+	const validLektorClass =
+		!lektor || lektor === "0" ? "form__input--incomplete" : "";
+	const validClientClass =
+		!client || client === "0" ? "form__input--incomplete" : "";
 	const validSubjectClass = !validSubject ? "form__input--incomplete" : "";
 
 	let errorContent;

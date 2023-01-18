@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const salaryController = require("../controllers/salariesController");
+//router.use(verifyJWT);
 router
     .route("/")
     .get(salaryController.getAllSalaries)

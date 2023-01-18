@@ -1,45 +1,59 @@
 import { useState, useEffect } from "react";
-import { useAddNewLektorMutation } from "./lektorsApiSlice";
+import {
+	useUpdateMentorMutation,
+	useDeleteMentorMutation,
+} from "./mentorsApiSlice";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+	faSave,
+	faTimesCircle,
+	faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 
 const USERNAME_REGEX = /^[A-z]{3,20}$/;
-const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
+const PASSWORDOLD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const GMAIL_REGEX = /^(\W|^)[\w.+-]*@gmail\.com(\W|$)$/;
 const EMAIL_REGEX = /^([A-z]|[1-9]|\.)*@([A-z]|[1-9]){2,10}\.[A-z]{1,5}$/;
 const BANK_ACCOUNT_REGEX = /^[0-9]{9,18}\/[0-9]{4}$/;
 const PHONE_NUM_REGEX = /^(\+\d{3})?\s?\d{3}\s?\d{3}\s?\d{3}$/;
 
-const NewLektorForm = ({ mentors }: any) => {
+const EditMentorForm = ({ mentor }: any) => {
 	const navigate = useNavigate();
 
-	const [addNewLektor, { isLoading, isSuccess, isError, error }] =
-		useAddNewLektorMutation();
+	const [updateMentor, { isLoading, isSuccess, isError, error }] =
+		useUpdateMentorMutation();
 
-	const [mentor, setMentor] = useState("");
-	const [username, setUsername] = useState("");
+	const [
+		deleteMentor,
+		{ isSuccess: isDelSuccess, isError: isDelError, error: delerror },
+	] = useDeleteMentorMutation();
+
+	const [username, setUsername] = useState(mentor.username);
 	const [validUsername, setValidUsername] = useState(false);
-	const [password, setPassword] = useState("");
-	const [validPassword, setValidPassword] = useState(false);
-	const [name, setName] = useState("");
-	const [surname, setSurname] = useState("");
-	const [gmail, setGmail] = useState("");
+	const [passwordOld, setPasswordOld] = useState(mentor.passwordOld);
+	const [validPasswordOld, setValidPasswordOld] = useState(false);
+	const [passwordNew, setPasswordNew] = useState(mentor.passwordNew);
+	const [validPasswordNew, setValidPasswordNew] = useState(false);
+
+	const [name, setName] = useState(mentor.name);
+	const [surname, setSurname] = useState(mentor.surname);
+	const [gmail, setGmail] = useState(mentor.gmail);
 	const [validGmail, setValidGmail] = useState(false);
-	const [email, setEmail] = useState("");
+	const [email, setEmail] = useState(mentor.email);
 	const [validEmail, setValidEmail] = useState(false);
-	const [phoneNumber, setPhoneNumber] = useState("");
+	const [phoneNumber, setPhoneNumber] = useState(mentor.phone_num);
 	const [validPhoneNumber, setValidPhoneNumber] = useState(false);
-	const [bankAccount, setBankAccount] = useState("");
+	const [bankAccount, setBankAccount] = useState(mentor.bank_account);
 	const [validBankAccount, setValidBankAccount] = useState(false);
-	const [dateOfBirth, setDateOfBirth] = useState("");
-	const [active, setActive] = useState(true);
+	const [dateOfBirth, setDateOfBirth] = useState(mentor.date_of_birth);
+	const [active, setActive] = useState(mentor.active);
 
 	useEffect(() => {
-		if (isSuccess) {
-			setMentor("");
+		if (isSuccess || isDelSuccess) {
 			setUsername("");
-			setPassword("");
+			setPasswordOld("");
+			setPasswordNew("");
 			setName("");
 			setSurname("");
 			setGmail("");
@@ -48,18 +62,22 @@ const NewLektorForm = ({ mentors }: any) => {
 			setBankAccount("");
 			setDateOfBirth("");
 			setActive(false);
-			navigate(`/sec/lektors`);
+			navigate(`/sec/mentors`);
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, navigate]);
+	}, [isSuccess, isDelSuccess, navigate]);
 
 	useEffect(() => {
 		setValidUsername(USERNAME_REGEX.test(username));
 	}, [username]);
 
 	useEffect(() => {
-		setValidPassword(PASSWORD_REGEX.test(password));
-	}, [password]);
+		if (passwordOld) {
+			setValidPasswordOld(PASSWORDOLD_REGEX.test(passwordOld));
+		} else {
+			setValidPasswordOld(true);
+		}
+	}, [passwordOld]);
 
 	useEffect(() => {
 		gmail ? setValidGmail(GMAIL_REGEX.test(gmail)) : setValidGmail(true);
@@ -74,43 +92,84 @@ const NewLektorForm = ({ mentors }: any) => {
 		setValidPhoneNumber(PHONE_NUM_REGEX.test(phoneNumber));
 	}, [phoneNumber]);
 
-	let canSave: boolean =
-		[
-			mentor,
-			validUsername,
-			validPassword,
-			name,
-			surname,
-			validGmail,
-			validEmail,
-			validBankAccount,
-			validPhoneNumber,
-			dateOfBirth,
-			mentor !== "0",
-		].every(Boolean) && !isLoading;
+	useEffect(() => {
+		if (passwordOld) {
+			setValidPasswordNew(PASSWORDOLD_REGEX.test(passwordNew));
+		} else {
+			setValidPasswordNew(true);
+			setPasswordNew("");
+		}
+	}, [passwordNew, passwordOld]);
 
-	const onSaveLektorClicked = async (e: any) => {
+	let canSave: boolean;
+	if (passwordOld) {
+		canSave =
+			[
+				validUsername,
+				validPasswordOld,
+				validPasswordNew,
+				name,
+				surname,
+				validGmail,
+				validEmail,
+				validBankAccount,
+				validPhoneNumber,
+			].every(Boolean) && !isLoading;
+	} else {
+		canSave =
+			[
+				validUsername,
+				name,
+				surname,
+				validGmail,
+				validEmail,
+				validBankAccount,
+				validPhoneNumber,
+			].every(Boolean) && !isLoading;
+	}
+
+	const onSaveMentorClicked = async (e: any) => {
 		e.preventDefault();
-		await addNewLektor({
-			mentor: mentor,
-			username,
-			password,
-			name,
-			surname,
-			gmail,
-			email,
-			phone_num: phoneNumber,
-			bank_account: bankAccount,
-			date_of_birth: dateOfBirth,
-			active: Boolean(active),
-		});
+		if (passwordOld) {
+			await updateMentor({
+				id: mentor.id,
+				username,
+				password_old: passwordOld,
+				password_new: passwordNew,
+				name,
+				surname,
+				gmail,
+				email,
+				phone_num: phoneNumber,
+				bank_account: bankAccount,
+				date_of_birth: dateOfBirth,
+				active: Boolean(active),
+			});
+		} else {
+			await updateMentor({
+				id: mentor.id,
+				username,
+				name,
+				surname,
+				gmail,
+				email,
+				phone_num: phoneNumber,
+				bank_account: bankAccount,
+				date_of_birth: dateOfBirth,
+				active: Boolean(active),
+			});
+		}
+	};
+
+	const onDeleteMentorClicked = async () => {
+		await deleteMentor({ id: mentor.id });
 	};
 
 	const onStopEditingClicked = (e: any) => {
 		e.preventDefault();
-		setMentor("");
 		setUsername("");
-		setPassword("");
+		setPasswordOld("");
+		setPasswordNew("");
 		setName("");
 		setSurname("");
 		setGmail("");
@@ -119,11 +178,13 @@ const NewLektorForm = ({ mentors }: any) => {
 		setBankAccount("");
 		setDateOfBirth("");
 		setActive(false);
-		navigate(`/sec/lektors`);
+		navigate(`/sec/mentors`);
 	};
 
 	const onUsernameChanged = (e: any) => setUsername(e.target.value);
-	const onPasswordChanged = (e: any) => setPassword(e.target.value);
+	const onPasswordOldChanged = (e: any) => setPasswordOld(e.target.value);
+	const onPasswordNewChanged = (e: any) => setPasswordNew(e.target.value);
+
 	const onNameChanged = (e: any) => setName(e.target.value);
 	const onSurnameChanged = (e: any) => setSurname(e.target.value);
 	const onGmailChanged = (e: any) => setGmail(e.target.value);
@@ -131,15 +192,13 @@ const NewLektorForm = ({ mentors }: any) => {
 	const onPhoneNumberChanged = (e: any) => setPhoneNumber(e.target.value);
 	const onDateOfBirthChanged = (e: any) => setDateOfBirth(e.target.value);
 	const onBankAccountChanged = (e: any) => setBankAccount(e.target.value);
-	const onMentorIdChanged = (e: any) => setMentor(e.target.value);
-
 	const onActiveChanged = (e: any) => setActive((prev: any) => !prev);
 
-	const errorClass = isError ? "errorMessage" : "hide";
+	const errorClass = isError || isDelError ? "errorMessage" : "hide";
 	const validUsernameClass = !validUsername ? "form__input--incomplete" : "";
-	const validPasswordClass = !validPassword ? "form__input--incomplete" : "";
-	const validMentorClass =
-		!mentor || mentor === "0" ? "form__input--incomplete" : "";
+	const validPasswordOldClass = !validPasswordOld
+		? "form__input--incomplete"
+		: "";
 	const validNameClass = !name ? "form__input--incomplete" : "";
 	const validSurnameClass = !surname ? "form__input--incomplete" : "";
 	const validGmailClass = !validGmail
@@ -152,7 +211,12 @@ const NewLektorForm = ({ mentors }: any) => {
 	const validBankAccountClass = !validBankAccount
 		? "form__input--incomplete"
 		: "";
-	const validDateOfBirthClass = !dateOfBirth ? "form__input--incomplete" : "";
+	const validDateOfBirthClass = !dateOfBirth
+		? "form__input--not_required_incomplete"
+		: "";
+	const validPasswordNewClass = !validPasswordNew
+		? "form__input--not_required_incomplete"
+		: "";
 
 	let errorContent;
 	if (error) {
@@ -167,19 +231,19 @@ const NewLektorForm = ({ mentors }: any) => {
 			errorContent = error.message;
 		}
 	}
+	if (delerror) {
+		if ("status" in delerror) {
+			// you can access all properties of `FetchBaseQueryError` here
+			const errMsg =
+				"error" in delerror
+					? delerror.error
+					: JSON.stringify(delerror.data);
 
-	let options: Array<JSX.Element> = [
-		<option key={0} value={0}>
-			Vybrat mentora
-		</option>,
-	];
-	for (let i = 0; i < mentors.length; i++) {
-		options.push(
-			<option
-				key={mentors[i].id}
-				value={mentors[i].id}
-			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-		);
+			errorContent = errMsg;
+		} else {
+			// you can access all properties of `SerializedError` here
+			errorContent = delerror.message;
+		}
 	}
 
 	const content = (
@@ -187,13 +251,13 @@ const NewLektorForm = ({ mentors }: any) => {
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
-				<div className="form__lektor-number">
-					<h2>Tvorba nového lektora</h2>
+				<div className="form__mentor-number">
+					<h2>Tvorba nového mentora</h2>
 					<div className="form__action-buttons">
 						<button
 							className="icon-button form--save-button"
 							title="Uložit změny"
-							onClick={onSaveLektorClicked}
+							onClick={onSaveMentorClicked}
 							disabled={!canSave}
 						>
 							<FontAwesomeIcon icon={faSave} />
@@ -205,32 +269,23 @@ const NewLektorForm = ({ mentors }: any) => {
 						>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
+						<button
+							className="icon-button form--delete-button"
+							title="Smazat lekci"
+							onClick={onDeleteMentorClicked}
+						>
+							<FontAwesomeIcon icon={faTrashCan} />
+						</button>
 					</div>
 				</div>
-				<details open>
+				<details>
 					<summary>Účet</summary>
-					<label className="form__label" htmlFor="mentors">
-						Příslušný mentor:
-					</label>
-					<select
-						id="mentors"
-						name="mentor_select"
-						className={`form__select ${validMentorClass}`}
-						multiple={false}
-						size={1}
-						value={mentor}
-						onChange={onMentorIdChanged}
-						title="Příslušný lektor"
-					>
-						{options}
-					</select>
-					<br />
-					<label className="form__label" htmlFor="lektor-username">
+					<label className="form__label" htmlFor="mentor-username">
 						Uživatelské jméno:
 					</label>
 					<input
 						className={`form__input ${validUsernameClass}`}
-						id="lektor-username"
+						id="mentor-username"
 						name="username"
 						type="text"
 						maxLength={20}
@@ -239,44 +294,65 @@ const NewLektorForm = ({ mentors }: any) => {
 						onChange={onUsernameChanged}
 					/>
 					<br />
-					<label className="form__label" htmlFor="lektor-password">
-						Heslo:
-					</label>
-					<input
-						className={`form__input ${validPasswordClass}`}
-						id="lektor-password"
-						name="pasword"
-						type="password"
-						autoComplete="new-password"
-						value={password}
-						onChange={onPasswordChanged}
-					/>
-					<br />
+					<details>
+						<summary>Změnit heslo</summary>
+						<label
+							className="form__label"
+							htmlFor="client-passwordOld"
+						>
+							Staré heslo:
+						</label>
+						<input
+							className={`form__input ${validPasswordOldClass}`}
+							id="client-passwordOld"
+							name="password"
+							type="password"
+							autoComplete="current-password"
+							value={passwordOld}
+							onChange={onPasswordOldChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="client-password-new"
+						>
+							Nové heslo:
+						</label>
+						<input
+							className={`form__input ${validPasswordNewClass}`}
+							id="client-password-new"
+							name="password"
+							type="password"
+							autoComplete="new-password"
+							value={passwordNew}
+							onChange={onPasswordNewChanged}
+						/>
+					</details>
 					<label
 						className="form__label form__checkbox-container"
-						htmlFor="lektor-active"
+						htmlFor="mentor-active"
 					>
 						účet aktivní:
 					</label>
 					<input
 						className="form__checkbox"
-						id="lektor-active"
-						name="lektor-active"
+						id="mentor-active"
+						name="mentor-active"
 						type="checkbox"
 						checked={active}
 						onChange={onActiveChanged}
 					/>
 				</details>
 				<br />
-				<details open>
+				<details>
 					<summary>Údaje</summary>
-					<label className="form__label" htmlFor="lektor-name">
+					<label className="form__label" htmlFor="mentor-name">
 						Jméno:
 					</label>
 					<input
 						className={`form__input ${validNameClass}`}
-						id="lektor-name"
-						name="lektor-name"
+						id="mentor-name"
+						name="mentor-name"
 						maxLength={50}
 						type="text"
 						autoComplete="off"
@@ -284,13 +360,13 @@ const NewLektorForm = ({ mentors }: any) => {
 						onChange={onNameChanged}
 					/>
 					<br />
-					<label className="form__label" htmlFor="lektor-surname">
+					<label className="form__label" htmlFor="mentor-surname">
 						Příjmení:
 					</label>
 					<input
 						className={`form__input--info ${validSurnameClass}`}
-						id="lektor-surname"
-						name="poznámky"
+						id="mentor-surname"
+						name="surname"
 						type="text"
 						maxLength={50}
 						autoComplete="off"
@@ -300,13 +376,13 @@ const NewLektorForm = ({ mentors }: any) => {
 					<br />
 					<label
 						className="form__label"
-						htmlFor="lektor-date_of_birth"
+						htmlFor="mentor-date_of_birth"
 					>
 						Datum narození:
 					</label>
 					<input
 						className={`form__input--info ${validDateOfBirthClass}`}
-						id="lektor-date_of_birth"
+						id="mentor-date_of_birth"
 						name="date_of_birtht"
 						type="date"
 						autoComplete="off"
@@ -314,14 +390,14 @@ const NewLektorForm = ({ mentors }: any) => {
 						onChange={onDateOfBirthChanged}
 					/>
 					<br />
-					<details open>
+					<details>
 						<summary>Kontakt</summary>
-						<label className="form__label" htmlFor="lektor-gmail">
+						<label className="form__label" htmlFor="mentor-gmail">
 							G-mail:
 						</label>
 						<input
 							className={`form__input--info ${validGmailClass}`}
-							id="lektor-gmail"
+							id="mentor-gmail"
 							name="gmail"
 							type="text"
 							maxLength={50}
@@ -330,12 +406,12 @@ const NewLektorForm = ({ mentors }: any) => {
 							onChange={onGmailChanged}
 						/>
 						<br />
-						<label className="form__label" htmlFor="lektor-email">
+						<label className="form__label" htmlFor="mentor-email">
 							E-mail:
 						</label>
 						<input
 							className={`form__input--info ${validEmailClass}`}
-							id="lektor-email"
+							id="mentor-email"
 							name="email"
 							type="text"
 							maxLength={50}
@@ -346,13 +422,13 @@ const NewLektorForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="lektor-phone_number"
+							htmlFor="mentor-phone_number"
 						>
 							Telefoní číslo:
 						</label>
 						<input
 							className={`form__input--info ${validPhoneNumberClass}`}
-							id="lektor-phone_number"
+							id="mentor-phone_number"
 							name="phone_number"
 							type="tel"
 							autoComplete="off"
@@ -362,13 +438,13 @@ const NewLektorForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="lektor-bank_account"
+							htmlFor="mentor-bank_account"
 						>
 							Číslo účtu:
 						</label>
 						<input
 							className={`form__input--info ${validBankAccountClass}`}
-							id="lektor-bank_account"
+							id="mentor-bank_account"
 							name="bank_account"
 							type="text"
 							maxLength={25}
@@ -376,7 +452,6 @@ const NewLektorForm = ({ mentors }: any) => {
 							value={bankAccount}
 							onChange={onBankAccountChanged}
 						/>
-						<br />
 					</details>
 				</details>
 			</form>
@@ -386,4 +461,4 @@ const NewLektorForm = ({ mentors }: any) => {
 	return content;
 };
 
-export default NewLektorForm;
+export default EditMentorForm;

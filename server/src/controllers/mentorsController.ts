@@ -1,8 +1,8 @@
 const Mentor: any = require("../models/Mentor");
+const Client: any = require("../models/Client");
 const Salary = require("../models/Salary");
 const Lektor = require("../models/Lektor");
 const Invoice = require("../models/Invoice");
-const Klient = require("../models/Client");
 const bcrypt: any = require("bcrypt");
 
 // @desc Get all mentors
@@ -43,6 +43,7 @@ const createNewMentor = async (req: any, res: any) => {
 		!name ||
 		!surname ||
 		!phone_num ||
+		!email ||
 		!bank_account
 	) {
 		return res.status(400).json({
@@ -52,7 +53,18 @@ const createNewMentor = async (req: any, res: any) => {
 	}
 
 	// Duplicates
-	if (await Mentor.findOne({ username }).lean().exec()) {
+	const foundClient = await Client.findOne({ username }).lean().exec();
+	const foundLektor = await Lektor.findOne({ username }).lean().exec();
+	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+
+	const duplicate = foundLektor
+		? foundLektor
+		: foundClient
+		? foundClient
+		: foundMentor
+		? foundMentor
+		: undefined;
+	if (duplicate) {
 		return res.status(400).json({
 			message: `Mentor s uživatelksým jménem: ${username} již existuje`,
 		});
@@ -93,7 +105,8 @@ const updateMentor = async (req: any, res: any) => {
 	const {
 		id,
 		username,
-		password,
+		password_old,
+		password_new,
 		name,
 		surname,
 		gmail,
@@ -113,6 +126,7 @@ const updateMentor = async (req: any, res: any) => {
 		!surname ||
 		!phone_num ||
 		typeof active !== "boolean" ||
+		!email ||
 		!bank_account
 	) {
 		res.status(400).json({
@@ -129,7 +143,19 @@ const updateMentor = async (req: any, res: any) => {
 	}
 
 	// Looking for a duplicate (except the one being updated)
-	const duplicate = await Mentor.findOne({ username }).lean().exec();
+
+	const foundClient = await Client.findOne({ username }).lean().exec();
+	const foundLektor = await Lektor.findOne({ username }).lean().exec();
+	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+
+	const duplicate = foundLektor
+		? foundLektor
+		: foundClient
+		? foundClient
+		: foundMentor
+		? foundMentor
+		: undefined;
+
 	if (duplicate && duplicate?._id.toString() !== id) {
 		return res.status(400).json({
 			message: `Mentor s uživatelským jménem: ${username} již existuje`,
@@ -142,16 +168,30 @@ const updateMentor = async (req: any, res: any) => {
 	mentorToUpdate.phone_num = phone_num;
 	mentorToUpdate.bank_account = bank_account;
 	mentorToUpdate.active = active;
-
+	mentorToUpdate.email = email;
+	/*console.log([
+		id,
+		username,
+		password_old,
+		password_new,
+		name,
+		surname,
+		email,
+		phone_num,
+		bank_account,
+	]); */
 	// Changing password, email, gamil
-	if (password) {
-		mentorToUpdate.password = await bcrypt.hash(password, 10);
+	if (password_old) {
+		if (await bcrypt.compare(password_old, mentorToUpdate.password)) {
+			mentorToUpdate.password = await bcrypt.hash(password_new, 10);
+		} else {
+			return res.status(400).json({
+				message: `Zadáno chybné heslo`,
+			});
+		}
 	}
 	if (gmail) {
 		mentorToUpdate.gmail = gmail;
-	}
-	if (email) {
-		mentorToUpdate.email = email;
 	}
 	if (date_of_birth) {
 		mentorToUpdate.date_of_birth = date_of_birth;
@@ -194,8 +234,8 @@ const deleteMentor = async (req: any, res: any) => {
 			.status(400)
 			.json({ message: "K mentorovi jsou vázaní lektoři" });
 	}
-	const klients = await Klient.findOne({ mentor: id }).lean().exec();
-	if (klients) {
+	const clients = await Client.findOne({ mentor: id }).lean().exec();
+	if (clients) {
 		return res
 			.status(400)
 			.json({ message: "K mentorovi jsou vázaní klienti" });

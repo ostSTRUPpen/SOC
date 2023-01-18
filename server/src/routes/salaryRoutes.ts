@@ -1,6 +1,10 @@
+import verifyJWT from "../middleware/verifyJWT";
+
 const express = require("express");
 const router = express.Router();
 const salaryController = require("../controllers/salariesController");
+
+//router.use(verifyJWT);
 
 router
 	.route("/")

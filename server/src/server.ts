@@ -30,6 +30,7 @@ app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "/public")));
 // Routing
 app.use("/", require("./routes/root"));
+//app.use("/auth", require("./routes/authRoutes"));
 app.use("/mentors", require("./routes/mentorRoutes"));
 app.use("/lektors", require("./routes/lektorRoutes"));
 app.use("/clients", require("./routes/clientRoutes"));

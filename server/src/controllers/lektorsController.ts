@@ -1,3 +1,5 @@
+const Mentor: any = require("../models/Mentor");
+const Client: any = require("../models/Client");
 const Lektor: any = require("../models/Lektor");
 const Salary = require("../models/Salary");
 const Tutoring = require("../models/Tutoring");
@@ -44,6 +46,7 @@ const createNewLektor = async (req: any, res: any) => {
 		!surname ||
 		!phone_num ||
 		!date_of_birth ||
+		!email ||
 		!bank_account
 	) {
 		return res.status(400).json({
@@ -53,7 +56,18 @@ const createNewLektor = async (req: any, res: any) => {
 	}
 
 	// Duplicates
-	if (await Lektor.findOne({ username }).lean().exec()) {
+	const foundClient = await Client.findOne({ username }).lean().exec();
+	const foundLektor = await Lektor.findOne({ username }).lean().exec();
+	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+
+	const duplicate = foundMentor
+		? foundMentor
+		: foundClient
+		? foundClient
+		: foundLektor
+		? foundLektor
+		: undefined;
+	if (duplicate) {
 		return res.status(400).json({
 			message: `Lektor s uživatelksým jménem: ${username} již existuje`,
 		});
@@ -96,7 +110,8 @@ const updateLektor = async (req: any, res: any) => {
 		id,
 		mentor,
 		username,
-		password,
+		password_old,
+		password_new,
 		name,
 		surname,
 		gmail,
@@ -116,6 +131,7 @@ const updateLektor = async (req: any, res: any) => {
 		!name ||
 		!surname ||
 		!phone_num ||
+		!email ||
 		typeof active !== "boolean" ||
 		!date_of_birth ||
 		!bank_account
@@ -133,7 +149,19 @@ const updateLektor = async (req: any, res: any) => {
 	}
 
 	// Looking for a duplicate (except the one being updated)
-	const duplicate = await Lektor.findOne({ username }).lean().exec();
+
+	const foundClient = await Client.findOne({ username }).lean().exec();
+	const foundLektor = await Lektor.findOne({ username }).lean().exec();
+	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+
+	const duplicate = foundMentor
+		? foundMentor
+		: foundClient
+		? foundClient
+		: foundLektor
+		? foundLektor
+		: undefined;
+
 	if (duplicate && duplicate?._id.toString() !== id) {
 		return res.status(400).json({
 			message: `Lektor s uživatelským jménem: ${username} již existuje`,
@@ -147,17 +175,21 @@ const updateLektor = async (req: any, res: any) => {
 	lektorToUpdate.phone_num = phone_num;
 	lektorToUpdate.date_of_birth = date_of_birth;
 	lektorToUpdate.bank_account = bank_account;
+	lektorToUpdate.email = email;
 	lektorToUpdate.active = active;
 
 	// Changing password, email, gamil
-	if (password) {
-		lektorToUpdate.password = await bcrypt.hash(password, 10);
+	if (password_old) {
+		if (await bcrypt.compare(password_old, lektorToUpdate.password)) {
+			lektorToUpdate.password = await bcrypt.hash(password_new, 10);
+		} else {
+			return res.status(400).json({
+				message: `Zadáno chybné heslo`,
+			});
+		}
 	}
 	if (gmail) {
 		lektorToUpdate.gmail = gmail;
-	}
-	if (email) {
-		lektorToUpdate.email = email;
 	}
 	if (others) {
 		lektorToUpdate.others = others;

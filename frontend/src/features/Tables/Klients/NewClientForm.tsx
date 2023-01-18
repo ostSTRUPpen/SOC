@@ -46,7 +46,6 @@ const NewClientForm = ({ mentors }: any) => {
 	const [phoneNumberChild, setPhoneNumberChild] = useState("");
 	const [validPhoneNumberChild, setValidPhoneNumberChild] = useState(false);
 	const [dateOfBirthChild, setDateOfBirthChild] = useState("");
-	const [active, setActive] = useState(true);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -65,7 +64,6 @@ const NewClientForm = ({ mentors }: any) => {
 			setEmailChild("");
 			setPhoneNumberChild("");
 			setDateOfBirthChild("");
-			setActive(false);
 			navigate(`/sec/clients`);
 			/* Možná bude třeba změnit ^ TODO */
 		}
@@ -85,9 +83,7 @@ const NewClientForm = ({ mentors }: any) => {
 			: setValidGmailParent(true);
 	}, [gmailParent]);
 	useEffect(() => {
-		emailParent
-			? setValidEmailParent(EMAIL_REGEX.test(emailParent))
-			: setValidEmailParent(true);
+		setValidEmailParent(EMAIL_REGEX.test(emailParent));
 	}, [emailParent]);
 	useEffect(() => {
 		setValidPhoneNumberParent(PHONE_NUM_REGEX.test(phoneNumberParent));
@@ -129,6 +125,7 @@ const NewClientForm = ({ mentors }: any) => {
 			validEmailChild,
 			validPhoneNumberChild,
 			dateOfBirthChild,
+			mentor !== "0",
 		].every(Boolean) && !isLoading;
 
 	const onSaveClientClicked = async (e: any) => {
@@ -148,11 +145,14 @@ const NewClientForm = ({ mentors }: any) => {
 			email_child: emailChild,
 			phone_num_child: phoneNumberChild,
 			date_of_birth_child: dateOfBirthChild,
-			active: Boolean(active),
 		});
 	};
 
-	let options: Array<JSX.Element> = [];
+	let options: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat mentora
+		</option>,
+	];
 	for (let i = 0; i < mentors.length; i++) {
 		options.push(
 			<option
@@ -179,7 +179,6 @@ const NewClientForm = ({ mentors }: any) => {
 		setEmailChild("");
 		setPhoneNumberChild("");
 		setDateOfBirthChild("");
-		setActive(false);
 		navigate(`/sec/clients`);
 		/* Možná bude třeba změnit ^ TODO */
 	};
@@ -203,12 +202,11 @@ const NewClientForm = ({ mentors }: any) => {
 		setDateOfBirthChild(e.target.value);
 	const onMentorIdChanged = (e: any) => setMentor(e.target.value);
 
-	const onActiveChanged = (e: any) => setActive(e.target.value);
-
 	const errorClass = isError ? "errorMessage" : "hide";
 	const validUsernameClass = !validUsername ? "form__input--incomplete" : "";
 	const validPasswordClass = !validPassword ? "form__input--incomplete" : "";
-	const validMentorClass = !mentor ? "form__input--incomplete" : "";
+	const validMentorClass =
+		!mentor || mentor === "0" ? "form__input--incomplete" : "";
 	const validParentNameClass = !nameParent ? "form__input--incomplete" : "";
 	const validParentSurnameClass = !surnameParent
 		? "form__input--incomplete"
@@ -217,7 +215,7 @@ const NewClientForm = ({ mentors }: any) => {
 		? "form__input--not_required_incomplete"
 		: "";
 	const validParentEmailClass = !validEmailParent
-		? "form__input--not_required_incomplete"
+		? "form__input--incomplete"
 		: "";
 	const validParentPhoneNumberClass = !validPhoneNumberParent
 		? "form__input--incomplete"
@@ -281,237 +279,260 @@ const NewClientForm = ({ mentors }: any) => {
 						</button>
 					</div>
 				</div>
-				<label className="form__label" htmlFor="mentors">
-					Příslušný mentor:
-				</label>
-				<select
-					id="mentors"
-					name="mentor_select"
-					className={`form__select ${validMentorClass}`}
-					multiple={false}
-					size={1}
-					value={mentor}
-					onChange={onMentorIdChanged}
-					title="Příslušný mentor"
-				>
-					{options}
-				</select>
+				<details open>
+					<summary>Účet</summary>
+					<label className="form__label" htmlFor="mentors">
+						Příslušný mentor:
+					</label>
+					<select
+						id="mentors"
+						name="mentor_select"
+						className={`form__select ${validMentorClass}`}
+						multiple={false}
+						size={1}
+						value={mentor}
+						onChange={onMentorIdChanged}
+						title="Příslušný mentor"
+					>
+						{options}
+					</select>
+					<br />
+					<label className="form__label" htmlFor="client-username">
+						Uživatelské jméno:
+					</label>
+					<input
+						className={`form__input ${validUsernameClass}`}
+						id="client-username"
+						name="username"
+						type="text"
+						maxLength={20}
+						autoComplete="off"
+						value={username}
+						onChange={onUsernameChanged}
+					/>
+					<br />
+					<label className="form__label" htmlFor="client-password">
+						Heslo:
+					</label>
+					<input
+						className={`form__input ${validPasswordClass}`}
+						id="client-password"
+						name="pasword"
+						type="password"
+						autoComplete="new-password"
+						value={password}
+						onChange={onPasswordChanged}
+					/>
+					<br />
+				</details>
 				<br />
-				<label className="form__label" htmlFor="client-username">
-					Uživatelské jméno:
-				</label>
-				<input
-					className={`form__input ${validUsernameClass}`}
-					id="client-username"
-					name="username"
-					type="text"
-					maxLength={20}
-					autoComplete="off"
-					value={username}
-					onChange={onUsernameChanged}
-				/>
+				<details open>
+					<summary>Rodič</summary>
+					<label className="form__label" htmlFor="client-name_parent">
+						Jméno rodiče:
+					</label>
+					<input
+						className={`form__input ${validParentNameClass}`}
+						id="client-name_parent"
+						name="client-name_parent"
+						maxLength={50}
+						type="text"
+						autoComplete="off"
+						value={nameParent}
+						onChange={onParentNameChanged}
+					/>
+					<br />
+					<label
+						className="form__label"
+						htmlFor="client-surname_parent"
+					>
+						Příjmení rodiče:
+					</label>
+					<input
+						className={`form__input--info ${validParentSurnameClass}`}
+						id="client-surname_parent"
+						name="poznámky"
+						type="text"
+						maxLength={50}
+						autoComplete="off"
+						value={surnameParent}
+						onChange={onParentSurnameChanged}
+					/>
+					<br />
+					<details open>
+						<summary>Kontakt</summary>
+						<label
+							className="form__label"
+							htmlFor="client-gmail_parent"
+						>
+							G-mail rodiče:
+						</label>
+						<input
+							className={`form__input--info ${validParentGmailClass}`}
+							id="client-gmail_parent"
+							name="gmail_parent"
+							type="text"
+							maxLength={50}
+							autoComplete="off"
+							value={gmailParent}
+							onChange={onParentGmailChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="client-email_parent"
+						>
+							E-mail rodiče:
+						</label>
+						<input
+							className={`form__input--info ${validParentEmailClass}`}
+							id="client-email_parent"
+							name="email_parent"
+							type="text"
+							maxLength={50}
+							autoComplete="off"
+							value={emailParent}
+							onChange={onParentEmailChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="client-phone_number_parent"
+						>
+							Telefoní číslo rodiče:
+						</label>
+						<input
+							className={`form__input--info ${validParentPhoneNumberClass}`}
+							id="client-phone_number_parent"
+							name="phone_number_parent"
+							type="tel"
+							autoComplete="off"
+							value={phoneNumberParent}
+							onChange={onParentPhoneNumberChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="client-bank_account"
+						>
+							Číslo účtu:
+						</label>
+						<input
+							className={`form__input--info ${validBankAccountClass}`}
+							id="client-bank_account"
+							name="bank_account"
+							type="text"
+							maxLength={25}
+							autoComplete="off"
+							value={bankAccount}
+							onChange={onBankAccountChanged}
+						/>
+					</details>
+				</details>
 				<br />
-				<label className="form__label" htmlFor="client-password">
-					Heslo:
-				</label>
-				<input
-					className={`form__input ${validPasswordClass}`}
-					id="client-password"
-					name="pasword"
-					type="password"
-					autoComplete="off"
-					value={password}
-					onChange={onPasswordChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-name_parent">
-					Jméno rodiče:
-				</label>
-				<input
-					className={`form__input ${validParentNameClass}`}
-					id="client-name_parent"
-					name="client-name_parent"
-					maxLength={50}
-					type="text"
-					autoComplete="off"
-					value={nameParent}
-					onChange={onParentNameChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-surname_parent">
-					Příjmení rodiče:
-				</label>
-				<input
-					className={`form__input--info ${validParentSurnameClass}`}
-					id="client-surname_parent"
-					name="poznámky"
-					type="text"
-					maxLength={50}
-					autoComplete="off"
-					value={surnameParent}
-					onChange={onParentSurnameChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-gmail_parent">
-					G-mail rodiče:
-				</label>
-				<input
-					className={`form__input--info ${validParentGmailClass}`}
-					id="client-gmail_parent"
-					name="gmail_parent"
-					type="text"
-					maxLength={50}
-					autoComplete="off"
-					value={gmailParent}
-					onChange={onParentGmailChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-email_parent">
-					E-mail rodiče:
-				</label>
-				<input
-					className={`form__input--info ${validParentEmailClass}`}
-					id="client-email_parent"
-					name="email_parent"
-					type="text"
-					maxLength={55}
-					autoComplete="off"
-					value={emailParent}
-					onChange={onParentEmailChanged}
-				/>
-				<br />
-				<label
-					className="form__label"
-					htmlFor="client-phone_number_parent"
-				>
-					Telefoní číslo rodiče:
-				</label>
-				<input
-					className={`form__input--info ${validParentPhoneNumberClass}`}
-					id="client-phone_number_parent"
-					name="phone_number_parent"
-					type="tel"
-					autoComplete="off"
-					value={phoneNumberParent}
-					onChange={onParentPhoneNumberChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-bank_account">
-					Číslo účtu:
-				</label>
-				<input
-					className={`form__input--info ${validBankAccountClass}`}
-					id="client-bank_account"
-					name="bank_account"
-					type="text"
-					maxLength={25}
-					autoComplete="off"
-					value={bankAccount}
-					onChange={onBankAccountChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-name_child">
-					Jméno dítěte:
-				</label>
-				<input
-					className={`form__input ${validChildNameClass}`}
-					id="client-name_child"
-					name="client-name_child"
-					maxLength={50}
-					type="text"
-					autoComplete="off"
-					value={nameChild}
-					onChange={onChildNameChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-surname_child">
-					Příjmení dítěte:
-				</label>
-				<input
-					className={`form__input--info ${validChildSurnameClass}`}
-					id="client-surname_child"
-					name="poznámky"
-					type="text"
-					maxLength={50}
-					autoComplete="off"
-					value={surnameChild}
-					onChange={onChildSurnameChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-gmail_child">
-					G-mail dítěte:
-				</label>
-				<input
-					className={`form__input--info ${validChildGmailClass}`}
-					id="client-gmail_child"
-					name="gmail_child"
-					type="text"
-					maxLength={50}
-					autoComplete="off"
-					value={gmailChild}
-					onChange={onChildGmailChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="client-email_child">
-					E-mail dítěte:
-				</label>
-				<input
-					className={`form__input--info ${validChildEmailClass}`}
-					id="client-email_child"
-					name="email_child"
-					type="text"
-					maxLength={55}
-					autoComplete="off"
-					value={emailChild}
-					onChange={onChildEmailChanged}
-				/>
-				<br />
-				<label
-					className="form__label"
-					htmlFor="client-phone_number_child"
-				>
-					Telefoní číslo dítěte:
-				</label>
-				<input
-					className={`form__input--info ${validChildPhoneNumberClass}`}
-					id="client-phone_number_child"
-					name="phone_number_child"
-					type="tel"
-					autoComplete="off"
-					value={phoneNumberChild}
-					onChange={onChildPhoneNumberChanged}
-				/>
-				<br />
-				<label
-					className="form__label"
-					htmlFor="lektor-date_of_birth_child"
-				>
-					Datum narození dítěte:
-				</label>
-				<input
-					className={`form__input--info ${validChildDateOfBirthClass}`}
-					id="lektor-date_of_birth_child"
-					name="date_of_birth_child"
-					type="date"
-					autoComplete="off"
-					value={dateOfBirthChild}
-					onChange={onChildDateOfBirthChanged}
-				/>
-				<br />
-				<label
-					className="form__label form__checkbox-container"
-					htmlFor="client-active"
-				>
-					účet aktivní:
-				</label>
-				<input
-					className="form__checkbox"
-					id="client-active"
-					name="client-active"
-					type="checkbox"
-					checked={active}
-					onChange={onActiveChanged}
-				/>
+				<details open>
+					<summary>Dítě</summary>
+					<label className="form__label" htmlFor="client-name_child">
+						Jméno dítěte:
+					</label>
+					<input
+						className={`form__input ${validChildNameClass}`}
+						id="client-name_child"
+						name="client-name_child"
+						maxLength={50}
+						type="text"
+						autoComplete="off"
+						value={nameChild}
+						onChange={onChildNameChanged}
+					/>
+					<br />
+					<label
+						className="form__label"
+						htmlFor="client-surname_child"
+					>
+						Příjmení dítěte:
+					</label>
+					<input
+						className={`form__input--info ${validChildSurnameClass}`}
+						id="client-surname_child"
+						name="poznámky"
+						type="text"
+						maxLength={50}
+						autoComplete="off"
+						value={surnameChild}
+						onChange={onChildSurnameChanged}
+					/>{" "}
+					<br />
+					<label
+						className="form__label"
+						htmlFor="lektor-date_of_birth_child"
+					>
+						Datum narození dítěte:
+					</label>
+					<input
+						className={`form__input--info ${validChildDateOfBirthClass}`}
+						id="lektor-date_of_birth_child"
+						name="date_of_birth_child"
+						type="date"
+						autoComplete="off"
+						value={dateOfBirthChild}
+						onChange={onChildDateOfBirthChanged}
+					/>
+					<br />
+					<details open>
+						<summary>Kontakt</summary>
+						<label
+							className="form__label"
+							htmlFor="client-gmail_child"
+						>
+							G-mail dítěte:
+						</label>
+						<input
+							className={`form__input--info ${validChildGmailClass}`}
+							id="client-gmail_child"
+							name="gmail_child"
+							type="text"
+							maxLength={50}
+							autoComplete="off"
+							value={gmailChild}
+							onChange={onChildGmailChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="client-email_child"
+						>
+							E-mail dítěte:
+						</label>
+						<input
+							className={`form__input--info ${validChildEmailClass}`}
+							id="client-email_child"
+							name="email_child"
+							type="text"
+							maxLength={50}
+							autoComplete="off"
+							value={emailChild}
+							onChange={onChildEmailChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="client-phone_number_child"
+						>
+							Telefoní číslo dítěte:
+						</label>
+						<input
+							className={`form__input--info ${validChildPhoneNumberClass}`}
+							id="client-phone_number_child"
+							name="phone_number_child"
+							type="tel"
+							autoComplete="off"
+							value={phoneNumberChild}
+							onChange={onChildPhoneNumberChanged}
+						/>
+						<br />
+					</details>
+				</details>
 			</form>
 		</>
 	);

@@ -26,3 +26,7 @@
 20230102	15:26:10	60bbea9f-b6dd-49a7-b67c-ad7c2f5989a6	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
 20230102	15:27:24	44a3685b-1fd0-4082-9ff8-553b7e3ca0ac	TypeError: Cannot read properties of null (reading 'name')	DELETE	/tutorings	undefined
 20230114	14:59:57	80fc9d56-d6aa-49c0-8dce-d497f0922e19	TypeError: Client.find is not a function	GET	/clients	undefined
+20230118	07:58:31	ebfa6d1f-816b-48b4-8e2c-b86c16a911fd	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000
+20230118	07:58:48	3b6e1d24-ea64-438f-bca7-8cd6c4485dd5	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000
+20230118	07:59:25	869b09e8-75eb-4bb1-9773-b456cf679c1e	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000
+20230118	08:00:23	92a7e8f4-c715-43fa-acc2-33325e2d272b	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000

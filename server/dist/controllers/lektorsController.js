@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteLektor = exports.updateLektor = exports.createNewLektor = exports.getAllLektors = void 0;
+const Mentor = require("../models/Mentor");
+const Client = require("../models/Client");
 const Lektor = require("../models/Lektor");
 const Salary = require("../models/Salary");
 const Tutoring = require("../models/Tutoring");
@@ -40,13 +42,24 @@ const createNewLektor = (req, res) => __awaiter(void 0, void 0, void 0, function
         !surname ||
         !phone_num ||
         !date_of_birth ||
+        !email ||
         !bank_account) {
         return res.status(400).json({
             message: "Pole zodpovídající lektor, uživatelské jméno, heslo, jméno, příjmení, bankovní účet, datum narození a telefoní číslo jsou povinná",
         });
     }
     // Duplicates
-    if (yield Lektor.findOne({ username }).lean().exec()) {
+    const foundClient = yield Client.findOne({ username }).lean().exec();
+    const foundLektor = yield Lektor.findOne({ username }).lean().exec();
+    const foundMentor = yield Mentor.findOne({ username }).lean().exec();
+    const duplicate = foundMentor
+        ? foundMentor
+        : foundClient
+            ? foundClient
+            : foundLektor
+                ? foundLektor
+                : undefined;
+    if (duplicate) {
         return res.status(400).json({
             message: `Lektor s uživatelksým jménem: ${username} již existuje`,
         });
@@ -82,7 +95,7 @@ exports.createNewLektor = createNewLektor;
 // @route PATCH /lektors
 // @access Private
 const updateLektor = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, mentor, username, password, name, surname, gmail, email, phone_num, date_of_birth, bank_account, others, active, } = req.body;
+    const { id, mentor, username, password_old, password_new, name, surname, gmail, email, phone_num, date_of_birth, bank_account, others, active, } = req.body;
     // All fields except password, gmail, email are required
     if (!id ||
         !mentor ||
@@ -90,6 +103,7 @@ const updateLektor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         !name ||
         !surname ||
         !phone_num ||
+        !email ||
         typeof active !== "boolean" ||
         !date_of_birth ||
         !bank_account) {
@@ -103,7 +117,16 @@ const updateLektor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(400).json({ message: "Lektor nenalezen" });
     }
     // Looking for a duplicate (except the one being updated)
-    const duplicate = yield Lektor.findOne({ username }).lean().exec();
+    const foundClient = yield Client.findOne({ username }).lean().exec();
+    const foundLektor = yield Lektor.findOne({ username }).lean().exec();
+    const foundMentor = yield Mentor.findOne({ username }).lean().exec();
+    const duplicate = foundMentor
+        ? foundMentor
+        : foundClient
+            ? foundClient
+            : foundLektor
+                ? foundLektor
+                : undefined;
     if (duplicate && (duplicate === null || duplicate === void 0 ? void 0 : duplicate._id.toString()) !== id) {
         return res.status(400).json({
             message: `Lektor s uživatelským jménem: ${username} již existuje`,
@@ -116,16 +139,21 @@ const updateLektor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     lektorToUpdate.phone_num = phone_num;
     lektorToUpdate.date_of_birth = date_of_birth;
     lektorToUpdate.bank_account = bank_account;
+    lektorToUpdate.email = email;
     lektorToUpdate.active = active;
     // Changing password, email, gamil
-    if (password) {
-        lektorToUpdate.password = yield bcrypt.hash(password, 10);
+    if (password_old) {
+        if (yield bcrypt.compare(password_old, lektorToUpdate.password)) {
+            lektorToUpdate.password = yield bcrypt.hash(password_new, 10);
+        }
+        else {
+            return res.status(400).json({
+                message: `Zadáno chybné heslo`,
+            });
+        }
     }
     if (gmail) {
         lektorToUpdate.gmail = gmail;
-    }
-    if (email) {
-        lektorToUpdate.email = email;
     }
     if (others) {
         lektorToUpdate.others = others;

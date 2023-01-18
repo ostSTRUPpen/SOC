@@ -46,7 +46,14 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 	}, [value]);
 
 	let canSave: boolean =
-		[mentor, lektor, validValue, date].every(Boolean) && !isLoading;
+		[
+			mentor,
+			lektor,
+			validValue,
+			date,
+			mentor !== "0",
+			lektor !== "0",
+		].every(Boolean) && !isLoading;
 
 	const onSaveSalaryClicked = async (e: any) => {
 		await updateSalary({
@@ -71,7 +78,11 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 		await deleteSalary({ id: salary.id });
 	};
 
-	let optionsMentor: Array<JSX.Element> = [];
+	let optionsMentor: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat mentora
+		</option>,
+	];
 	for (let i = 0; i < mentors.length; i++) {
 		optionsMentor.push(
 			<option
@@ -81,13 +92,17 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 		);
 	}
 
-	let optionsLektor: Array<JSX.Element> = [];
+	let optionsLektor: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat lektora
+		</option>,
+	];
 	for (let i = 0; i < lektors.length; i++) {
 		optionsLektor.push(
 			<option
 				key={lektors[i].id}
 				value={lektors[i].id}
-			>{`${lektors[i].name_parent} ${lektors[i].surname_parent}`}</option>
+			>{`${lektors[i].name} ${lektors[i].surname}`}</option>
 		);
 	}
 
@@ -97,8 +112,10 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 	const onDateChanged = (e: any) => setDate(e.target.value);
 
 	const errorClass = isError || isDelError ? "errorMessage" : "hide";
-	const validMentorClass = !mentor ? "form__input--incomplete" : "";
-	const validLektorClass = !lektor ? "form__input--incomplete" : "";
+	const validMentorClass =
+		!mentor || mentor === "0" ? "form__input--incomplete" : "";
+	const validLektorClass =
+		!lektor || lektor === "0" ? "form__input--incomplete" : "";
 	const validValueClass = !validValue ? "form__input--incomplete" : "";
 	const validDateClass = !date ? "form__input--incomplete" : "";
 

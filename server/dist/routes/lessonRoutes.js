@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const lessonController = require("../controllers/lessonsController");
+//router.use(verifyJWT);
 router
     .route("/")
     .get(lessonController.getAllLessons)

@@ -32,7 +32,9 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 	}, [subject]);
 
 	let canSave: boolean =
-		[lektor, client, validSubject].every(Boolean) && !isLoading;
+		[lektor, client, validSubject, lektor !== "0", client !== "0"].every(
+			Boolean
+		) && !isLoading;
 
 	const onSaveTutoringClicked = async (e: any) => {
 		await addNewTutoring({
@@ -51,7 +53,11 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 		/* Možná bude třeba změnit ^ TODO */
 	};
 
-	let optionsLektor: Array<JSX.Element> = [];
+	let optionsLektor: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat lektora
+		</option>,
+	];
 	for (let i = 0; i < lektors.length; i++) {
 		optionsLektor.push(
 			<option
@@ -61,7 +67,11 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 		);
 	}
 
-	let optionsClient: Array<JSX.Element> = [];
+	let optionsClient: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat klienta
+		</option>,
+	];
 	for (let i = 0; i < clients.length; i++) {
 		optionsClient.push(
 			<option
@@ -76,8 +86,10 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 	const onSubjectsChanged = (e: any) => setSubject(e.target.value);
 
 	const errorClass = isError ? "errorMessage" : "hide";
-	const validLektorClass = !lektor ? "form__input--incomplete" : "";
-	const validClientClass = !client ? "form__input--incomplete" : "";
+	const validLektorClass =
+		!lektor || lektor === "0" ? "form__input--incomplete" : "";
+	const validClientClass =
+		!client || client === "0" ? "form__input--incomplete" : "";
 	const validSubjectClass = !validSubject ? "form__input--incomplete" : "";
 
 	let errorContent;

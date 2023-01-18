@@ -46,7 +46,14 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 	}, [value]);
 
 	let canSave: boolean =
-		[mentor, client, validValue, date].every(Boolean) && !isLoading;
+		[
+			mentor,
+			client,
+			validValue,
+			date,
+			mentor !== "0",
+			client !== "0",
+		].every(Boolean) && !isLoading;
 
 	const onSaveInvoiceClicked = async (e: any) => {
 		await updateInvoice({
@@ -71,7 +78,11 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		await deleteInvoice({ id: invoice.id });
 	};
 
-	let optionsMentor: Array<JSX.Element> = [];
+	let optionsMentor: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat mentora
+		</option>,
+	];
 	for (let i = 0; i < mentors.length; i++) {
 		optionsMentor.push(
 			<option
@@ -81,7 +92,11 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		);
 	}
 
-	let optionsClient: Array<JSX.Element> = [];
+	let optionsClient: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat klienta
+		</option>,
+	];
 	for (let i = 0; i < clients.length; i++) {
 		optionsClient.push(
 			<option
@@ -90,15 +105,16 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 			>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
 		);
 	}
-
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onClientsChanged = (e: any) => setClient(e.target.value);
 	const onValuesChanged = (e: any) => setValue(e.target.value);
 	const onDateChanged = (e: any) => setDate(e.target.value);
 
 	const errorClass = isError || isDelError ? "errorMessage" : "hide";
-	const validMentorClass = !mentor ? "form__input--incomplete" : "";
-	const validClientClass = !client ? "form__input--incomplete" : "";
+	const validMentorClass =
+		!mentor || mentor === "0" ? "form__input--incomplete" : "";
+	const validClientClass =
+		!client || client === "0" ? "form__input--incomplete" : "";
 	const validValueClass = !validValue ? "form__input--incomplete" : "";
 	const validDateClass = !date ? "form__input--incomplete" : "";
 

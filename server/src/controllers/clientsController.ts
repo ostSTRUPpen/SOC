@@ -1,3 +1,5 @@
+const Lektor: any = require("../models/Lektor");
+const Mentor: any = require("../models/Mentor");
 const Client: any = require("../models/Client");
 const Invoice = require("../models/Invoice");
 const Tutoring = require("../models/Tutoring");
@@ -51,6 +53,7 @@ const createNewClient = async (req: any, res: any) => {
 		!surname_child ||
 		!phone_num_parent ||
 		!phone_num_child ||
+		!email_parent ||
 		!date_of_birth_child
 	) {
 		return res.status(400).json({
@@ -60,9 +63,22 @@ const createNewClient = async (req: any, res: any) => {
 	}
 
 	// Duplicates
-	if (await Client.findOne({ username }).lean().exec()) {
+
+	const foundClient = await Client.findOne({ username }).lean().exec();
+	const foundLektor = await Lektor.findOne({ username }).lean().exec();
+	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+
+	const duplicate = foundMentor
+		? foundMentor
+		: foundLektor
+		? foundLektor
+		: foundClient
+		? foundClient
+		: undefined;
+
+	if (duplicate) {
 		return res.status(400).json({
-			message: `Klient s uživatelksým jménem: ${username} již existuje`,
+			message: `TODO`,
 		});
 	}
 
@@ -108,7 +124,8 @@ const updateClient = async (req: any, res: any) => {
 		id,
 		mentor,
 		username,
-		password,
+		password_old,
+		password_new,
 		name_parent,
 		surname_parent,
 		name_child,
@@ -136,11 +153,12 @@ const updateClient = async (req: any, res: any) => {
 		!phone_num_parent ||
 		!phone_num_child ||
 		!date_of_birth_child ||
+		!email_parent ||
 		typeof active !== "boolean"
 	) {
 		return res.status(400).json({
 			message:
-				"Veškerá pole, kromě hesla, bankovního účtu a emailu či gmailu na rodiče i děti, jsou povinná" +
+				"Veškerá pole, kromě hesla, bankovního účtu a emailu či gmailu na rodiče i děti, jsou povinná" /*+
 				` ${[
 					id,
 					mentor,
@@ -153,7 +171,7 @@ const updateClient = async (req: any, res: any) => {
 					phone_num_child,
 					date_of_birth_child,
 					typeof active,
-				]}`,
+				]}`,*/,
 		});
 	}
 
@@ -165,10 +183,20 @@ const updateClient = async (req: any, res: any) => {
 	}
 
 	// Looking for a duplicate (except the one being updated)
-	const duplicate = await Client.findOne({ username }).lean().exec();
+	const foundClient = await Client.findOne({ username }).lean().exec();
+	const foundLektor = await Lektor.findOne({ username }).lean().exec();
+	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+
+	const duplicate = foundMentor
+		? foundMentor
+		: foundLektor
+		? foundLektor
+		: foundClient
+		? foundClient
+		: undefined;
 	if (duplicate && duplicate?._id.toString() !== id) {
 		return res.status(400).json({
-			message: `Klient s uživatelským jménem: ${username} již existuje`,
+			message: `TODO`,
 		});
 	}
 
@@ -183,19 +211,23 @@ const updateClient = async (req: any, res: any) => {
 	clientToUpdate.bank_account = bank_account;
 	clientToUpdate.date_of_birth_child = date_of_birth_child;
 	clientToUpdate.active = active;
+	clientToUpdate.email_parent = email_parent;
 
 	// Changing password, email, gamil
-	if (password) {
-		clientToUpdate.password = await bcrypt.hash(password, 10);
+	if (password_old) {
+		if (await bcrypt.compare(password_old, clientToUpdate.password)) {
+			clientToUpdate.password = await bcrypt.hash(password_new, 10);
+		} else {
+			return res.status(400).json({
+				message: `Zadáno chybné heslo`,
+			});
+		}
 	}
 	if (gmail_parent) {
 		clientToUpdate.gmail_parent = gmail_parent;
 	}
 	if (gmail_child) {
 		clientToUpdate.gmail_child = gmail_child;
-	}
-	if (email_parent) {
-		clientToUpdate.email_parent = email_parent;
 	}
 	if (email_child) {
 		clientToUpdate.email_child = email_child;

@@ -33,6 +33,14 @@ code {
   min-height: 30px; /* Set the height of the input field to 30 pixels */
 }
 
+details[open] {
+  background-color: lightgray;
+}
+
+details[open] > details[open] {
+  background-color: rgb(163, 163, 163);
+}
+
 @keyframes tick { to { transform: rotate(359deg);}}
 
 .loading {

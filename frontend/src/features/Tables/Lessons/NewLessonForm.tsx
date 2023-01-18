@@ -155,6 +155,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 					id="lesson-theme"
 					name="téma"
 					type="text"
+					maxLength={100}
 					autoComplete="off"
 					value={theme}
 					onChange={onThemeChanged}
@@ -182,6 +183,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 					id="lesson-info"
 					name="poznámky"
 					type="text"
+					maxLength={500}
 					autoComplete="off"
 					value={info}
 					onChange={onInfoChanged}

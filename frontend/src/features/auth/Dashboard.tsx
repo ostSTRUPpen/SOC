@@ -15,7 +15,7 @@ const Welcome = () => {
 	const content = (
 		<section className="Dashboard">
 			<button className="middle__button" onClick={navToMentors}>
-				Mentorři
+				Mentoři
 			</button>
 			<br />
 			<button className="middle__button" onClick={navToLektors}>

@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const USERNAME_REGEX = /^[A-z]{3,20}$/;
-const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
+const PASSWORDOLD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const GMAIL_REGEX = /^(\W|^)[\w.+-]*@gmail\.com(\W|$)$/;
 const EMAIL_REGEX = /^([A-z]|[1-9]|\.)*@([A-z]|[1-9]){2,10}\.[A-z]{1,5}$/;
 const BANK_ACCOUNT_REGEX = /^[0-9]{9,18}\/[0-9]{4}$/;
@@ -32,8 +32,11 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 	const [mentor, setMentor] = useState(lektor.mentor);
 	const [username, setUsername] = useState(lektor.username);
 	const [validUsername, setValidUsername] = useState(false);
-	const [password, setPassword] = useState(lektor.password);
-	const [validPassword, setValidPassword] = useState(false);
+	const [passwordOld, setPasswordOld] = useState(lektor.passwordOld);
+	const [validPasswordOld, setValidPasswordOld] = useState(false);
+	const [passwordNew, setPasswordNew] = useState(lektor.passwordNew);
+	const [validPasswordNew, setValidPasswordNew] = useState(false);
+
 	const [name, setName] = useState(lektor.name);
 	const [surname, setSurname] = useState(lektor.surname);
 	const [gmail, setGmail] = useState(lektor.gmail);
@@ -51,7 +54,8 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 		if (isSuccess || isDelSuccess) {
 			setMentor("");
 			setUsername("");
-			setPassword("");
+			setPasswordOld("");
+			setPasswordNew("");
 			setName("");
 			setSurname("");
 			setGmail("");
@@ -70,14 +74,18 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 	}, [username]);
 
 	useEffect(() => {
-		setValidPassword(PASSWORD_REGEX.test(password));
-	}, [password]);
+		if (passwordOld) {
+			setValidPasswordOld(PASSWORDOLD_REGEX.test(passwordOld));
+		} else {
+			setValidPasswordOld(true);
+		}
+	}, [passwordOld]);
 
 	useEffect(() => {
 		gmail ? setValidGmail(GMAIL_REGEX.test(gmail)) : setValidGmail(true);
 	}, [gmail]);
 	useEffect(() => {
-		email ? setValidEmail(EMAIL_REGEX.test(email)) : setValidEmail(true);
+		setValidEmail(EMAIL_REGEX.test(email));
 	}, [email]);
 	useEffect(() => {
 		setValidBankAccount(BANK_ACCOUNT_REGEX.test(bankAccount));
@@ -86,13 +94,23 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 		setValidPhoneNumber(PHONE_NUM_REGEX.test(phoneNumber));
 	}, [phoneNumber]);
 
+	useEffect(() => {
+		if (passwordOld) {
+			setValidPasswordNew(PASSWORDOLD_REGEX.test(passwordNew));
+		} else {
+			setValidPasswordNew(true);
+			setPasswordNew("");
+		}
+	}, [passwordNew, passwordOld]);
+
 	let canSave: boolean;
-	if (password) {
+	if (passwordOld) {
 		canSave =
 			[
 				mentor,
 				validUsername,
-				validPassword,
+				validPasswordOld,
+				validPasswordNew,
 				name,
 				surname,
 				validGmail,
@@ -100,6 +118,7 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 				validBankAccount,
 				validPhoneNumber,
 				dateOfBirth,
+				mentor !== "0",
 			].every(Boolean) && !isLoading;
 	} else {
 		canSave =
@@ -113,15 +132,17 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 				validBankAccount,
 				validPhoneNumber,
 				dateOfBirth,
+				mentor !== "0",
 			].every(Boolean) && !isLoading;
 	}
 	const onSaveLektorClicked = async (e: any) => {
-		if (password) {
+		if (passwordOld) {
 			await updateLektor({
 				id: lektor.id,
 				mentor: mentor,
 				username,
-				password,
+				password_old: passwordOld,
+				password_new: passwordNew,
 				name,
 				surname,
 				gmail,
@@ -148,7 +169,11 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 		}
 	};
 
-	let options: Array<JSX.Element> = [];
+	let options: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat mentora
+		</option>,
+	];
 	for (let i = 0; i < mentors.length; i++) {
 		options.push(
 			<option
@@ -166,7 +191,8 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 		e.preventDefault();
 		setMentor("");
 		setUsername("");
-		setPassword("");
+		setPasswordOld("");
+		setPasswordNew("");
 		setName("");
 		setSurname("");
 		setGmail("");
@@ -179,7 +205,9 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 	};
 
 	const onUsernameChanged = (e: any) => setUsername(e.target.value);
-	const onPasswordChanged = (e: any) => setPassword(e.target.value);
+	const onPasswordOldChanged = (e: any) => setPasswordOld(e.target.value);
+	const onPasswordNewChanged = (e: any) => setPasswordNew(e.target.value);
+
 	const onNameChanged = (e: any) => setName(e.target.value);
 	const onSurnameChanged = (e: any) => setSurname(e.target.value);
 	const onGmailChanged = (e: any) => setGmail(e.target.value);
@@ -189,27 +217,29 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 	const onBankAccountChanged = (e: any) => setBankAccount(e.target.value);
 	const onMentorIdChanged = (e: any) => setMentor(e.target.value);
 
-	const onActiveChanged = (e: any) => setActive(e.target.value);
+	const onActiveChanged = (e: any) => setActive((prev: any) => !prev);
 
 	const errorClass = isError || isDelError ? "errorMessage" : "hide";
 	const validUsernameClass = !validUsername ? "form__input--incomplete" : "";
-	const validPasswordClass = !validPassword
+	const validPasswordOldClass = !validPasswordOld
 		? "form__input--not_required_incomplete"
 		: "";
-	const validMentorClass = !mentor ? "form__input--incomplete" : "";
+	const validMentorClass =
+		!mentor || mentor === "0" ? "form__input--incomplete" : "";
 	const validNameClass = !name ? "form__input--incomplete" : "";
 	const validSurnameClass = !surname ? "form__input--incomplete" : "";
 	const validGmailClass = !validGmail
 		? "form__input--not_required_incomplete"
 		: "";
-	const validEmailClass = !validEmail
-		? "form__input--not_required_incomplete"
-		: "";
+	const validEmailClass = !validEmail ? "form__input--incomplete" : "";
 	const validPhoneNumberClass = !phoneNumber ? "form__input--incomplete" : "";
 	const validBankAccountClass = !validBankAccount
 		? "form__input--incomplete"
 		: "";
 	const validDateOfBirthClass = !dateOfBirth ? "form__input--incomplete" : "";
+	const validPasswordNewClass = !validPasswordNew
+		? "form__input--not_required_incomplete"
+		: "";
 
 	let errorContent;
 	if (error) {
@@ -271,150 +301,77 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 						</button>
 					</div>
 				</div>
-				<label className="form__label" htmlFor="mentors">
-					Příslušný mentor:
-				</label>
-				<select
-					id="mentors"
-					name="mentor_select"
-					className={`form__select ${validMentorClass}`}
-					multiple={false}
-					size={1}
-					value={mentor}
-					onChange={onMentorIdChanged}
-					title="Příslušný lektor"
-				>
-					{options}
-				</select>
-				<br />
-				<label className="form__label" htmlFor="lektor-username">
-					Uživatelské jméno:
-				</label>
-				<input
-					className={`form__input ${validUsernameClass}`}
-					id="lektor-username"
-					name="username"
-					type="text"
-					maxLength={20}
-					autoComplete="off"
-					value={username}
-					onChange={onUsernameChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-password">
-					Heslo:
-				</label>
-				<input
-					className={`form__input ${validPasswordClass}`}
-					id="lektor-password"
-					name="pasword"
-					type="password"
-					autoComplete="off"
-					value={password}
-					onChange={onPasswordChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-name">
-					Jméno:
-				</label>
-				<input
-					className={`form__input ${validNameClass}`}
-					id="lektor-name"
-					name="lektor-name"
-					maxLength={50}
-					type="text"
-					autoComplete="off"
-					value={name}
-					onChange={onNameChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-surname">
-					Příjmení:
-				</label>
-				<input
-					className={`form__input--info ${validSurnameClass}`}
-					id="lektor-surname"
-					name="poznámky"
-					type="text"
-					maxLength={50}
-					autoComplete="off"
-					value={surname}
-					onChange={onSurnameChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-date_of_birth">
-					Datum narození:
-				</label>
-				<input
-					className={`form__input--info ${validDateOfBirthClass}`}
-					id="lektor-date_of_birth"
-					name="date_of_birtht"
-					type="date"
-					autoComplete="off"
-					value={dateOfBirth}
-					onChange={onDateOfBirthChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-gmail">
-					G-mail:
-				</label>
-				<input
-					className={`form__input--info ${validGmailClass}`}
-					id="lektor-gmail"
-					name="gmail"
-					type="text"
-					maxLength={50}
-					autoComplete="off"
-					value={gmail}
-					onChange={onGmailChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-email">
-					E-mail:
-				</label>
-				<input
-					className={`form__input--info ${validEmailClass}`}
-					id="lektor-email"
-					name="email"
-					type="text"
-					maxLength={55}
-					autoComplete="off"
-					value={email}
-					onChange={onEmailChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-phone_number">
-					Telefoní číslo:
-				</label>
-				<input
-					className={`form__input--info ${validPhoneNumberClass}`}
-					id="lektor-phone_number"
-					name="phone_number"
-					type="tel"
-					autoComplete="off"
-					value={phoneNumber}
-					onChange={onPhoneNumberChanged}
-				/>
-				<br />
-				<label className="form__label" htmlFor="lektor-bank_account">
-					Číslo účtu:
-				</label>
-				<input
-					className={`form__input--info ${validBankAccountClass}`}
-					id="lektor-bank_account"
-					name="bank_account"
-					type="text"
-					maxLength={25}
-					autoComplete="off"
-					value={bankAccount}
-					onChange={onBankAccountChanged}
-				/>
-				<br />
-				<label
-					className="form__label form__checkbox-container"
-					htmlFor="lektor-active"
-				>
-					účet aktivní:
+				<details>
+					<summary>Účet</summary>
+					<label className="form__label" htmlFor="mentors">
+						Příslušný mentor:
+					</label>
+					<select
+						id="mentors"
+						name="mentor_select"
+						className={`form__select ${validMentorClass}`}
+						multiple={false}
+						size={1}
+						value={mentor}
+						onChange={onMentorIdChanged}
+						title="Příslušný lektor"
+					>
+						{options}
+					</select>
+					<br />
+					<label className="form__label" htmlFor="lektor-username">
+						Uživatelské jméno:
+					</label>
+					<input
+						className={`form__input ${validUsernameClass}`}
+						id="lektor-username"
+						name="username"
+						type="text"
+						maxLength={20}
+						autoComplete="off"
+						value={username}
+						onChange={onUsernameChanged}
+					/>
+					<details>
+						<summary>Změnit heslo</summary>
+						<label
+							className="form__label"
+							htmlFor="lektor-passwordNew"
+						>
+							Staré heslo:
+						</label>
+						<input
+							className={`form__input ${validPasswordNewClass}`}
+							id="lektor-passwordNew"
+							name="password"
+							type="password"
+							autoComplete="current-password"
+							value={passwordNew}
+							onChange={onPasswordNewChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="lektor-password-new"
+						>
+							Nové heslo:
+						</label>
+						<input
+							className={`form__input ${validPasswordOldClass}`}
+							id="lektor-password-new"
+							name="password"
+							type="password"
+							autoComplete="new-password"
+							value={passwordOld}
+							onChange={onPasswordOldChanged}
+						/>
+					</details>
+					<label
+						className="form__label form__checkbox-container"
+						htmlFor="lektor-active"
+					>
+						účet aktivní:
+					</label>
 					<input
 						className="form__checkbox"
 						id="lektor-active"
@@ -423,7 +380,119 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 						checked={active}
 						onChange={onActiveChanged}
 					/>
-				</label>
+				</details>
+				<br />
+				<details>
+					<summary>Údaje</summary>
+					<label className="form__label" htmlFor="lektor-name">
+						Jméno:
+					</label>
+					<input
+						className={`form__input ${validNameClass}`}
+						id="lektor-name"
+						name="lektor-name"
+						maxLength={50}
+						type="text"
+						autoComplete="off"
+						value={name}
+						onChange={onNameChanged}
+					/>
+					<br />
+					<label className="form__label" htmlFor="lektor-surname">
+						Příjmení:
+					</label>
+					<input
+						className={`form__input--info ${validSurnameClass}`}
+						id="lektor-surname"
+						name="poznámky"
+						type="text"
+						maxLength={50}
+						autoComplete="off"
+						value={surname}
+						onChange={onSurnameChanged}
+					/>
+					<br />
+					<label
+						className="form__label"
+						htmlFor="lektor-date_of_birth"
+					>
+						Datum narození:
+					</label>
+					<input
+						className={`form__input--info ${validDateOfBirthClass}`}
+						id="lektor-date_of_birth"
+						name="date_of_birtht"
+						type="date"
+						autoComplete="off"
+						value={dateOfBirth}
+						onChange={onDateOfBirthChanged}
+					/>
+					<br />
+					<details>
+						<summary>Kontakt</summary>
+						<label className="form__label" htmlFor="lektor-gmail">
+							G-mail:
+						</label>
+						<input
+							className={`form__input--info ${validGmailClass}`}
+							id="lektor-gmail"
+							name="gmail"
+							type="text"
+							maxLength={50}
+							autoComplete="off"
+							value={gmail}
+							onChange={onGmailChanged}
+						/>
+						<br />
+						<label className="form__label" htmlFor="lektor-email">
+							E-mail:
+						</label>
+						<input
+							className={`form__input--info ${validEmailClass}`}
+							id="lektor-email"
+							name="email"
+							type="text"
+							maxLength={50}
+							autoComplete="off"
+							value={email}
+							onChange={onEmailChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="lektor-phone_number"
+						>
+							Telefoní číslo:
+						</label>
+						<input
+							className={`form__input--info ${validPhoneNumberClass}`}
+							id="lektor-phone_number"
+							name="phone_number"
+							type="tel"
+							autoComplete="off"
+							value={phoneNumber}
+							onChange={onPhoneNumberChanged}
+						/>
+						<br />
+						<label
+							className="form__label"
+							htmlFor="lektor-bank_account"
+						>
+							Číslo účtu:
+						</label>
+						<input
+							className={`form__input--info ${validBankAccountClass}`}
+							id="lektor-bank_account"
+							name="bank_account"
+							type="text"
+							maxLength={25}
+							autoComplete="off"
+							value={bankAccount}
+							onChange={onBankAccountChanged}
+						/>
+						<br />
+					</details>
+				</details>
 			</form>
 		</>
 	);
