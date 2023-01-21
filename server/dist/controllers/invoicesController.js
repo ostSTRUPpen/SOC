@@ -11,7 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteInvoice = exports.updateInvoice = exports.createNewInvoice = exports.getAllInvoices = void 0;
 const Invoice = require("../models/Invoice");
-const Client = require("../models/Client");
+const Tutoring = require("../models/Tutoring");
 const Mentor = require("../models/Mentor");
 // @desc Get all invoices
 // @route GET /invoices
@@ -30,8 +30,8 @@ exports.getAllInvoices = getAllInvoices;
 // @route POST /invoices
 // @access Private
 const createNewInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { mentor, client, value, date } = req.body;
-    if (!mentor || !client || !value || !date) {
+    const { mentor, client, value, date, tutoring } = req.body;
+    if (!mentor || !client || !value || !date || !tutoring) {
         return res.status(400).json({
             message: "Všechna pole jsou povinná",
         });
@@ -39,9 +39,11 @@ const createNewInvoice = (req, res) => __awaiter(void 0, void 0, void 0, functio
     const duplicate = yield Invoice.findOne({
         mentor: mentor,
         client: client,
+        tutoring: tutoring,
         date: date,
         value: value,
     })
+        .collation({ locale: "cs", strength: 2 })
         .lean()
         .exec();
     if (duplicate) {
@@ -52,14 +54,14 @@ const createNewInvoice = (req, res) => __awaiter(void 0, void 0, void 0, functio
     const invoiceObject = {
         mentor,
         client,
+        tutoring,
         date,
         value,
     };
     const invoice = yield Invoice.create(invoiceObject);
     if (invoice) {
-        const clientInfo = yield Client.findById(invoice.client).lean().exec();
         res.status(201).json({
-            message: `Nová faktura s datem ${date} a částkou ${value} od klienta ${clientInfo.name_parent} ${clientInfo.surname_parent} zaznamenána`,
+            message: `Nová faktura zaznamenána`,
         });
     }
     else {
@@ -71,8 +73,8 @@ exports.createNewInvoice = createNewInvoice;
 // @route PATCH /invoices
 // @access Private
 const updateInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, mentor, client, value, date } = req.body;
-    if (!id || !mentor || !client || !value || !date) {
+    const { id, mentor, client, value, date, tutoring } = req.body;
+    if (!id || !mentor || !client || !value || !date || !tutoring) {
         return res.status(400).json({
             message: "Všechna pole jsou povinná",
         });
@@ -85,9 +87,11 @@ const updateInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     const duplicate = yield Invoice.findOne({
         mentor: mentor,
         client: client,
+        tutoring: tutoring,
         date: date,
         value: value,
     })
+        .collation({ locale: "cs", strength: 2 })
         .lean()
         .exec();
     if (duplicate && (duplicate === null || duplicate === void 0 ? void 0 : duplicate._id.toString()) !== id) {
@@ -95,13 +99,13 @@ const updateInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             message: `Tato faktura již existuje`,
         });
     }
-    invoiceToUpdate.client = client;
+    invoiceToUpdate.tutoring = tutoring;
     invoiceToUpdate.mentor = mentor;
     invoiceToUpdate.value = value;
     invoiceToUpdate.date = date;
     const updatedInvoice = yield invoiceToUpdate.save();
     res.json({
-        message: `Faktura s datem ${date} a částkou ${value} upravena`,
+        message: `Faktura s datem ${updatedInvoice.date} upravena`,
     });
 });
 exports.updateInvoice = updateInvoice;

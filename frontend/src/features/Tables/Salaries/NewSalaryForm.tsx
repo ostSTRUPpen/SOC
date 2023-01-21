@@ -9,7 +9,7 @@ import { ROLES } from "../../../config/roles";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
 
-const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
+const NewSalaryForm = ({ mentorId, mentors, lektors, tutorings }: any) => {
 	const day = new Date();
 	let today: string = `${day.getFullYear()}-${String(
 		day.getMonth() + 1
@@ -35,6 +35,7 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 
 	const [mentor, setMentor] = useState("");
 	const [lektor, setLektor] = useState("");
+	const [tutoring, setTutoring] = useState("");
 	const [value, setValue] = useState(defaultValue);
 	const [validValue, setValidValue] = useState(false);
 	const [date, setDate] = useState(today);
@@ -45,6 +46,7 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 		if (isSuccess) {
 			setMentor("");
 			setLektor("");
+			setTutoring("");
 			setValue("");
 			setDate("");
 			if (role === ROLES.Mentor) {
@@ -64,16 +66,19 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 		[
 			mentor,
 			lektor,
+			tutoring,
 			validValue,
 			date,
 			mentor !== "0",
 			lektor !== "0",
+			tutoring !== "0",
 		].every(Boolean) && !isLoading;
 
 	const onSaveSalaryClicked = async (e: any) => {
 		await addNewSalary({
 			mentor,
 			lektor,
+			tutoring,
 			value,
 			date,
 		});
@@ -83,6 +88,7 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 		e.preventDefault();
 		setMentor("");
 		setLektor("");
+		setTutoring("");
 		setValue("");
 		if (role === ROLES.Mentor) {
 			navigate(`/sec/salaries/show1/${id}`);
@@ -125,9 +131,24 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 			);
 		}
 	}
+	let optionsTutoring: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat doučování
+		</option>,
+	];
+	for (let i = 0; i < tutorings.length; i++) {
+		if (tutorings[i].lektor === lektor) {
+			optionsTutoring.push(
+				<option key={tutorings[i].id} value={tutorings[i].id}>
+					{tutorings[i].name}
+				</option>
+			);
+		}
+	}
 
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onLektorsChanged = (e: any) => setLektor(e.target.value);
+	const onTutoringsChanged = (e: any) => setTutoring(e.target.value);
 	const onValuesChanged = (e: any) => setValue(e.target.value);
 	const onDateChanged = (e: any) => setDate(e.target.value);
 
@@ -136,6 +157,8 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 		!mentor || mentor === "0" ? "form__input--incomplete" : "";
 	const validLektorClass =
 		!lektor || lektor === "0" ? "form__input--incomplete" : "";
+	const validTutoringClass =
+		!tutoring || tutoring === "0" ? "form__input--incomplete" : "";
 	const validValueClass = !validValue ? "form__input--incomplete" : "";
 	const validDateClass = !date ? "form__input--incomplete" : "";
 
@@ -154,7 +177,7 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -206,6 +229,21 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 					{optionsLektor}
 				</select>
 				<br />
+				<label className="form__label" htmlFor="tutorings">
+					Doučování:
+				</label>
+				<select
+					id="tutorings"
+					name="tutoring_select"
+					className={`form__select ${validTutoringClass}`}
+					multiple={false}
+					size={1}
+					value={tutoring}
+					onChange={onTutoringsChanged}
+					title="Příslušné doučování">
+					{optionsTutoring}
+				</select>
+				<br />
 				<label className="form__label" htmlFor="date">
 					Datum:
 				</label>
@@ -234,7 +272,7 @@ const NewSalaryForm = ({ mentorId, mentors, lektors }: any) => {
 				/>
 				<br />
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

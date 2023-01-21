@@ -2,21 +2,28 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-import { selectInvoiceById } from "./invoicesApiSlice";
-import { selectMentorById } from "../Mentors/mentorsApiSlice";
-import { selectClientById } from "../Klients/clientsApiSlice";
+import { useGetInvoicesQuery } from "./invoicesApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
+import { useGetClientsQuery } from "../Klients/clientsApiSlice";
 
 import useAuth from "../../../hooks/useAuth";
 
 const Invoice: any = ({ invoiceId }: any) => {
-	const invoice = useSelector((state) => selectInvoiceById(state, invoiceId));
-	const mentor = useSelector((state) =>
-		selectMentorById(state, invoice.mentor)
-	);
-	const client = useSelector((state) =>
-		selectClientById(state, invoice.client)
-	);
+	const { invoice } = useGetInvoicesQuery("invoicesList", {
+		selectFromResult: ({ data }: any) => ({
+			invoice: data?.entities[invoiceId],
+		}),
+	});
+	const { mentor } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentor: data?.entities[invoice.mentor],
+		}),
+	});
+	const { client } = useGetClientsQuery("clientsList", {
+		selectFromResult: ({ data }: any) => ({
+			client: data?.entities[invoice.client],
+		}),
+	});
 
 	const { isAdmin, isMentor } = useAuth();
 
@@ -40,7 +47,7 @@ const Invoice: any = ({ invoiceId }: any) => {
 				</button>
 			);
 		} else {
-			editing = <></>;
+			editing = <div></div>;
 		}
 
 		return (

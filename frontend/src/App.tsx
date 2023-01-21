@@ -30,8 +30,11 @@ import EditMentor from "./features/Tables/Mentors/EditMentor";
 import PersistLogin from "./features/auth/PersistLogin";
 import RequireAuth from "./features/auth/RequireAuth";
 import { ROLES } from "./config/roles";
+import useTitle from "./hooks/useTitle";
+import Finances from "./features/Finances/Finances";
 
 function App() {
+	useTitle("Learning Triangle")
 	return (
 		<Routes>
 			<Route path="/" element={<Layout />}>
@@ -50,6 +53,9 @@ function App() {
 							<Route path="sec" element={<SecureLayout />}>
 								{/* /sec > */}
 								<Route index element={<Dashboard />} />
+
+								<Route path="finances/:tutoringId" element={<Finances />} />
+
 								<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
 									<Route path="mentors">
 										{/* /mentors > */}
@@ -75,32 +81,22 @@ function App() {
 									<Route path=":id" element={<DisplayLessons />}
 									/>
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
-										<Route path="edit">
-											<Route path=":tutoringId" element={<EditTutoring />} 
+											<Route path="edit/:tutoringId" element={<EditTutoring />} 
 											/>
-										</Route>
-										<Route path="new">
-											<Route index element={<NewTutoring />} 
-											/>
-										</Route>
+										<Route path="new" element={<NewTutoring />}
+										/>
 									</Route>
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor,  ROLES.Lektor]} /> }>
-										<Route path="show1">
-											<Route path=":lektorId" element={<TutoringsList />}
+											<Route path="show1/:lektorId" element={<TutoringsList />}
 											/>
-										</Route>
 									</Route>
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor, ROLES.Client]} /> }>
-										<Route path="show2">
-											<Route path=":klientId" element={<TutoringsList />}
+											<Route path="show2/:klientId" element={<TutoringsList />}
 											/>
-										</Route>
 									</Route>
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
-										<Route path="show3">
-											<Route path=":mentorId" element={<TutoringsList />}
+											<Route path="show3/:mentorId" element={<TutoringsList />}
 											/>
-										</Route>
 									</Route>
 								</Route>
 								{/* < /tutorings */}
@@ -109,10 +105,8 @@ function App() {
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor, ROLES.Lektor]} /> }> 
 										<Route path=":id" element={<EditLesson />}
 										/>
-										<Route path="new">
-											<Route path=":tutoringId" element={<NewLesson />}
-											/>
-										</Route>
+										<Route path="new/:tutoringId" element={<NewLesson />}
+										/>
 									</Route>
 								</Route>
 								{/* < /lessons */}
@@ -127,10 +121,8 @@ function App() {
 										<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
 											<Route path="new" element={<NewLektor />} 
 											/>
-											<Route path="show">
-												<Route path=":mentorId" element={<LektorsList />}
-												/>
-											</Route>
+											<Route path="show/:mentorId" element={<LektorsList />}
+											/>
 										</Route>
 									</Route>
 								</Route>
@@ -145,10 +137,8 @@ function App() {
 										<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor ]} /> }>
 											<Route path="new" element={<NewClient />} 
 											/>
-											<Route path="show">
-												<Route path=":mentorId" element={<ClientsList />}
-												/>
-											</Route>
+											<Route path="show/:mentorId" element={<ClientsList />}
+											/>
 										</Route>
 									</Route>
 								</Route>
@@ -161,25 +151,18 @@ function App() {
 											/>
 										</Route>
 										<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
-											<Route path="edit">
-												<Route path=":invoiceId" element={<EditInvoice />}
-												/>
+											<Route path="edit/:invoiceId" element={<EditInvoice />}
+											/>
 											</Route>
-											<Route path="new">
-												<Route index element={<NewInvoice />} />
-											</Route>
-										</Route>
+											<Route path="new" element={<NewInvoice />}
+											/>
 										<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
-											<Route path="show1">
-												<Route path=":mentorId" element={<InvoiceList />}
-												/>
-											</Route>
+											<Route path="show1/:mentorId" element={<InvoiceList />}
+											/>
 										</Route>
 										<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor, ROLES.Client]} /> }>
-											<Route path="show2">
-												<Route path=":klientId" element={<InvoiceList />}
-												/>
-											</Route>
+											<Route path="show2/:klientId" element={<InvoiceList />}
+											/>
 										</Route>
 									</Route>
 								</Route>
@@ -191,25 +174,18 @@ function App() {
 										<Route index element={<SalaryList />} />
 									</Route>
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
-										<Route path="edit">
-											<Route path=":salaryId" element={<EditSalary />}
-											/>
-										</Route>
-										<Route path="new">
-											<Route index element={<NewSalary />} />
-										</Route>
+										<Route path="edit/:salaryId" element={<EditSalary />}
+										/>
+										<Route path="new" element={<NewSalary />}
+										/>
 									</Route>
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor]} /> }>
-										<Route path="show1">
-											<Route path=":mentorId" element={<SalaryList />}
-											/>
-										</Route>
+										<Route path="show1/:mentorId" element={<SalaryList />}
+										/>
 									</Route>
 									<Route element={ <RequireAuth allowedRoles={[ ROLES.Admin, ROLES.Mentor, ROLES.Lektor]} /> }>
-										<Route path="show2">
-											<Route path=":lektorId" element={<SalaryList />}
-											/>
-										</Route>
+										<Route path="show2/:lektorId" element={<SalaryList />}
+										/>
 									</Route>
 									{/* < /salaries/show2 */}
 								</Route>

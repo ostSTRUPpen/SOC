@@ -11,7 +11,7 @@ const errorHandler: any = (err: any, req: any, res: any, next: any) => {
 
 	res.status(status);
 
-	res.json({ message: err.message });
+	res.json({ message: err.message, isError: true });
 };
 
 export = errorHandler;

@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteTutoring = exports.updateTutoring = exports.createNewTutoring = exports.getAllTutorings = void 0;
 const Lesson = require("../models/Lesson");
 const Tutoring = require("../models/Tutoring");
-const Lektor = require("../models/Lektor");
 const Client = require("../models/Client");
+const Lektor = require("../models/Lektor");
 // @desc Get all tutorings
 // @route GET /tutorings
 // @access Private
@@ -37,12 +37,13 @@ const createNewTutoring = (req, res) => __awaiter(void 0, void 0, void 0, functi
             message: "Všechna pole jsou povinná",
         });
     }
-    const tutoring = yield Tutoring.create({ lektor, client, subject });
+    const clientInfo = yield Client.findById(client).lean().exec();
+    const lektorInfo = yield Lektor.findById(lektor).lean().exec();
+    const name = `Lektor: ${lektorInfo.name} ${lektorInfo.surname}, Klient (rodič): ${clientInfo.name_parent} ${clientInfo.surname_parent}`;
+    const tutoring = yield Tutoring.create({ lektor, client, subject, name });
     if (tutoring) {
-        const lektorInfo = yield Lektor.findById(tutoring.lektor).lean().exec();
-        const clientInfo = yield Client.findById(tutoring.client).lean().exec();
         return res.status(201).json({
-            message: `Doučování mezi ${lektorInfo.name} ${lektorInfo.surname} a ${clientInfo.name_child} ${clientInfo.surname_child} s přemětem: ${subject} vytvořeno`,
+            message: `Doučování vytvořeno`,
         });
     }
     else {
@@ -64,7 +65,10 @@ const updateTutoring = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (!tutoringToUpdate) {
         return res.status(400).json({ message: "Doučování nenalezeno" });
     }
-    const duplicate = yield Tutoring.findOne({ id }).lean().exec();
+    const duplicate = yield Tutoring.findOne({ id })
+        .collation({ locale: "cs", strength: 2 })
+        .lean()
+        .exec();
     if ((yield Tutoring.findOne({
         client: client,
         lektor: lektor,
@@ -73,29 +77,21 @@ const updateTutoring = (req, res) => __awaiter(void 0, void 0, void 0, function*
         .lean()
         .exec()) &&
         (duplicate === null || duplicate === void 0 ? void 0 : duplicate._id.toString()) !== id) {
-        const lektorInfo = yield Lektor.findById(tutoringToUpdate.lektor)
-            .lean()
-            .exec();
-        const clientInfo = yield Client.findById(tutoringToUpdate.client)
-            .lean()
-            .exec();
         return res.status(201).json({
-            message: `Doučování mezi ${lektorInfo.name} ${lektorInfo.surname} a ${clientInfo.name_child} ${clientInfo.surname_child} s přemětem: ${subject} již existuje`,
+            message: `Takové doučování již existuje`,
         });
     }
     tutoringToUpdate.client = client;
     tutoringToUpdate.lektor = lektor;
     tutoringToUpdate.subject = subject;
     tutoringToUpdate.active = active;
+    const clientInfo = yield Client.findById(client).lean().exec();
+    const lektorInfo = yield Lektor.findById(lektor).lean().exec();
+    const name = `Lektor: ${lektorInfo.name} ${lektorInfo.surname}, Klient (rodič): ${clientInfo.name_parent} ${clientInfo.surname_parent}`;
+    tutoringToUpdate.name = name;
     const updatedTutoring = yield tutoringToUpdate.save();
-    const lektorUpdated = yield Lektor.findById(updatedTutoring.lektor)
-        .lean()
-        .exec();
-    const clientUpdated = yield Client.findById(updatedTutoring.client)
-        .lean()
-        .exec();
     res.json({
-        message: `Doučování mezi ${lektorUpdated.name} ${lektorUpdated.surname} a ${clientUpdated.name_child} ${clientUpdated.surname_child} s přemětem: ${subject} bylo upraveno`,
+        message: `Doučování upraveno`,
     });
 });
 exports.updateTutoring = updateTutoring;
@@ -121,9 +117,7 @@ const deleteTutoring = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(400).json({ message: "Doučování nenalezeno" });
     }
     const result = yield tutoringToDelete.deleteOne();
-    const lektorInfo = yield Lektor.findById(result.lektor).lean().exec();
-    const clientInfo = yield Client.findById(result.client).lean().exec();
-    const reply = `Doučování mezi ${lektorInfo.name} ${lektorInfo.surname} a ${clientInfo.name_child} ${clientInfo.surname_child} s přemětem: ${result.subject} vymazáno`;
+    const reply = `Doučování mezi vymazáno`;
     res.json(reply);
 });
 exports.deleteTutoring = deleteTutoring;

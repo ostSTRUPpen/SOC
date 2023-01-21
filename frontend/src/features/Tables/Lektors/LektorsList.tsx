@@ -2,8 +2,10 @@ import { useGetLektorsQuery } from "./lektorsApiSlice";
 import Lektor from "./Lektor";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useTitle from "../../../hooks/useTitle";
 
 const LektorsList = () => {
+	useTitle("LT IS: List lektorů");
 	const { mentorId }: any = useParams();
 	const {
 		data: lektors,
@@ -64,63 +66,54 @@ const LektorsList = () => {
 			: null;
 
 		content = (
-			<>
+			<div>
 				<div>
 					<table className="table table--lektors">
 						<thead className="table_header">
 							<tr>
 								<th
 									scope="col"
-									className="table__th lektor__mentor"
-								>
+									className="table__th lektor__mentor">
 									Příslušný mentor
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__username"
-								>
+									className="table__th lektor__username">
 									Uživatelské jméno
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__name"
-								>
+									className="table__th lektor__name">
 									Jméno
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__surname"
-								>
+									className="table__th lektor__surname">
 									Příjmení
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__date_of_birth"
-								>
+									className="table__th lektor__date_of_birth">
 									Datum narození
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__gmail"
-								>
+									className="table__th lektor__gmail">
 									g-mail
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__email"
-								>
+									className="table__th lektor__email">
 									e-email
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__phone_number"
-								>
+									className="table__th lektor__phone_number">
 									Telefoní číslo
 								</th>
 								<th
 									scope="col"
-									className="table__th lektor__bank_account"
-								>
+									className="table__th lektor__bank_account">
 									Bankovní účet
 								</th>
 							</tr>
@@ -132,7 +125,7 @@ const LektorsList = () => {
 				<p>
 					<Link to="/sec/lektors/new/">Přidat lektora</Link>
 				</p>
-			</>
+			</div>
 		);
 	}
 	return content;

@@ -15,12 +15,12 @@ const initialState = invoicesAdapter.getInitialState();
 export const invoicesApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getInvoices: builder.query({
-			query: () => "/invoices",
-			/*validateStatus: (response: any, result: any) => {
-				return response.status === 200 && !result.isError;
-			},*/
-			// 5 sekund - smazat až půjde do production (PROD)
-			//keepUnusedDataFor: 5,
+			query: () => ({
+				url: "/invoices",
+				validateStatus: (response: any, result: any) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData: any) => {
 				const loadedInvoices = responseData.map((invoice: any) => {
 					invoice.id = invoice._id;

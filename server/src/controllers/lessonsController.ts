@@ -32,6 +32,7 @@ const createNewLesson = async (req: any, res: any) => {
 			lesson_number: lesson_number,
 			tutoring: tutoring,
 		})
+			.collation({ locale: "cs", strength: 2 })
 			.lean()
 			.exec()
 	) {

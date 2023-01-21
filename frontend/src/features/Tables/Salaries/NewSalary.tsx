@@ -1,21 +1,43 @@
-import { useParams } from "react-router-dom";
-import { selectAllLektors } from "../Lektors/lektorsApiSlice";
-import { selectAllMentors } from "../Mentors/mentorsApiSlice";
+import { useGetLektorsQuery } from "../Lektors/lektorsApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
+import { useGetTutoringsQuery } from "../Tutorings/tutoringsApiSlice";
 import NewSalaryForm from "./NewSalaryForm";
-import { useSelector } from "react-redux";
+import useAuth from "../../../hooks/useAuth";
+import useTitle from "../../../hooks/useTitle";
 
 const NewSalary = () => {
-	const { mentorId } = useParams();
+	useTitle("LT IS: Tvorba výplaty");
 
-	const mentors = useSelector(selectAllMentors);
-	const lektors = useSelector(selectAllLektors);
+	const { mentors } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentors: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { lektors } = useGetLektorsQuery("lektorsList", {
+		selectFromResult: ({ data }: any) => ({
+			lektors: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { tutorings } = useGetTutoringsQuery("tutoringsList", {
+		selectFromResult: ({ data }: any) => ({
+			tutorings: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { isAdmin, isMentor } = useAuth();
+
+	if (!isAdmin && !isMentor) {
+		return <div className="no_access">Access denied</div>;
+	}
 
 	const content: JSX.Element =
-		/*mentorId && */ mentors && lektors ? (
+		mentors && lektors && tutorings ? (
 			<NewSalaryForm
-				mentorId={mentorId}
 				mentors={mentors}
 				lektors={lektors}
+				tutorings={tutorings}
 			/>
 		) : (
 			<div className="loading"></div>

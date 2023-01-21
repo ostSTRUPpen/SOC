@@ -1,9 +1,21 @@
-import { useSelector } from "react-redux";
 import NewLektorForm from "./NewLektorForm";
-import { selectAllMentors } from "../Mentors/mentorsApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
+import useAuth from "../../../hooks/useAuth";
+import useTitle from "../../../hooks/useTitle";
 const NewLektor = () => {
-	const mentors = useSelector(selectAllMentors);
+	useTitle("LT IS: Tvorba lektora");
 
+	const { mentors } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentors: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { isAdmin, isMentor } = useAuth();
+
+	if (!isAdmin && !isMentor) {
+		return <div className="no_access">Access denied</div>;
+	}
 	const content: JSX.Element = mentors ? (
 		<NewLektorForm mentors={mentors} />
 	) : (

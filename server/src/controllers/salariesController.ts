@@ -21,8 +21,8 @@ const getAllSalaries = async (req: any, res: any) => {
 // @route POST /salaries
 // @access Private
 const createNewSalary = async (req: any, res: any) => {
-	const { mentor, lektor, value, date } = req.body;
-	if (!mentor || !lektor || !value || !date) {
+	const { mentor, lektor, value, date, tutoring } = req.body;
+	if (!mentor || !lektor || !value || !date || !tutoring) {
 		return res.status(400).json({
 			message: "Všechna pole jsou povinná",
 		});
@@ -31,6 +31,7 @@ const createNewSalary = async (req: any, res: any) => {
 	const duplicate = await Salary.findOne({
 		mentor: mentor,
 		lektor: lektor,
+		tutoring: tutoring,
 		date: date,
 		value: value,
 	})
@@ -45,15 +46,15 @@ const createNewSalary = async (req: any, res: any) => {
 	const salaryObject = {
 		mentor,
 		lektor,
+		tutoring,
 		date,
 		value,
 	};
 
 	const salary = await Salary.create(salaryObject);
 	if (salary) {
-		const lektorInfo = await Lektor.findById(salary.lektor).lean().exec();
 		res.status(201).json({
-			message: `Nová výplata s datem ${date} a částkou ${value} pro lektora ${lektorInfo.name} ${lektorInfo.surname} zaznamenána`,
+			message: `Nová výplata zaznamenána`,
 		});
 	} else {
 		res.status(400).json({ message: `Došlo k chybě` });
@@ -64,8 +65,8 @@ const createNewSalary = async (req: any, res: any) => {
 // @route PATCH /salaries
 // @access Private
 const updateSalary = async (req: any, res: any) => {
-	const { id, mentor, lektor, value, date } = req.body;
-	if (!id || !mentor || !lektor || !value || !date) {
+	const { id, mentor, lektor, value, date, tutoring } = req.body;
+	if (!id || !mentor || !lektor || !value || !date || !tutoring) {
 		return res.status(400).json({
 			message: "Všechna pole jsou povinná",
 		});
@@ -81,6 +82,7 @@ const updateSalary = async (req: any, res: any) => {
 	const duplicate = await Salary.findOne({
 		mentor: mentor,
 		lektor: lektor,
+		tutoring: tutoring,
 		date: date,
 		value: value,
 	})
@@ -94,13 +96,14 @@ const updateSalary = async (req: any, res: any) => {
 
 	salaryToUpdate.lektor = lektor;
 	salaryToUpdate.mentor = mentor;
+	salaryToUpdate.tutoring = tutoring;
 	salaryToUpdate.value = value;
 	salaryToUpdate.date = date;
 
 	const updatedSalary = await salaryToUpdate.save();
 
 	res.json({
-		message: `Výplata s datem ${date} a částkou ${value} zaznamenána`,
+		message: `Výplata s datem ${updatedSalary.date} zaznamenána`,
 	});
 };
 
@@ -123,7 +126,7 @@ const deleteSalary = async (req: any, res: any) => {
 
 	const result = await salaryToDelete.deleteOne();
 
-	const reply = `Výplata s datem ${result.date} a částkou ${result.value} byla vymazána`;
+	const reply = `Výplata vymazána`;
 
 	res.json(reply);
 };

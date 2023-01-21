@@ -13,6 +13,11 @@ const invoiceSchema = new mongoose.Schema(
 			required: true,
 			ref: "Client",
 		},
+		tutoring: {
+			type: mongoose.Schema.Types.ObjectId,
+			required: true,
+			ref: "Tutoring",
+		},
 		date: {
 			type: String,
 			required: true,

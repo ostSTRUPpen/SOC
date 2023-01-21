@@ -8,7 +8,7 @@ import { readFromLocalStorage } from "../../../hooks/localStorage";
 
 const LENGTH_REGEX = /^[0-9]{1,3}$/;
 
-const NewLessonForm = ({ tutoring }: any) => {
+const NewLessonForm = ({ tutoring, lastLessonNumber }: any) => {
 	const day = new Date();
 	let today: string = `${day.getFullYear()}-${String(
 		day.getMonth() + 1
@@ -30,7 +30,9 @@ const NewLessonForm = ({ tutoring }: any) => {
 
 	const navigate = useNavigate();
 
-	const [number, setNumber] = useState("");
+	lastLessonNumber += 1;
+
+	const [number, setNumber] = useState(lastLessonNumber);
 	const [date, setDate] = useState(today);
 	const [theme, setTheme] = useState("");
 	const [length, setLength] = useState(defaultLength);
@@ -39,7 +41,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 
 	useEffect(() => {
 		if (isSuccess) {
-			setNumber("");
+			setNumber(0);
 			setDate("");
 			setTheme("");
 			setLength("");
@@ -71,7 +73,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 
 	const onStopEditingClicked = async (e: any) => {
 		e.preventDefault();
-		setNumber("");
+		setNumber(0);
 		setDate("");
 		setTheme("");
 		setLength("");
@@ -107,7 +109,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -118,15 +120,13 @@ const NewLessonForm = ({ tutoring }: any) => {
 							className="icon-button form--save-button"
 							title="Vytvořit nový zápis"
 							onClick={onSaveLessonClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit zápis"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 					</div>
@@ -170,8 +170,7 @@ const NewLessonForm = ({ tutoring }: any) => {
 					maxLength={100}
 					autoComplete="off"
 					value={theme}
-					onChange={onThemeChanged}
-				></textarea>
+					onChange={onThemeChanged}></textarea>
 				<br />
 				<label className="form__label" htmlFor="lesson-length">
 					Délka lekce:
@@ -199,10 +198,9 @@ const NewLessonForm = ({ tutoring }: any) => {
 					maxLength={500}
 					autoComplete="off"
 					value={info}
-					onChange={onInfoChanged}
-				></textarea>
+					onChange={onInfoChanged}></textarea>
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

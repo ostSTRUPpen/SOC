@@ -2,15 +2,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-import { selectLektorById } from "./lektorsApiSlice";
-import { selectMentorById } from "../Mentors/mentorsApiSlice";
+import { useGetLektorsQuery } from "./lektorsApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
 
 const Lektor: any = ({ lektorId }: any) => {
-	const lektor = useSelector((state) => selectLektorById(state, lektorId));
-	const mentor = useSelector((state) =>
-		selectMentorById(state, lektor.mentor)
-	);
+	const { lektor } = useGetLektorsQuery("lektorsList", {
+		selectFromResult: ({ data }: any) => ({
+			lektor: data?.entities[lektorId],
+		}),
+	});
+	const { mentor } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentor: data?.entities[lektor.mentor],
+		}),
+	});
 
 	const navigate = useNavigate();
 
@@ -29,8 +34,7 @@ const Lektor: any = ({ lektorId }: any) => {
 					<button
 						title="view button"
 						className="icon-button table__button--view"
-						onClick={handleViewTutorings}
-					>
+						onClick={handleViewTutorings}>
 						<FontAwesomeIcon icon={faEye} />
 					</button>
 				</td>
@@ -45,8 +49,7 @@ const Lektor: any = ({ lektorId }: any) => {
 					<button
 						title="edit button"
 						className="icon-button table__button--edit"
-						onClick={handleEdit}
-					>
+						onClick={handleEdit}>
 						<FontAwesomeIcon icon={faPenToSquare} />
 					</button>
 				</td>

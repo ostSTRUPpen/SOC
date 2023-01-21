@@ -17,6 +17,8 @@ code {
   display: flex; /* use flexbox layout */
   /*align-items: center; /* center the div vertically */
   justify-content: center; /* center the div horizontally */
+  padding: 0.75em 0.5em 0.5em;
+  flex-grow: 1;
 }
 
 .form__input--incomplete {
@@ -47,6 +49,69 @@ details[open] > details[open] {
   display: flex; /* use flexbox layout */
   align-items: center; /* center the div vertically */
   justify-content: center; /* center the div horizontally */
+}
+
+.secure-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: 0 0.5em;
+}
+
+.secure-header__container .secure-header__title {
+  display: flex;
+  flex-flow: row;
+}
+.secure-header__container .secure-header__nav {
+  display: flex;
+  flex-flow: row;
+}
+.secure-header__nav {
+  display: flex;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+  gap: 0.5em;
+}
+
+.header_icon_button {
+  width: 48;
+  size: 48;
+  font-size: 2.5rem;
+  background-color: transparent;
+  border: none;
+  display: grid;
+  place-content: center;
+}
+
+.header_icon_button:hover,
+.header_icon_button:focus-visible {
+  transform: scale(1.2);
+}
+
+.icon-button {
+  width: 24;
+  size: 24;
+  font-size: 1.5rem;
+  background-color: transparent;
+  border: none;
+}
+
+.icon-button:hover,
+.icon-button:focus-visible {
+  transform: scale(1.2);
+}
+
+.middle__button {
+  width: 100%;
+  font-size: 1.5rem;
+  place-content: center;
+  display: grid;
+}
+
+.middle__button:hover,
+.middle__button:focus-visible {
+  transform: scale(1.1);
 }
 
 /*.form__input {

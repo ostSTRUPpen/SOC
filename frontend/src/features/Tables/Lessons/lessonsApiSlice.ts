@@ -15,12 +15,12 @@ const initialState = lessonsAdapter.getInitialState();
 export const lessonsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getLessons: builder.query({
-			query: () => "/lessons",
-			/*validateStatus: (response: any, result: any) => {
-				return response.status === 200 && !result.isError;
-			},*/
-			// 5 sekund - smazat až půjde do production (PROD)
-			//keepUnusedDataFor: 5,
+			query: () => ({
+				url: "/lessons",
+				validateStatus: (response: any, result: any) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData: any) => {
 				const loadedLessons = responseData.map((lesson: any) => {
 					lesson.id = lesson._id;

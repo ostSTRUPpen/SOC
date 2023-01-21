@@ -15,12 +15,12 @@ const initialState = mentorsAdapter.getInitialState();
 export const mentorsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getMentors: builder.query({
-			query: () => "/mentors",
-			/*validateStatus: (response: any, result: any) => {
-				return response.status === 200 && !result.isError;
-			},*/
-			// 5 sekund - smazat až půjde do production (PROD)
-			//keepUnusedDataFor: 5,
+			query: () => ({
+				url: "/mentors",
+				validateStatus: (response: any, result: any) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData: any) => {
 				const loadedMentors = responseData.map((mentor: any) => {
 					mentor.id = mentor._id;

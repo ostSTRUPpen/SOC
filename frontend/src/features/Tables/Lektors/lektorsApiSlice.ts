@@ -15,12 +15,12 @@ const initialState = lektorsAdapter.getInitialState();
 export const lektorsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getLektors: builder.query({
-			query: () => "/lektors",
-			/*validateStatus: (response: any, result: any) => {
-				return response.status === 200 && !result.isError;
-			},*/
-			// 5 sekund - smazat až půjde do production (PROD)
-			//keepUnusedDataFor: 5,
+			query: () => ({
+				url: "/lektors",
+				validateStatus: (response: any, result: any) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData: any) => {
 				const loadedLektors = responseData.map((lektor: any) => {
 					lektor.id = lektor._id;

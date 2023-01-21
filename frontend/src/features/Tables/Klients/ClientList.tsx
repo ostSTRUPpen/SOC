@@ -2,8 +2,10 @@ import { useGetClientsQuery } from "./clientsApiSlice";
 import Client from "./Client";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useTitle from "../../../hooks/useTitle";
 
 const ClientsList = () => {
+	useTitle("LT IS: List klientů");
 	const { mentorId }: any = useParams();
 	const {
 		data: clients,
@@ -64,93 +66,79 @@ const ClientsList = () => {
 			  ))
 			: null;
 		content = (
-			<>
+			<div>
 				<div>
 					<table className="table table--clients">
 						<thead className="table_header">
 							<tr>
 								<th
 									scope="col"
-									className="table__th client__mentor"
-								>
+									className="table__th client__mentor">
 									Příslušný mentor
 								</th>
 								<th
 									scope="col"
-									className="table__th client__username"
-								>
+									className="table__th client__username">
 									Uživatelské jméno
 								</th>
 								<th
 									scope="col"
-									className="table__th client_parent__name"
-								>
+									className="table__th client_parent__name">
 									Jméno rodiče
 								</th>
 								<th
 									scope="col"
-									className="table__th client_parent__surname"
-								>
+									className="table__th client_parent__surname">
 									Příjmení rodiče
 								</th>
 								<th
 									scope="col"
-									className="table__th client_parent__gmail"
-								>
+									className="table__th client_parent__gmail">
 									g-mail rodiče
 								</th>
 								<th
 									scope="col"
-									className="table__th client_parent__email"
-								>
+									className="table__th client_parent__email">
 									e-email rodiče
 								</th>
 								<th
 									scope="col"
-									className="table__th client_parent__phone_number"
-								>
+									className="table__th client_parent__phone_number">
 									Telefoní číslo rodiče
 								</th>
 								<th
 									scope="col"
-									className="table__th client__bank_account"
-								>
+									className="table__th client__bank_account">
 									Bankovní účet
 								</th>
 								<th
 									scope="col"
-									className="table__th client_child__name"
-								>
+									className="table__th client_child__name">
 									Jméno dítěte
 								</th>
 								<th
 									scope="col"
-									className="table__th client_child__surname"
-								>
+									className="table__th client_child__surname">
 									Příjmení dítěte
 								</th>
 								<th
 									scope="col"
-									className="table__th client_child__gmail"
-								>
+									className="table__th client_child__gmail">
 									g-mail dítěte
 								</th>
 								<th
 									scope="col"
-									className="table__th client_child__email"
-								>
+									className="table__th client_child__email">
 									e-email dítěte
 								</th>
 								<th
 									scope="col"
-									className="table__th client_child__phone_number"
-								>
+									className="table__th client_child__phone_number">
 									Telefoní číslo dítěte
 								</th>
 								<th
 									scope="col"
-									className="table__th client_child__date_of_birth"
-								>
+									className="table__th client_child__date_of_birth">
 									Datum narození dítěte
 								</th>
 							</tr>
@@ -162,7 +150,7 @@ const ClientsList = () => {
 				<p>
 					<Link to="/sec/clients/new/">Přidat klienta</Link>
 				</p>
-			</>
+			</div>
 		);
 	}
 	return content;

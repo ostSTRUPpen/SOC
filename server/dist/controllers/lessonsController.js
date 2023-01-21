@@ -39,6 +39,7 @@ const createNewLesson = (req, res) => __awaiter(void 0, void 0, void 0, function
         lesson_number: lesson_number,
         tutoring: tutoring,
     })
+        .collation({ locale: "cs", strength: 2 })
         .lean()
         .exec()) {
         return res.status(400).json({

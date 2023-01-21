@@ -11,38 +11,41 @@ import { salariesApiSlice } from "../Tables/Salaries/salariesApiSlice";
 
 const Prefetch = () => {
 	useEffect(() => {
-		console.log("subscribing");
-		const lessons = store.dispatch(
-			lessonsApiSlice.endpoints.getLessons.initiate("")
+		store.dispatch(
+			lessonsApiSlice.util.prefetch("getLessons", "lessonsList", {
+				force: true,
+			})
 		);
-		const tutorings = store.dispatch(
-			tutoringsApiSlice.endpoints.getTutorings.initiate("")
+		store.dispatch(
+			tutoringsApiSlice.util.prefetch("getTutorings", "tutoringsList", {
+				force: true,
+			})
 		);
-		const lektors = store.dispatch(
-			lektorsApiSlice.endpoints.getLektors.initiate("")
+		store.dispatch(
+			lektorsApiSlice.util.prefetch("getLektors", "lektorsList", {
+				force: true,
+			})
 		);
-		const mentors = store.dispatch(
-			mentorsApiSlice.endpoints.getMentors.initiate("")
+		store.dispatch(
+			mentorsApiSlice.util.prefetch("getMentors", "mentorsList", {
+				force: true,
+			})
 		);
-		const clients = store.dispatch(
-			clientsApiSlice.endpoints.getClients.initiate("")
+		store.dispatch(
+			clientsApiSlice.util.prefetch("getClients", "clientsList", {
+				force: true,
+			})
 		);
-		const invoices = store.dispatch(
-			invoicesApiSlice.endpoints.getInvoices.initiate("")
+		store.dispatch(
+			invoicesApiSlice.util.prefetch("getInvoices", "invoicesList", {
+				force: true,
+			})
 		);
-		const salaries = store.dispatch(
-			salariesApiSlice.endpoints.getSalaries.initiate("")
+		store.dispatch(
+			salariesApiSlice.util.prefetch("getSalaries", "salariesList", {
+				force: true,
+			})
 		);
-		return () => {
-			console.log("unsubscribing");
-			lessons.unsubscribe();
-			tutorings.unsubscribe();
-			lektors.unsubscribe();
-			mentors.unsubscribe();
-			clients.unsubscribe();
-			invoices.unsubscribe();
-			salaries.unsubscribe();
-		};
 	}, []);
 
 	return <Outlet />;

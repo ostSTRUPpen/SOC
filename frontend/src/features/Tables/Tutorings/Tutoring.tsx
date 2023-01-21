@@ -1,23 +1,31 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import {
+	faEye,
+	faPenToSquare,
+	faWallet,
+} from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-
-import { useSelector } from "react-redux";
-import { selectTutoringById } from "./tutoringsApiSlice";
-import { selectLektorById } from "../Lektors/lektorsApiSlice";
-import { selectClientById } from "../Klients/clientsApiSlice";
 import useAuth from "../../../hooks/useAuth";
+import { useGetClientsQuery } from "../Klients/clientsApiSlice";
+import { useGetLektorsQuery } from "../Lektors/lektorsApiSlice";
+import { useGetTutoringsQuery } from "./tutoringsApiSlice";
 
 const Tutoring: any = ({ tutoringId }: any) => {
-	const tutoring = useSelector((state) =>
-		selectTutoringById(state, tutoringId)
-	);
-	const lektor = useSelector((state) =>
-		selectLektorById(state, tutoring.lektor)
-	);
-	const client = useSelector((state) =>
-		selectClientById(state, tutoring.client)
-	);
+	const { tutoring } = useGetTutoringsQuery("tutoringsList", {
+		selectFromResult: ({ data }: any) => ({
+			tutoring: data?.entities[tutoringId],
+		}),
+	});
+	const { client } = useGetClientsQuery("clientsList", {
+		selectFromResult: ({ data }: any) => ({
+			client: data?.entities[tutoring.client],
+		}),
+	});
+	const { lektor } = useGetLektorsQuery("lektorsList", {
+		selectFromResult: ({ data }: any) => ({
+			lektor: data?.entities[tutoring.lektor],
+		}),
+	});
 
 	const { isAdmin, isMentor } = useAuth();
 
@@ -27,6 +35,7 @@ const Tutoring: any = ({ tutoringId }: any) => {
 		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const displayLessons = () => navigate(`/sec/tutorings/${tutoringId}`);
 		const handleEdit = () => navigate(`/sec/tutorings/edit/${tutoringId}`);
+		const displayFinances = () => navigate(`/sec/finances/${tutoringId}`);
 		const isActive = tutoring.active ? "" : "table__cell--inactive";
 
 		const canEdit: boolean = isAdmin ? true : isMentor ? true : false;
@@ -43,7 +52,7 @@ const Tutoring: any = ({ tutoringId }: any) => {
 				</button>
 			);
 		} else {
-			editing = <></>;
+			editing = <div></div>;
 		}
 
 		return (
@@ -62,6 +71,12 @@ const Tutoring: any = ({ tutoringId }: any) => {
 						className="icon-button table__button--view"
 						onClick={displayLessons}>
 						<FontAwesomeIcon icon={faEye} />
+					</button>
+					<button
+						title="view finances"
+						className="icon-button table__button--view"
+						onClick={displayFinances}>
+						<FontAwesomeIcon icon={faWallet} />
 					</button>
 					{editing}
 				</td>

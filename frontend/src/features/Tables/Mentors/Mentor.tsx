@@ -2,11 +2,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-import { selectMentorById } from "./mentorsApiSlice";
+import { useGetMentorsQuery } from "./mentorsApiSlice";
 
-const Mentor: any = ({ mentorId, tutoringId }: any) => {
-	const mentor = useSelector((state) => selectMentorById(state, mentorId));
+const Mentor: any = ({ mentorId }: any) => {
+	const { mentor } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentor: data?.entities[mentorId],
+		}),
+	});
 
 	const navigate = useNavigate();
 
@@ -22,8 +25,7 @@ const Mentor: any = ({ mentorId, tutoringId }: any) => {
 					<button
 						title="edit button"
 						className="icon-button table__button--edit"
-						onClick={handleEdit}
-					>
+						onClick={handleEdit}>
 						<FontAwesomeIcon icon={faPenToSquare} />
 					</button>
 				</td>

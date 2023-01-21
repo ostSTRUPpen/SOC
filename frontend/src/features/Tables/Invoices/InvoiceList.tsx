@@ -2,8 +2,10 @@ import Invoice from "./Invoice";
 import { useGetInvoicesQuery } from "./invoicesApiSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useTitle from "../../../hooks/useTitle";
 
 const InvoiceList = () => {
+	useTitle("LT IS: List faktur");
 	const { mentorId, klientId }: any = useParams();
 	const {
 		data: tutorings,
@@ -68,33 +70,29 @@ const InvoiceList = () => {
 			  ))
 			: null;
 		content = (
-			<>
+			<div>
 				<div>
 					<table className="table table--invoices">
 						<thead className="table_header">
 							<tr>
 								<th
 									scope="col"
-									className="table__th invoice__mentor"
-								>
+									className="table__th invoice__mentor">
 									Mentor
 								</th>
 								<th
 									scope="col"
-									className="table__th invoice__klient"
-								>
+									className="table__th invoice__klient">
 									Klient
 								</th>
 								<th
 									scope="col"
-									className="table__th invoice__date"
-								>
+									className="table__th invoice__date">
 									Datum
 								</th>
 								<th
 									scope="col"
-									className="table__th invoice__value"
-								>
+									className="table__th invoice__value">
 									Částka
 								</th>
 							</tr>
@@ -106,7 +104,7 @@ const InvoiceList = () => {
 				<p>
 					<Link to={`/sec/invoices/new`}>Nová faktura</Link>
 				</p>
-			</>
+			</div>
 		);
 	}
 

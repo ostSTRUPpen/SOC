@@ -1,18 +1,38 @@
 import { useParams } from "react-router-dom";
-import { selectAllClients } from "../Klients/clientsApiSlice";
-import { selectAllLektors } from "../Lektors/lektorsApiSlice";
-import { useSelector } from "react-redux";
-import { selectTutoringById } from "./tutoringsApiSlice";
 import EditTutoringForm from "./EditTutoringForm";
+import useTitle from "../../../hooks/useTitle";
+import useAuth from "../../../hooks/useAuth";
+import { useGetClientsQuery } from "../Klients/clientsApiSlice";
+import { useGetLektorsQuery } from "../Lektors/lektorsApiSlice";
+import { useGetTutoringsQuery } from "./tutoringsApiSlice";
 
 const EditTutoring = () => {
+	useTitle("LT IS: Úprava doučování");
 	const { tutoringId }: any = useParams();
 
-	const tutoring = useSelector((state) =>
-		selectTutoringById(state, tutoringId)
-	);
-	const lektors = useSelector(selectAllLektors);
-	const clients = useSelector(selectAllClients);
+	const { tutoring } = useGetTutoringsQuery("tutoringsList", {
+		selectFromResult: ({ data }: any) => ({
+			tutoring: data?.entities[tutoringId],
+		}),
+	});
+
+	const { clients } = useGetClientsQuery("clientsList", {
+		selectFromResult: ({ data }: any) => ({
+			clients: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { lektors } = useGetLektorsQuery("lektorsList", {
+		selectFromResult: ({ data }: any) => ({
+			lektors: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { isAdmin, isMentor } = useAuth();
+
+	if (!isAdmin && !isMentor) {
+		return <div className="no_access">Access denied</div>;
+	}
 
 	const content: JSX.Element =
 		tutoring && lektors && clients ? (

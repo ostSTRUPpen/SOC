@@ -30,8 +30,8 @@ exports.getAllSalaries = getAllSalaries;
 // @route POST /salaries
 // @access Private
 const createNewSalary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { mentor, lektor, value, date } = req.body;
-    if (!mentor || !lektor || !value || !date) {
+    const { mentor, lektor, value, date, tutoring } = req.body;
+    if (!mentor || !lektor || !value || !date || !tutoring) {
         return res.status(400).json({
             message: "Všechna pole jsou povinná",
         });
@@ -39,6 +39,7 @@ const createNewSalary = (req, res) => __awaiter(void 0, void 0, void 0, function
     const duplicate = yield Salary.findOne({
         mentor: mentor,
         lektor: lektor,
+        tutoring: tutoring,
         date: date,
         value: value,
     })
@@ -52,14 +53,14 @@ const createNewSalary = (req, res) => __awaiter(void 0, void 0, void 0, function
     const salaryObject = {
         mentor,
         lektor,
+        tutoring,
         date,
         value,
     };
     const salary = yield Salary.create(salaryObject);
     if (salary) {
-        const lektorInfo = yield Lektor.findById(salary.lektor).lean().exec();
         res.status(201).json({
-            message: `Nová výplata s datem ${date} a částkou ${value} pro lektora ${lektorInfo.name} ${lektorInfo.surname} zaznamenána`,
+            message: `Nová výplata zaznamenána`,
         });
     }
     else {
@@ -71,8 +72,8 @@ exports.createNewSalary = createNewSalary;
 // @route PATCH /salaries
 // @access Private
 const updateSalary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, mentor, lektor, value, date } = req.body;
-    if (!id || !mentor || !lektor || !value || !date) {
+    const { id, mentor, lektor, value, date, tutoring } = req.body;
+    if (!id || !mentor || !lektor || !value || !date || !tutoring) {
         return res.status(400).json({
             message: "Všechna pole jsou povinná",
         });
@@ -85,6 +86,7 @@ const updateSalary = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const duplicate = yield Salary.findOne({
         mentor: mentor,
         lektor: lektor,
+        tutoring: tutoring,
         date: date,
         value: value,
     })
@@ -97,11 +99,12 @@ const updateSalary = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     salaryToUpdate.lektor = lektor;
     salaryToUpdate.mentor = mentor;
+    salaryToUpdate.tutoring = tutoring;
     salaryToUpdate.value = value;
     salaryToUpdate.date = date;
     const updatedSalary = yield salaryToUpdate.save();
     res.json({
-        message: `Výplata s datem ${date} a částkou ${value} zaznamenána`,
+        message: `Výplata s datem ${updatedSalary.date} zaznamenána`,
     });
 });
 exports.updateSalary = updateSalary;
@@ -119,7 +122,7 @@ const deleteSalary = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(400).json({ message: "Výplata nenalezena" });
     }
     const result = yield salaryToDelete.deleteOne();
-    const reply = `Výplata s datem ${result.date} a částkou ${result.value} byla vymazána`;
+    const reply = `Výplata vymazána`;
     res.json(reply);
 });
 exports.deleteSalary = deleteSalary;

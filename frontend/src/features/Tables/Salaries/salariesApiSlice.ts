@@ -15,12 +15,12 @@ const initialState = salariesAdapter.getInitialState();
 export const salariesApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getSalaries: builder.query({
-			query: () => "/salaries",
-			/*validateStatus: (response: any, result: any) => {
-				return response.status === 200 && !result.isError;
-			},*/
-			// 5 sekund - smazat až půjde do production (PROD)
-			//keepUnusedDataFor: 5,
+			query: () => ({
+				url: "/salaries",
+				validateStatus: (response: any, result: any) => {
+					return response.status === 200 && !result.isError;
+				},
+			}),
 			transformResponse: (responseData: any) => {
 				const loadedSalaries = responseData.map((salary: any) => {
 					salary.id = salary._id;

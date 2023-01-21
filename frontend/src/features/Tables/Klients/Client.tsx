@@ -1,16 +1,21 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-
-import { useSelector } from "react-redux";
-import { selectClientById } from "./clientsApiSlice";
-import { selectMentorById } from "../Mentors/mentorsApiSlice";
+import { useGetClientsQuery } from "./clientsApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
 
 const Client: any = ({ clientId }: any) => {
-	const client = useSelector((state) => selectClientById(state, clientId));
-	const mentor = useSelector((state) =>
-		selectMentorById(state, client.mentor)
-	);
+	const { client } = useGetClientsQuery("clientsList", {
+		selectFromResult: ({ data }: any) => ({
+			client: data?.entities[clientId],
+		}),
+	});
+	const { mentor } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentor: data?.entities[client.mentor],
+		}),
+	});
+
 	const navigate = useNavigate();
 	if (client && mentor) {
 		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
@@ -27,8 +32,7 @@ const Client: any = ({ clientId }: any) => {
 					<button
 						title="view button"
 						className="icon-button table__button--view"
-						onClick={handleViewTutorings}
-					>
+						onClick={handleViewTutorings}>
 						<FontAwesomeIcon icon={faEye} />
 					</button>
 				</td>
@@ -43,8 +47,7 @@ const Client: any = ({ clientId }: any) => {
 					<button
 						title="edit button"
 						className="icon-button table__button--edit"
-						onClick={handleEdit}
-					>
+						onClick={handleEdit}>
 						<FontAwesomeIcon icon={faPenToSquare} />
 					</button>
 				</td>

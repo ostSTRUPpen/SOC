@@ -1,15 +1,31 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectClientById } from "./clientsApiSlice";
 import EditClientForm from "./EditClientForm";
-import { selectAllMentors } from "../Mentors/mentorsApiSlice";
+import { useGetClientsQuery } from "./clientsApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
+import useAuth from "../../../hooks/useAuth";
+import useTitle from "../../../hooks/useTitle";
 
-const EditLesson = () => {
+const EditClient = () => {
+	useTitle("LT IS: Úprava klienta");
 	const { id }: any = useParams();
 
-	const client = useSelector((state) => selectClientById(state, id));
+	const { client } = useGetClientsQuery("clientsList", {
+		selectFromResult: ({ data }: any) => ({
+			client: data?.entities[id],
+		}),
+	});
 
-	const mentors = useSelector(selectAllMentors);
+	const { mentors } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentors: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { isAdmin, isMentor, isClient } = useAuth();
+
+	if (!isAdmin && !isMentor && !isClient) {
+		return <div className="no_access">Access denied</div>;
+	}
 
 	const content: JSX.Element =
 		client && mentors ? (
@@ -20,4 +36,4 @@ const EditLesson = () => {
 	return content;
 };
 
-export default EditLesson;
+export default EditClient;

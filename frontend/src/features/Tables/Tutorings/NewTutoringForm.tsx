@@ -133,7 +133,7 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -200,7 +200,7 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 				/>
 				<br />
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

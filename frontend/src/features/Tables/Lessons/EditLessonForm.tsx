@@ -120,7 +120,7 @@ const EditLessonForm = ({ lesson }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -131,22 +131,19 @@ const EditLessonForm = ({ lesson }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveLessonClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 						<button
 							className="icon-button form--delete-button"
 							title="Smazat lekci"
-							onClick={onDeleteLessonClicked}
-						>
+							onClick={onDeleteLessonClicked}>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>
 					</div>
@@ -177,8 +174,7 @@ const EditLessonForm = ({ lesson }: any) => {
 					maxLength={100}
 					autoComplete="off"
 					value={theme}
-					onChange={onThemeChanged}
-				></textarea>
+					onChange={onThemeChanged}></textarea>
 				<br />
 				<label className="form__label" htmlFor="lesson-length">
 					Délka lekce:
@@ -206,10 +202,9 @@ const EditLessonForm = ({ lesson }: any) => {
 					maxLength={500}
 					autoComplete="off"
 					value={info}
-					onChange={onInfoChanged}
-				></textarea>
+					onChange={onInfoChanged}></textarea>
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

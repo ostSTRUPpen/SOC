@@ -405,7 +405,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -736,7 +736,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					</details>
 				</details>
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

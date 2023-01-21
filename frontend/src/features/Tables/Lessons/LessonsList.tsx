@@ -1,8 +1,10 @@
 import { useGetLessonsQuery } from "./lessonsApiSlice";
 import Lesson from "./Lesson";
 import { Link } from "react-router-dom";
+import useTitle from "../../../hooks/useTitle";
 
 const LessonsList = ({ amount, tutoringId }: any) => {
+	useTitle("LT IS: List lekcí");
 	const {
 		data: lessons,
 		isLoading,
@@ -69,45 +71,39 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 			));
 
 		content = (
-			<>
+			<div>
 				<div>
 					<table className="table table--lessons">
 						<thead className="table_header">
 							<tr>
 								<th
 									scope="col"
-									className="table__th lesson__number"
-								>
+									className="table__th lesson__number">
 									Číslo lekce
 								</th>
 								<th
 									scope="col"
-									className="table__th lesson__date"
-								>
+									className="table__th lesson__date">
 									Datum lekce
 								</th>
 								<th
 									scope="col"
-									className="table__th lesson__theme"
-								>
+									className="table__th lesson__theme">
 									Téma lekce
 								</th>
 								<th
 									scope="col"
-									className="table__th lesson__length"
-								>
+									className="table__th lesson__length">
 									Délka lekce
 								</th>
 								<th
 									scope="col"
-									className="table__th lesson__info"
-								>
+									className="table__th lesson__info">
 									Poznámka k lekci
 								</th>
 								<th
 									scope="col"
-									className="table__th lesson__edit"
-								>
+									className="table__th lesson__edit">
 									Upravit
 								</th>
 							</tr>
@@ -121,7 +117,7 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 						Nová lekce
 					</Link>
 				</p>
-			</>
+			</div>
 		);
 	}
 

@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useTitle from "../hooks/useTitle";
 
 const PublicPage = () => {
+	useTitle("Learning Triangle");
 	const content = (
 		<section className="public">
 			<header>

@@ -15,7 +15,7 @@ import { ROLES } from "../../../config/roles";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
 
-const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
+const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 	const [updateInvoice, { isLoading, isSuccess, isError, error }] =
 		useUpdateInvoiceMutation();
 
@@ -28,6 +28,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 
 	const [mentor, setMentor] = useState(invoice.mentor);
 	const [client, setClient] = useState(invoice.client);
+	const [tutoring, setTutoring] = useState(invoice.tutoring);
 	const [value, setValue] = useState(invoice.value);
 	const [validValue, setValidValue] = useState(false);
 	const [date, setDate] = useState(invoice.date);
@@ -38,6 +39,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		if (isSuccess || isDelSuccess) {
 			setMentor("");
 			setClient("");
+			setTutoring("");
 			setValue("");
 			setDate("");
 			if (role === ROLES.Mentor) {
@@ -57,10 +59,12 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		[
 			mentor,
 			client,
+			tutoring,
 			validValue,
 			date,
 			mentor !== "0",
 			client !== "0",
+			tutoring !== "0",
 		].every(Boolean) && !isLoading;
 
 	const onSaveInvoiceClicked = async (e: any) => {
@@ -68,6 +72,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 			id: invoice.id,
 			mentor,
 			client,
+			tutoring,
 			value,
 			date,
 		});
@@ -77,6 +82,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		e.preventDefault();
 		setMentor("");
 		setClient("");
+		setTutoring("");
 		setValue("");
 		if (role === ROLES.Mentor) {
 			navigate(`/sec/invoices/show1/${id}`);
@@ -123,8 +129,25 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 			);
 		}
 	}
+
+	let optionsTutoring: Array<JSX.Element> = [
+		<option key={0} value={0}>
+			Vybrat doučování
+		</option>,
+	];
+	for (let i = 0; i < tutorings.length; i++) {
+		if (tutorings[i].client === client) {
+			optionsTutoring.push(
+				<option key={tutorings[i].id} value={tutorings[i].id}>
+					{tutorings[i].name}
+				</option>
+			);
+		}
+	}
+
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onClientsChanged = (e: any) => setClient(e.target.value);
+	const onTutoringsChanged = (e: any) => setTutoring(e.target.value);
 	const onValuesChanged = (e: any) => setValue(e.target.value);
 	const onDateChanged = (e: any) => setDate(e.target.value);
 
@@ -133,6 +156,8 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		!mentor || mentor === "0" ? "form__input--incomplete" : "";
 	const validClientClass =
 		!client || client === "0" ? "form__input--incomplete" : "";
+	const validTutoringClass =
+		!tutoring || tutoring === "0" ? "form__input--incomplete" : "";
 	const validValueClass = !validValue ? "form__input--incomplete" : "";
 	const validDateClass = !date ? "form__input--incomplete" : "";
 
@@ -165,7 +190,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -223,6 +248,21 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 					{optionsClient}
 				</select>
 				<br />
+				<label className="form__label" htmlFor="tutorings">
+					Doučování:
+				</label>
+				<select
+					id="tutorings"
+					name="tutoring_select"
+					className={`form__select ${validTutoringClass}`}
+					multiple={false}
+					size={1}
+					value={tutoring}
+					onChange={onTutoringsChanged}
+					title="Příslušné doučování">
+					{optionsTutoring}
+				</select>
+				<br />
 				<label className="form__label" htmlFor="date">
 					Datum:
 				</label>
@@ -251,7 +291,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 				/>
 				<br />
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

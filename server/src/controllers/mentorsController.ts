@@ -53,9 +53,18 @@ const createNewMentor = async (req: any, res: any) => {
 	}
 
 	// Duplicates
-	const foundClient = await Client.findOne({ username }).lean().exec();
-	const foundLektor = await Lektor.findOne({ username }).lean().exec();
-	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+	const foundClient = await Client.findOne({ username })
+		.collation({ locale: "cs", strength: 2 })
+		.lean()
+		.exec();
+	const foundLektor = await Lektor.findOne({ username })
+		.collation({ locale: "cs", strength: 2 })
+		.lean()
+		.exec();
+	const foundMentor = await Mentor.findOne({ username })
+		.collation({ locale: "cs", strength: 2 })
+		.lean()
+		.exec();
 
 	const duplicate = foundLektor
 		? foundLektor
@@ -144,9 +153,18 @@ const updateMentor = async (req: any, res: any) => {
 
 	// Looking for a duplicate (except the one being updated)
 
-	const foundClient = await Client.findOne({ username }).lean().exec();
-	const foundLektor = await Lektor.findOne({ username }).lean().exec();
-	const foundMentor = await Mentor.findOne({ username }).lean().exec();
+	const foundClient = await Client.findOne({ username })
+		.collation({ locale: "cs", strength: 2 })
+		.lean()
+		.exec();
+	const foundLektor = await Lektor.findOne({ username })
+		.collation({ locale: "cs", strength: 2 })
+		.lean()
+		.exec();
+	const foundMentor = await Mentor.findOne({ username })
+		.collation({ locale: "cs", strength: 2 })
+		.lean()
+		.exec();
 
 	const duplicate = foundLektor
 		? foundLektor

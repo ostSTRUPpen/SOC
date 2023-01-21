@@ -7,6 +7,7 @@ import {
 	faCreditCard,
 	faUsers,
 	faCreditCardAlt,
+	faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
@@ -82,18 +83,18 @@ const SecureHeader = () => {
 
 	const logoutButton: JSX.Element = (
 		<button
-			className="secure__header--logout icon-button"
+			className="secure__header--logout header_icon_button"
 			title="Logout"
 			onClick={onLogOutClicked}>
 			<FontAwesomeIcon icon={faRightFromBracket} />
 		</button>
 	);
 
-	let homeButton: JSX.Element = <></>;
+	let homeButton: JSX.Element = <div></div>;
 	if (pathname !== "/sec") {
 		homeButton = (
 			<button
-				className="secure-header__button icon-button"
+				className="secure-header__button header_icon_button"
 				title="Home"
 				onClick={onHomeClicked}>
 				<FontAwesomeIcon icon={faHouse} />
@@ -101,32 +102,38 @@ const SecureHeader = () => {
 		);
 	}
 
-	let navButtons: JSX.Element = <></>;
+	let navButtons: JSX.Element = <div></div>;
 	if (pathname === "/sec" || true) {
 		navButtons = (
 			<>
 				{isAdmin && (
 					<>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Doučování"
 							onClick={onAdminNavToTutoringsClicked}>
 							<FontAwesomeIcon icon={faUsers} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
+							title="Faktury"
+							onClick={onAdminNavToTutoringsClicked}>
+							<FontAwesomeIcon icon={faWallet} />
+						</button>
+						<button
+							className="secure-header__navbutton header_icon_button"
 							title="Faktury"
 							onClick={onAdminNavToInvoicesClicked}>
 							<FontAwesomeIcon icon={faCreditCard} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Výplaty"
 							onClick={onAdminNavToSalariesClicked}>
 							<FontAwesomeIcon icon={faCreditCardAlt} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Nastavení"
 							onClick={onAdminNavToSettingsClicked}>
 							<FontAwesomeIcon icon={faUserGear} />
@@ -136,25 +143,31 @@ const SecureHeader = () => {
 				{isMentor && (
 					<>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Doučování"
 							onClick={onMentorNavToTutoringsClicked}>
 							<FontAwesomeIcon icon={faUsers} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
+							title="Faktury"
+							onClick={onMentorNavToTutoringsClicked}>
+							<FontAwesomeIcon icon={faWallet} />
+						</button>
+						<button
+							className="secure-header__navbutton header_icon_button"
 							title="Faktury"
 							onClick={onMentorNavToInvoicesClicked}>
 							<FontAwesomeIcon icon={faCreditCard} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Výplaty"
 							onClick={onMentorNavToSalariesClicked}>
 							<FontAwesomeIcon icon={faCreditCardAlt} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Nastavení"
 							onClick={onMentorNavToSettingsClicked}>
 							<FontAwesomeIcon icon={faUserGear} />
@@ -164,19 +177,25 @@ const SecureHeader = () => {
 				{isClient && (
 					<>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Doučování"
 							onClick={onClientNavToTutoringsClicked}>
 							<FontAwesomeIcon icon={faUsers} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
+							title="Faktury"
+							onClick={onClientNavToTutoringsClicked}>
+							<FontAwesomeIcon icon={faWallet} />
+						</button>
+						<button
+							className="secure-header__navbutton header_icon_button"
 							title="Faktury"
 							onClick={onClientNavToInvoicesClicked}>
 							<FontAwesomeIcon icon={faCreditCard} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Nastavení"
 							onClick={onClientNavToSettingsClicked}>
 							<FontAwesomeIcon icon={faUserGear} />
@@ -186,19 +205,25 @@ const SecureHeader = () => {
 				{isLektor && (
 					<>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Doučování"
 							onClick={onLektorNavToTutoringsClicked}>
 							<FontAwesomeIcon icon={faUsers} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
+							title="Faktury"
+							onClick={onLektorNavToTutoringsClicked}>
+							<FontAwesomeIcon icon={faWallet} />
+						</button>
+						<button
+							className="secure-header__navbutton header_icon_button"
 							title="Výplaty"
 							onClick={onLektorNavToSalariesClicked}>
 							<FontAwesomeIcon icon={faCreditCard} />
 						</button>
 						<button
-							className="secure-header__navbutton icon_button"
+							className="secure-header__navbutton header_icon_button"
 							title="Nastavení"
 							onClick={onLektorNavToSettingsClicked}>
 							<FontAwesomeIcon icon={faUserGear} />
@@ -219,15 +244,15 @@ const SecureHeader = () => {
 					<h2 className="secure-header__title">
 						Learning Triangle informační systém
 					</h2>
-					<h3>
-						{name} {surname}, {status}
-					</h3>
 					<nav className="secure-header__nav">
 						{homeButton}
 						{navButtons}
 						{logoutButton}
 						{/* add nav buttons later TODO */}
 					</nav>
+					<h3>
+						{name} {surname}, {status}
+					</h3>
 				</div>
 			</header>
 		</>

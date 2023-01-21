@@ -283,7 +283,7 @@ const NewClientForm = ({ mentors }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -562,7 +562,7 @@ const NewClientForm = ({ mentors }: any) => {
 					</details>
 				</details>
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

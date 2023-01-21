@@ -168,7 +168,7 @@ const NewMentorForm = ({ mentors }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -342,7 +342,7 @@ const NewMentorForm = ({ mentors }: any) => {
 					</details>
 				</details>
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

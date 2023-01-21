@@ -2,8 +2,10 @@ import Salary from "./Salary";
 import { useGetSalariesQuery } from "./salariesApiSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useTitle from "../../../hooks/useTitle";
 
 const SalaryList = () => {
+	useTitle("LT IS: List výplat");
 	const { mentorId, lektorId }: any = useParams();
 	const {
 		data: tutorings,
@@ -68,33 +70,29 @@ const SalaryList = () => {
 			  ))
 			: null;
 		content = (
-			<>
+			<div>
 				<div>
 					<table className="table table--salaries">
 						<thead className="table_header">
 							<tr>
 								<th
 									scope="col"
-									className="table__th salary__mentor"
-								>
+									className="table__th salary__mentor">
 									Mentor
 								</th>
 								<th
 									scope="col"
-									className="table__th salary__lektor"
-								>
+									className="table__th salary__lektor">
 									Lektor
 								</th>
 								<th
 									scope="col"
-									className="table__th salary__date"
-								>
+									className="table__th salary__date">
 									Datum
 								</th>
 								<th
 									scope="col"
-									className="table__th salary__value"
-								>
+									className="table__th salary__value">
 									Částka
 								</th>
 							</tr>
@@ -106,7 +104,7 @@ const SalaryList = () => {
 				<p>
 					<Link to={`/sec/salaries/new`}>Nová výplata</Link>
 				</p>
-			</>
+			</div>
 		);
 	}
 

@@ -47,3 +47,34 @@
 20230121	09:44:50	c4abc5e2-b76f-41ba-ad0e-c0e7b8e6d65e	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
 20230121	11:53:22	b4b43116-69e7-45a2-92c5-d1139f8d2f6b	Error: Cannot set headers after they are sent to the client	POST	/auth/logout	http://localhost:3000
 20230121	11:54:05	55f8d3cc-8314-4b69-a937-8bcdad02b16b	Error: Cannot set headers after they are sent to the client	POST	/auth/logout	http://localhost:3000
+20230121	18:37:47	05e50dba-ff65-44f4-b42f-8cc76afa2b77	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:37:51	5b37ae37-c79b-442e-ab8b-8aa8f3f32988	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:07	99ce5a6e-c0bf-49d2-b93e-2f38c2813e20	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:23	4ce4bd16-6c3f-4a6b-8143-95d89c9f98b8	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:33	70201866-57fe-4134-8822-70174a1c4fdf	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:36	83578a3f-e4df-4559-8c5d-73fd0047ab7f	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:41	3b7a073e-f38e-42ea-af35-b661ab996a2f	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:57	36641b0f-e3be-4c09-9880-a9e17a0615db	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:06	9b9f4ffc-fdb2-4e77-88b6-397b0bb8017d	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:09	61e5af23-0f77-43bb-b12e-67ed08c6dd72	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:13	7236c4be-5af0-4ad0-910f-d26285ee3495	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:28	c72e1c86-9f27-44af-ac70-c0ec54742107	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:44	620faab9-4260-495d-9edc-430bb0ea7c04	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:00	f493cc73-78bb-4034-a878-9ee9af3d3cf8	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:11	a41fcbe8-a613-4e94-abd8-7fdd10635a27	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:14	23a61f25-59f5-4106-9390-ed7eb1e3a4ac	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:30	7aebe490-f09c-4076-b201-0a42490f6a0c	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:41	c4c46785-8016-478e-b522-f663203178d9	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:56	a88173f6-6daa-4a2a-9ec4-5c19a3d550b9	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:41:12	663da992-a18b-4606-a007-300ffce8b72d	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:17	29186b35-aeba-431b-9c6b-49d69c0369a3	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:20	559e1cbf-f0a6-4455-98a1-b843e9aaba8b	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:22	2197def2-807d-49a3-8660-0f6d008530fb	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:38	f88e3930-f4ba-4a69-9295-3dc555e418c8	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:54	12efa1e4-78ab-4b7f-98a8-03895f5854f5	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:42:10	464984f5-bf45-4f55-85b5-7fb278ca708e	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:53:06	589da36c-5522-4f1e-a26e-51af883b5baf	ObjectParameterError: Parameter "filter" to findOne() must be an object, got 63cbb3d59a41b0963de789b5	PATCH	/tutorings	http://localhost:3000
+20230121	18:53:29	8246acc1-5311-4dda-b469-b0c33dde2bab	ObjectParameterError: Parameter "filter" to findOne() must be an object, got 63cbec2e7ebdca845743fb54	PATCH	/tutorings	http://localhost:3000
+20230121	18:53:38	3c084984-f7a3-4ca3-baa2-58fdf44b7053	ObjectParameterError: Parameter "filter" to findOne() must be an object, got 63cbec2e7ebdca845743fb54	PATCH	/tutorings	http://localhost:3000
+20230121	18:55:21	f31a25c2-da35-42dd-9730-2ced92442307	TypeError: Lektor.findById(...).lead is not a function	PATCH	/tutorings	http://localhost:3000
+20230121	18:55:54	57656155-517c-478f-a1bb-ff728da8aa2c	TypeError: Lektor.findById(...).lead is not a function	PATCH	/tutorings	http://localhost:3000

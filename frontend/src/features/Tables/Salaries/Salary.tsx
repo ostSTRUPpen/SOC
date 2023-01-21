@@ -1,21 +1,27 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-
-import { useSelector } from "react-redux";
-import { selectSalaryById } from "./salariesApiSlice";
-import { selectMentorById } from "../Mentors/mentorsApiSlice";
-import { selectLektorById } from "../Lektors/lektorsApiSlice";
 import useAuth from "../../../hooks/useAuth";
+import { useGetSalariesQuery } from "./salariesApiSlice";
+import { useGetLektorsQuery } from "../Lektors/lektorsApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
 
 const Salary: any = ({ salaryId }: any) => {
-	const salary = useSelector((state) => selectSalaryById(state, salaryId));
-	const mentor = useSelector((state) =>
-		selectMentorById(state, salary.mentor)
-	);
-	const lektor = useSelector((state) =>
-		selectLektorById(state, salary.lektor)
-	);
+	const { salary } = useGetSalariesQuery("salariesList", {
+		selectFromResult: ({ data }: any) => ({
+			salary: data?.entities[salaryId],
+		}),
+	});
+	const { mentor } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentor: data?.entities[salary.mentor],
+		}),
+	});
+	const { lektor } = useGetLektorsQuery("lektorsList", {
+		selectFromResult: ({ data }: any) => ({
+			lektor: data?.entities[salary.lektor],
+		}),
+	});
 
 	const { isAdmin, isMentor } = useAuth();
 
@@ -39,7 +45,7 @@ const Salary: any = ({ salaryId }: any) => {
 				</button>
 			);
 		} else {
-			editing = <></>;
+			editing = <div></div>;
 		}
 
 		return (

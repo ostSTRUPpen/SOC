@@ -166,7 +166,7 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 	}
 
 	const content = (
-		<>
+		<div>
 			<p className={errorClass}>{errorContent}</p>
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
@@ -252,7 +252,7 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 					/>
 				</label>
 			</form>
-		</>
+		</div>
 	);
 
 	return content;

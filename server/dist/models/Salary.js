@@ -12,6 +12,11 @@ const salarySchema = new mongoose.Schema({
         required: true,
         ref: "Lektor",
     },
+    tutoring: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: "Tutoring",
+    },
     date: {
         type: String,
         required: true,

@@ -1,5 +1,5 @@
 const Invoice: any = require("../models/Invoice");
-const Client: any = require("../models/Client");
+const Tutoring: any = require("../models/Tutoring");
 const Mentor: any = require("../models/Mentor");
 
 // @desc Get all invoices
@@ -21,8 +21,8 @@ const getAllInvoices = async (req: any, res: any) => {
 // @route POST /invoices
 // @access Private
 const createNewInvoice = async (req: any, res: any) => {
-	const { mentor, client, value, date } = req.body;
-	if (!mentor || !client || !value || !date) {
+	const { mentor, client, value, date, tutoring } = req.body;
+	if (!mentor || !client || !value || !date || !tutoring) {
 		return res.status(400).json({
 			message: "Všechna pole jsou povinná",
 		});
@@ -31,9 +31,11 @@ const createNewInvoice = async (req: any, res: any) => {
 	const duplicate = await Invoice.findOne({
 		mentor: mentor,
 		client: client,
+		tutoring: tutoring,
 		date: date,
 		value: value,
 	})
+		.collation({ locale: "cs", strength: 2 })
 		.lean()
 		.exec();
 	if (duplicate) {
@@ -45,15 +47,15 @@ const createNewInvoice = async (req: any, res: any) => {
 	const invoiceObject = {
 		mentor,
 		client,
+		tutoring,
 		date,
 		value,
 	};
 
 	const invoice = await Invoice.create(invoiceObject);
 	if (invoice) {
-		const clientInfo = await Client.findById(invoice.client).lean().exec();
 		res.status(201).json({
-			message: `Nová faktura s datem ${date} a částkou ${value} od klienta ${clientInfo.name_parent} ${clientInfo.surname_parent} zaznamenána`,
+			message: `Nová faktura zaznamenána`,
 		});
 	} else {
 		res.status(400).json({ message: `Došlo k chybě` });
@@ -64,8 +66,8 @@ const createNewInvoice = async (req: any, res: any) => {
 // @route PATCH /invoices
 // @access Private
 const updateInvoice = async (req: any, res: any) => {
-	const { id, mentor, client, value, date } = req.body;
-	if (!id || !mentor || !client || !value || !date) {
+	const { id, mentor, client, value, date, tutoring } = req.body;
+	if (!id || !mentor || !client || !value || !date || !tutoring) {
 		return res.status(400).json({
 			message: "Všechna pole jsou povinná",
 		});
@@ -81,9 +83,11 @@ const updateInvoice = async (req: any, res: any) => {
 	const duplicate = await Invoice.findOne({
 		mentor: mentor,
 		client: client,
+		tutoring: tutoring,
 		date: date,
 		value: value,
 	})
+		.collation({ locale: "cs", strength: 2 })
 		.lean()
 		.exec();
 	if (duplicate && duplicate?._id.toString() !== id) {
@@ -92,7 +96,7 @@ const updateInvoice = async (req: any, res: any) => {
 		});
 	}
 
-	invoiceToUpdate.client = client;
+	invoiceToUpdate.tutoring = tutoring;
 	invoiceToUpdate.mentor = mentor;
 	invoiceToUpdate.value = value;
 	invoiceToUpdate.date = date;
@@ -100,7 +104,7 @@ const updateInvoice = async (req: any, res: any) => {
 	const updatedInvoice = await invoiceToUpdate.save();
 
 	res.json({
-		message: `Faktura s datem ${date} a částkou ${value} upravena`,
+		message: `Faktura s datem ${updatedInvoice.date} upravena`,
 	});
 };
 

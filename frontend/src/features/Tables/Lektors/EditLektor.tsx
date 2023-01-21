@@ -1,15 +1,31 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectLektorById } from "./lektorsApiSlice";
 import EditLektorForm from "./EditLektorForm";
-import { selectAllMentors } from "../Mentors/mentorsApiSlice";
+import { useGetLektorsQuery } from "./lektorsApiSlice";
+import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
+import useAuth from "../../../hooks/useAuth";
+import useTitle from "../../../hooks/useTitle";
 
-const EditLesson = () => {
+const EditLektor = () => {
+	useTitle("LT IS: Úprava lektora");
 	const { id }: any = useParams();
 
-	const lektor = useSelector((state) => selectLektorById(state, id));
+	const { lektor } = useGetLektorsQuery("lektorsList", {
+		selectFromResult: ({ data }: any) => ({
+			lektor: data?.entities[id],
+		}),
+	});
 
-	const mentors = useSelector(selectAllMentors);
+	const { mentors } = useGetMentorsQuery("mentorsList", {
+		selectFromResult: ({ data }: any) => ({
+			mentors: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { isAdmin, isMentor, isLektor } = useAuth();
+
+	if (!isAdmin && !isMentor && !isLektor) {
+		return <div className="no_access">Access denied</div>;
+	}
 
 	const content: JSX.Element =
 		lektor && mentors ? (
@@ -20,4 +36,4 @@ const EditLesson = () => {
 	return content;
 };
 
-export default EditLesson;
+export default EditLektor;

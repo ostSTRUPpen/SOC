@@ -47,9 +47,18 @@ const createNewMentor = (req, res) => __awaiter(void 0, void 0, void 0, function
         });
     }
     // Duplicates
-    const foundClient = yield Client.findOne({ username }).lean().exec();
-    const foundLektor = yield Lektor.findOne({ username }).lean().exec();
-    const foundMentor = yield Mentor.findOne({ username }).lean().exec();
+    const foundClient = yield Client.findOne({ username })
+        .collation({ locale: "cs", strength: 2 })
+        .lean()
+        .exec();
+    const foundLektor = yield Lektor.findOne({ username })
+        .collation({ locale: "cs", strength: 2 })
+        .lean()
+        .exec();
+    const foundMentor = yield Mentor.findOne({ username })
+        .collation({ locale: "cs", strength: 2 })
+        .lean()
+        .exec();
     const duplicate = foundLektor
         ? foundLektor
         : foundClient
@@ -112,9 +121,18 @@ const updateMentor = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         return res.status(400).json({ message: "Mentor nenalezen" });
     }
     // Looking for a duplicate (except the one being updated)
-    const foundClient = yield Client.findOne({ username }).lean().exec();
-    const foundLektor = yield Lektor.findOne({ username }).lean().exec();
-    const foundMentor = yield Mentor.findOne({ username }).lean().exec();
+    const foundClient = yield Client.findOne({ username })
+        .collation({ locale: "cs", strength: 2 })
+        .lean()
+        .exec();
+    const foundLektor = yield Lektor.findOne({ username })
+        .collation({ locale: "cs", strength: 2 })
+        .lean()
+        .exec();
+    const foundMentor = yield Mentor.findOne({ username })
+        .collation({ locale: "cs", strength: 2 })
+        .lean()
+        .exec();
     const duplicate = foundLektor
         ? foundLektor
         : foundClient

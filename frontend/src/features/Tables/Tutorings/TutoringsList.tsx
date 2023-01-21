@@ -2,8 +2,10 @@ import { useGetTutoringsQuery } from "./tutoringsApiSlice";
 import Tutoring from "./Tutoring";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import useTitle from "../../../hooks/useTitle";
 
 const TutoringsList = () => {
+	useTitle("LT IS: List doučování");
 	const { lektorId, klientId, mentorId }: any = useParams();
 	const {
 		data: tutorings,
@@ -86,27 +88,24 @@ const TutoringsList = () => {
 			  ))
 			: null;
 		content = (
-			<>
+			<div>
 				<div>
 					<table className="table table--tutorings">
 						<thead className="table_header">
 							<tr>
 								<th
 									scope="col"
-									className="table__th tutoring__lektor"
-								>
+									className="table__th tutoring__lektor">
 									Lektor
 								</th>
 								<th
 									scope="col"
-									className="table__th tutoring__klient"
-								>
+									className="table__th tutoring__klient">
 									Klient
 								</th>
 								<th
 									scope="col"
-									className="table__th tutoring__theme"
-								>
+									className="table__th tutoring__theme">
 									Předmět
 								</th>
 							</tr>
@@ -118,7 +117,7 @@ const TutoringsList = () => {
 				<p>
 					<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
 				</p>
-			</>
+			</div>
 		);
 	}
 

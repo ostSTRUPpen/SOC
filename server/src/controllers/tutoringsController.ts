@@ -1,7 +1,7 @@
 const Lesson = require("../models/Lesson");
 const Tutoring: any = require("../models/Tutoring");
-const Lektor: any = require("../models/Lektor");
 const Client: any = require("../models/Client");
+const Lektor: any = require("../models/Lektor");
 
 // @desc Get all tutorings
 // @route GET /tutorings
@@ -28,14 +28,14 @@ const createNewTutoring = async (req: any, res: any) => {
 			message: "Všechna pole jsou povinná",
 		});
 	}
-
-	const tutoring = await Tutoring.create({ lektor, client, subject });
+	const clientInfo = await Client.findById(client).lean().exec();
+	const lektorInfo = await Lektor.findById(lektor).lean().exec();
+	const name = `Lektor: ${lektorInfo.name} ${lektorInfo.surname}, Klient (rodič): ${clientInfo.name_parent} ${clientInfo.surname_parent}`;
+	const tutoring = await Tutoring.create({ lektor, client, subject, name });
 
 	if (tutoring) {
-		const lektorInfo = await Lektor.findById(tutoring.lektor).lean().exec();
-		const clientInfo = await Client.findById(tutoring.client).lean().exec();
 		return res.status(201).json({
-			message: `Doučování mezi ${lektorInfo.name} ${lektorInfo.surname} a ${clientInfo.name_child} ${clientInfo.surname_child} s přemětem: ${subject} vytvořeno`,
+			message: `Doučování vytvořeno`,
 		});
 	} else {
 		return res.status(400).json({ message: `Došlo k chybě` });
@@ -59,7 +59,10 @@ const updateTutoring = async (req: any, res: any) => {
 		return res.status(400).json({ message: "Doučování nenalezeno" });
 	}
 
-	const duplicate = await Tutoring.findOne({ id }).lean().exec();
+	const duplicate = await Tutoring.findOne({ id })
+		.collation({ locale: "cs", strength: 2 })
+		.lean()
+		.exec();
 	if (
 		(await Tutoring.findOne({
 			client: client,
@@ -70,14 +73,8 @@ const updateTutoring = async (req: any, res: any) => {
 			.exec()) &&
 		duplicate?._id.toString() !== id
 	) {
-		const lektorInfo = await Lektor.findById(tutoringToUpdate.lektor)
-			.lean()
-			.exec();
-		const clientInfo = await Client.findById(tutoringToUpdate.client)
-			.lean()
-			.exec();
 		return res.status(201).json({
-			message: `Doučování mezi ${lektorInfo.name} ${lektorInfo.surname} a ${clientInfo.name_child} ${clientInfo.surname_child} s přemětem: ${subject} již existuje`,
+			message: `Takové doučování již existuje`,
 		});
 	}
 
@@ -86,16 +83,14 @@ const updateTutoring = async (req: any, res: any) => {
 	tutoringToUpdate.subject = subject;
 	tutoringToUpdate.active = active;
 
-	const updatedTutoring = await tutoringToUpdate.save();
+	const clientInfo = await Client.findById(client).lean().exec();
+	const lektorInfo = await Lektor.findById(lektor).lean().exec();
+	const name = `Lektor: ${lektorInfo.name} ${lektorInfo.surname}, Klient (rodič): ${clientInfo.name_parent} ${clientInfo.surname_parent}`;
+	tutoringToUpdate.name = name;
 
-	const lektorUpdated = await Lektor.findById(updatedTutoring.lektor)
-		.lean()
-		.exec();
-	const clientUpdated = await Client.findById(updatedTutoring.client)
-		.lean()
-		.exec();
+	const updatedTutoring = await tutoringToUpdate.save();
 	res.json({
-		message: `Doučování mezi ${lektorUpdated.name} ${lektorUpdated.surname} a ${clientUpdated.name_child} ${clientUpdated.surname_child} s přemětem: ${subject} bylo upraveno`,
+		message: `Doučování upraveno`,
 	});
 };
 
@@ -126,9 +121,7 @@ const deleteTutoring = async (req: any, res: any) => {
 	}
 
 	const result = await tutoringToDelete.deleteOne();
-	const lektorInfo = await Lektor.findById(result.lektor).lean().exec();
-	const clientInfo = await Client.findById(result.client).lean().exec();
-	const reply = `Doučování mezi ${lektorInfo.name} ${lektorInfo.surname} a ${clientInfo.name_child} ${clientInfo.surname_child} s přemětem: ${result.subject} vymazáno`;
+	const reply = `Doučování mezi vymazáno`;
 
 	res.json(reply);
 };

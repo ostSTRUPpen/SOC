@@ -3,8 +3,10 @@
 //import TutoringsList from "../Tables/Tutorings/TutoringsList";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import useTitle from "../../hooks/useTitle";
 
 const Welcome = () => {
+	useTitle("LT IS: Domovská stránka");
 	const { id, isLektor, isClient, isMentor, isAdmin } = useAuth();
 
 	// Ruším Adamův plán dashboardu plného inforamcí
@@ -36,7 +38,7 @@ const Welcome = () => {
 		<section className="Dashboard">
 			<h4>Dobrý den</h4>
 			{isAdmin && (
-				<>
+				<div>
 					<button className="middle__button" onClick={navToMentors}>
 						Mentoři
 					</button>
@@ -70,10 +72,10 @@ const Welcome = () => {
 					<button className="middle__button" onClick={navToSettings}>
 						Uživatelská nastavení
 					</button>
-				</>
+				</div>
 			)}
 			{isMentor && (
-				<>
+				<div>
 					<button
 						className="middle__button"
 						onClick={navMentorToLektors}>
@@ -114,10 +116,10 @@ const Welcome = () => {
 						onClick={navMentorToSettings}>
 						Uživatelská nastavení
 					</button>
-				</>
+				</div>
 			)}
 			{isLektor && (
-				<>
+				<div>
 					<button
 						className="middle__button"
 						onClick={navLektorToTutorings}>
@@ -135,10 +137,10 @@ const Welcome = () => {
 						onClick={navLektorToSettings}>
 						Uživatelská nastavení
 					</button>
-				</>
+				</div>
 			)}
 			{isClient && (
-				<>
+				<div>
 					<button
 						className="middle__button"
 						onClick={navClientToTutorings}>
@@ -156,7 +158,7 @@ const Welcome = () => {
 						onClick={navClientToSettings}>
 						Uživatelská nastavení
 					</button>
-				</>
+				</div>
 			)}
 		</section>
 	);

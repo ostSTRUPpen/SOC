@@ -2,12 +2,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 
-import { useSelector } from "react-redux";
-import { selectLessonById } from "./lessonsApiSlice";
+import { useGetLessonsQuery } from "./lessonsApiSlice";
 import useAuth from "../../../hooks/useAuth";
 
 const Lesson: any = ({ lessonId, tutoringId }: any) => {
-	const lesson = useSelector((state) => selectLessonById(state, lessonId));
+	const { lesson } = useGetLessonsQuery("lessonsList", {
+		selectFromResult: ({ data }: any) => ({
+			lesson: data?.entities[lessonId],
+		}),
+	});
 
 	const { isAdmin, isMentor, isLektor } = useAuth();
 
