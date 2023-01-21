@@ -9,7 +9,11 @@ const MentorsList = () => {
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetMentorsQuery("");
+	} = useGetMentorsQuery("mentorsList", {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
 
 	let content: JSX.Element;
 
@@ -50,52 +54,63 @@ const MentorsList = () => {
 
 		content = (
 			<>
-				<table className="table table--mentors">
-					<thead className="table_header">
-						<tr>
-							<th
-								scope="col"
-								className="table__th mentor__username"
-							>
-								Uživatelské jméno
-							</th>
-							<th scope="col" className="table__th mentor__name">
-								Jméno
-							</th>
-							<th
-								scope="col"
-								className="table__th mentor__surname"
-							>
-								Příjmení
-							</th>
-							<th
-								scope="col"
-								className="table__th mentor__date_of_birth"
-							>
-								Datum narození
-							</th>
-							<th scope="col" className="table__th mentor__gmail">
-								g-mail
-							</th>
-							<th scope="col" className="table__th mentor__email">
-								e-email
-							</th>
-							<th
-								scope="col"
-								className="table__th mentor__phone_number"
-							>
-								Telefoní číslo
-							</th>
-							<th
-								scope="col"
-								className="table__th mentor__bank_account"
-							>
-								Bankovní účet
-							</th>
-						</tr>
-					</thead>
-					<tbody>{tableContent}</tbody>
-				</table>
+				<div>
+					<table className="table table--mentors">
+						<thead className="table_header">
+							<tr>
+								<th
+									scope="col"
+									className="table__th mentor__username"
+								>
+									Uživatelské jméno
+								</th>
+								<th
+									scope="col"
+									className="table__th mentor__name"
+								>
+									Jméno
+								</th>
+								<th
+									scope="col"
+									className="table__th mentor__surname"
+								>
+									Příjmení
+								</th>
+								<th
+									scope="col"
+									className="table__th mentor__date_of_birth"
+								>
+									Datum narození
+								</th>
+								<th
+									scope="col"
+									className="table__th mentor__gmail"
+								>
+									g-mail
+								</th>
+								<th
+									scope="col"
+									className="table__th mentor__email"
+								>
+									e-email
+								</th>
+								<th
+									scope="col"
+									className="table__th mentor__phone_number"
+								>
+									Telefoní číslo
+								</th>
+								<th
+									scope="col"
+									className="table__th mentor__bank_account"
+								>
+									Bankovní účet
+								</th>
+							</tr>
+						</thead>
+						<tbody>{tableContent}</tbody>
+					</table>
+				</div>
 				<br />
 				<p>
 					<Link to={"/sec/mentors/new"}>Vytvořit mentora</Link>

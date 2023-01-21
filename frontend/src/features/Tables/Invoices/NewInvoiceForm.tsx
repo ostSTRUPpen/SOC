@@ -3,20 +3,43 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { readFromLocalStorage } from "../../../hooks/localStorage";
+import { ROLES } from "../../../config/roles";
+import useAuth from "../../../hooks/useAuth";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
 
 const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
+	const day = new Date();
+	let today: string = `${day.getFullYear()}-${String(
+		day.getMonth() + 1
+	).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+
+	let defaultValue: string = String(
+		readFromLocalStorage("standartInvoiceValue")
+	);
+	if (defaultValue === "Not found") {
+		defaultValue = "0";
+	}
+
+	const prefilLessonDate = readFromLocalStorage("prefillInvoiceDate");
+
+	if (prefilLessonDate === "Not found" || prefilLessonDate === false) {
+		today = "";
+	}
+
 	const [addNewInvoice, { isLoading, isSuccess, isError, error }] =
 		useAddNewInvoiceMutation();
 
 	const navigate = useNavigate();
 
+	const { id, role } = useAuth();
+
 	const [mentor, setMentor] = useState("");
 	const [client, setClient] = useState("");
-	const [value, setValue] = useState("");
+	const [value, setValue] = useState(defaultValue);
 	const [validValue, setValidValue] = useState(false);
-	const [date, setDate] = useState("");
+	const [date, setDate] = useState(today);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -24,10 +47,10 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 			setClient("");
 			setValue("");
 			setDate("");
-			navigate(`/sec/invoices`);
+			navigate(`/sec/invoices/show1/${id}`);
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, navigate]);
+	}, [isSuccess, navigate, id]);
 
 	useEffect(() => {
 		setValidValue(VALUE_REGEX.test(value));
@@ -57,7 +80,7 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 		setMentor("");
 		setClient("");
 		setValue("");
-		navigate(`/sec/invoices`);
+		navigate(`/sec/invoices/show1/${id}`);
 		/* Možná bude třeba změnit ^ TODO */
 	};
 
@@ -67,12 +90,15 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < mentors.length; i++) {
-		optionsMentor.push(
-			<option
-				key={mentors[i].id}
-				value={mentors[i].id}
-			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-		);
+		if (mentors[i].id === id || role === ROLES.Admin) {
+			optionsMentor.push(
+				<option
+					key={mentors[i].id}
+					value={
+						mentors[i].id
+					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
+			);
+		}
 	}
 
 	let optionsClient: Array<JSX.Element> = [
@@ -81,12 +107,15 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < clients.length; i++) {
-		optionsClient.push(
-			<option
-				key={clients[i].id}
-				value={clients[i].id}
-			>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
-		);
+		if (clients[i].mentor === id || role === ROLES.Admin) {
+			optionsClient.push(
+				<option
+					key={clients[i].id}
+					value={
+						clients[i].id
+					}>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
+			);
+		}
 	}
 
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
@@ -128,15 +157,13 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveInvoiceClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 					</div>
@@ -152,8 +179,7 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 					size={1}
 					value={mentor}
 					onChange={onMentorsChanged}
-					title="Příslušný mentor"
-				>
+					title="Příslušný mentor">
 					{optionsMentor}
 				</select>
 				<br />
@@ -168,8 +194,7 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 					size={1}
 					value={client}
 					onChange={onClientsChanged}
-					title="Příslušný client"
-				>
+					title="Příslušný client">
 					{optionsClient}
 				</select>
 				<br />
@@ -190,10 +215,11 @@ const NewInvoiceForm = ({ mentorId, mentors, clients }: any) => {
 					Hodnota:
 				</label>
 				<input
-					className={`form__input ${validValueClass}`}
+					className={`form__input--value ${validValueClass}`}
 					id="value"
 					name="value"
 					type="number"
+					max={99999}
 					autoComplete="off"
 					value={value}
 					onChange={onValuesChanged}

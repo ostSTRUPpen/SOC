@@ -2,7 +2,13 @@ import { useState, useEffect } from "react";
 import { useAddNewMentorMutation } from "./mentorsApiSlice";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+	faEye,
+	faEyeSlash,
+	faSave,
+	faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import MentorSetings from "../../Settings/MentorSettings";
 
 const USERNAME_REGEX = /^[A-z]{3,20}$/;
 const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
@@ -32,6 +38,8 @@ const NewMentorForm = ({ mentors }: any) => {
 	const [bankAccount, setBankAccount] = useState("");
 	const [validBankAccount, setValidBankAccount] = useState(false);
 	const [dateOfBirth, setDateOfBirth] = useState("");
+
+	const [passwordType, setPasswordType] = useState("password");
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -121,6 +129,11 @@ const NewMentorForm = ({ mentors }: any) => {
 	const onDateOfBirthChanged = (e: any) => setDateOfBirth(e.target.value);
 	const onBankAccountChanged = (e: any) => setBankAccount(e.target.value);
 
+	const togglePassword = () =>
+		passwordType === "password"
+			? setPasswordType("text")
+			: setPasswordType("password");
+
 	const errorClass = isError ? "errorMessage" : "hide";
 	const validUsernameClass = !validUsername ? "form__input--incomplete" : "";
 	const validPasswordClass = !validPassword ? "form__input--incomplete" : "";
@@ -166,15 +179,13 @@ const NewMentorForm = ({ mentors }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveMentorClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 					</div>
@@ -201,12 +212,26 @@ const NewMentorForm = ({ mentors }: any) => {
 					<input
 						className={`form__input ${validPasswordClass}`}
 						id="mentor-password"
-						name="pasword"
-						type="password"
+						name="password"
+						type={passwordType}
 						autoComplete="new-password"
 						value={password}
 						onChange={onPasswordChanged}
 					/>
+					<button
+						className="font__input--change-password-visibility"
+						onClick={togglePassword}>
+						{passwordType === "password" ? (
+							<i>
+								<FontAwesomeIcon icon={faEyeSlash} />
+							</i>
+						) : (
+							<i>
+								<FontAwesomeIcon icon={faEye} />
+							</i>
+						)}
+					</button>
+					<MentorSetings />
 				</details>
 				<br />
 				<details open>
@@ -241,8 +266,7 @@ const NewMentorForm = ({ mentors }: any) => {
 					<br />
 					<label
 						className="form__label"
-						htmlFor="mentor-date_of_birth"
-					>
+						htmlFor="mentor-date_of_birth">
 						Datum narození:
 					</label>
 					<input
@@ -287,8 +311,7 @@ const NewMentorForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="mentor-phone_number"
-						>
+							htmlFor="mentor-phone_number">
 							Telefoní číslo:
 						</label>
 						<input
@@ -303,8 +326,7 @@ const NewMentorForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="mentor-bank_account"
-						>
+							htmlFor="mentor-bank_account">
 							Číslo účtu:
 						</label>
 						<input

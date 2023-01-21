@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 const clientController = require("../controllers/clientsController");
 
-//router.use(verifyJWT);
+router.use(verifyJWT);
 
 router
 	.route("/")

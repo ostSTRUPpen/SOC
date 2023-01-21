@@ -8,7 +8,12 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetLessonsQuery("");
+	} = useGetLessonsQuery("lessonsList", {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
+
 	let content: any;
 
 	if (isLoading) {
@@ -65,37 +70,51 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 
 		content = (
 			<>
-				<table className="table table--lessons">
-					<thead className="table_header">
-						<tr>
-							<th
-								scope="col"
-								className="table__th lesson__number"
-							>
-								Číslo lekce
-							</th>
-							<th scope="col" className="table__th lesson__date">
-								Datum lekce
-							</th>
-							<th scope="col" className="table__th lesson__theme">
-								Téma lekce
-							</th>
-							<th
-								scope="col"
-								className="table__th lesson__length"
-							>
-								Délka lekce
-							</th>
-							<th scope="col" className="table__th lesson__info">
-								Poznámka k lekci
-							</th>
-							<th scope="col" className="table__th lesson__edit">
-								Upravit
-							</th>
-						</tr>
-					</thead>
-					<tbody>{tableContent}</tbody>
-				</table>
+				<div>
+					<table className="table table--lessons">
+						<thead className="table_header">
+							<tr>
+								<th
+									scope="col"
+									className="table__th lesson__number"
+								>
+									Číslo lekce
+								</th>
+								<th
+									scope="col"
+									className="table__th lesson__date"
+								>
+									Datum lekce
+								</th>
+								<th
+									scope="col"
+									className="table__th lesson__theme"
+								>
+									Téma lekce
+								</th>
+								<th
+									scope="col"
+									className="table__th lesson__length"
+								>
+									Délka lekce
+								</th>
+								<th
+									scope="col"
+									className="table__th lesson__info"
+								>
+									Poznámka k lekci
+								</th>
+								<th
+									scope="col"
+									className="table__th lesson__edit"
+								>
+									Upravit
+								</th>
+							</tr>
+						</thead>
+						<tbody>{tableContent}</tbody>
+					</table>
+				</div>
 				<br />
 				<p>
 					<Link to={`/sec/lessons/new/${tutoringId}`}>

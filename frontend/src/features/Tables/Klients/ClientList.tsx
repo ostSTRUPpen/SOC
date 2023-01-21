@@ -10,7 +10,12 @@ const ClientsList = () => {
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetClientsQuery("");
+	} = useGetClientsQuery("clientList", {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
+
 	let content: any;
 
 	if (isLoading) {
@@ -60,97 +65,99 @@ const ClientsList = () => {
 			: null;
 		content = (
 			<>
-				<table className="table table--clients">
-					<thead className="table_header">
-						<tr>
-							<th
-								scope="col"
-								className="table__th client__mentor"
-							>
-								Příslušný mentor
-							</th>
-							<th
-								scope="col"
-								className="table__th client__username"
-							>
-								Uživatelské jméno
-							</th>
-							<th
-								scope="col"
-								className="table__th client_parent__name"
-							>
-								Jméno rodiče
-							</th>
-							<th
-								scope="col"
-								className="table__th client_parent__surname"
-							>
-								Příjmení rodiče
-							</th>
-							<th
-								scope="col"
-								className="table__th client_parent__gmail"
-							>
-								g-mail rodiče
-							</th>
-							<th
-								scope="col"
-								className="table__th client_parent__email"
-							>
-								e-email rodiče
-							</th>
-							<th
-								scope="col"
-								className="table__th client_parent__phone_number"
-							>
-								Telefoní číslo rodiče
-							</th>
-							<th
-								scope="col"
-								className="table__th client__bank_account"
-							>
-								Bankovní účet
-							</th>
-							<th
-								scope="col"
-								className="table__th client_child__name"
-							>
-								Jméno dítěte
-							</th>
-							<th
-								scope="col"
-								className="table__th client_child__surname"
-							>
-								Příjmení dítěte
-							</th>
-							<th
-								scope="col"
-								className="table__th client_child__gmail"
-							>
-								g-mail dítěte
-							</th>
-							<th
-								scope="col"
-								className="table__th client_child__email"
-							>
-								e-email dítěte
-							</th>
-							<th
-								scope="col"
-								className="table__th client_child__phone_number"
-							>
-								Telefoní číslo dítěte
-							</th>
-							<th
-								scope="col"
-								className="table__th client_child__date_of_birth"
-							>
-								Datum narození dítěte
-							</th>
-						</tr>
-					</thead>
-					<tbody>{tableContent}</tbody>
-				</table>
+				<div>
+					<table className="table table--clients">
+						<thead className="table_header">
+							<tr>
+								<th
+									scope="col"
+									className="table__th client__mentor"
+								>
+									Příslušný mentor
+								</th>
+								<th
+									scope="col"
+									className="table__th client__username"
+								>
+									Uživatelské jméno
+								</th>
+								<th
+									scope="col"
+									className="table__th client_parent__name"
+								>
+									Jméno rodiče
+								</th>
+								<th
+									scope="col"
+									className="table__th client_parent__surname"
+								>
+									Příjmení rodiče
+								</th>
+								<th
+									scope="col"
+									className="table__th client_parent__gmail"
+								>
+									g-mail rodiče
+								</th>
+								<th
+									scope="col"
+									className="table__th client_parent__email"
+								>
+									e-email rodiče
+								</th>
+								<th
+									scope="col"
+									className="table__th client_parent__phone_number"
+								>
+									Telefoní číslo rodiče
+								</th>
+								<th
+									scope="col"
+									className="table__th client__bank_account"
+								>
+									Bankovní účet
+								</th>
+								<th
+									scope="col"
+									className="table__th client_child__name"
+								>
+									Jméno dítěte
+								</th>
+								<th
+									scope="col"
+									className="table__th client_child__surname"
+								>
+									Příjmení dítěte
+								</th>
+								<th
+									scope="col"
+									className="table__th client_child__gmail"
+								>
+									g-mail dítěte
+								</th>
+								<th
+									scope="col"
+									className="table__th client_child__email"
+								>
+									e-email dítěte
+								</th>
+								<th
+									scope="col"
+									className="table__th client_child__phone_number"
+								>
+									Telefoní číslo dítěte
+								</th>
+								<th
+									scope="col"
+									className="table__th client_child__date_of_birth"
+								>
+									Datum narození dítěte
+								</th>
+							</tr>
+						</thead>
+						<tbody>{tableContent}</tbody>
+					</table>
+				</div>
 				<br />
 				<p>
 					<Link to="/sec/clients/new/">Přidat klienta</Link>

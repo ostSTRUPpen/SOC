@@ -10,7 +10,12 @@ const LektorsList = () => {
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetLektorsQuery("");
+	} = useGetLektorsQuery("lektorsList", {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
+
 	let content: any;
 
 	if (isLoading) {
@@ -60,58 +65,69 @@ const LektorsList = () => {
 
 		content = (
 			<>
-				<table className="table table--lektors">
-					<thead className="table_header">
-						<tr>
-							<th
-								scope="col"
-								className="table__th lektor__mentor"
-							>
-								Příslušný mentor
-							</th>
-							<th
-								scope="col"
-								className="table__th lektor__username"
-							>
-								Uživatelské jméno
-							</th>
-							<th scope="col" className="table__th lektor__name">
-								Jméno
-							</th>
-							<th
-								scope="col"
-								className="table__th lektor__surname"
-							>
-								Příjmení
-							</th>
-							<th
-								scope="col"
-								className="table__th lektor__date_of_birth"
-							>
-								Datum narození
-							</th>
-							<th scope="col" className="table__th lektor__gmail">
-								g-mail
-							</th>
-							<th scope="col" className="table__th lektor__email">
-								e-email
-							</th>
-							<th
-								scope="col"
-								className="table__th lektor__phone_number"
-							>
-								Telefoní číslo
-							</th>
-							<th
-								scope="col"
-								className="table__th lektor__bank_account"
-							>
-								Bankovní účet
-							</th>
-						</tr>
-					</thead>
-					<tbody>{tableContent}</tbody>
-				</table>
+				<div>
+					<table className="table table--lektors">
+						<thead className="table_header">
+							<tr>
+								<th
+									scope="col"
+									className="table__th lektor__mentor"
+								>
+									Příslušný mentor
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__username"
+								>
+									Uživatelské jméno
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__name"
+								>
+									Jméno
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__surname"
+								>
+									Příjmení
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__date_of_birth"
+								>
+									Datum narození
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__gmail"
+								>
+									g-mail
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__email"
+								>
+									e-email
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__phone_number"
+								>
+									Telefoní číslo
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__bank_account"
+								>
+									Bankovní účet
+								</th>
+							</tr>
+						</thead>
+						<tbody>{tableContent}</tbody>
+					</table>
+				</div>
 				<br />
 				<p>
 					<Link to="/sec/lektors/new/">Přidat lektora</Link>

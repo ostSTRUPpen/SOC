@@ -6,10 +6,15 @@ import {
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+	faEye,
+	faEyeSlash,
 	faSave,
 	faTimesCircle,
 	faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import MentorSetings from "../../Settings/MentorSettings";
+import { ROLES } from "../../../config/roles";
+import useAuth from "../../../hooks/useAuth";
 
 const USERNAME_REGEX = /^[A-z]{3,20}$/;
 const PASSWORDOLD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
@@ -49,6 +54,8 @@ const EditMentorForm = ({ mentor }: any) => {
 	const [dateOfBirth, setDateOfBirth] = useState(mentor.date_of_birth);
 	const [active, setActive] = useState(mentor.active);
 
+	const { id, role } = useAuth();
+
 	useEffect(() => {
 		if (isSuccess || isDelSuccess) {
 			setUsername("");
@@ -62,10 +69,14 @@ const EditMentorForm = ({ mentor }: any) => {
 			setBankAccount("");
 			setDateOfBirth("");
 			setActive(false);
-			navigate(`/sec/mentors`);
+			if (role === ROLES.Mentor) {
+				navigate(`/sec`);
+			} else {
+				navigate(`/sec/mentors`);
+			}
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, isDelSuccess, navigate]);
+	}, [isSuccess, isDelSuccess, navigate, id, role]);
 
 	useEffect(() => {
 		setValidUsername(USERNAME_REGEX.test(username));
@@ -178,12 +189,19 @@ const EditMentorForm = ({ mentor }: any) => {
 		setBankAccount("");
 		setDateOfBirth("");
 		setActive(false);
-		navigate(`/sec/mentors`);
+		if (role === ROLES.Mentor) {
+			navigate(`/sec`);
+		} else {
+			navigate(`/sec/mentors`);
+		}
 	};
 
 	const onUsernameChanged = (e: any) => setUsername(e.target.value);
 	const onPasswordOldChanged = (e: any) => setPasswordOld(e.target.value);
 	const onPasswordNewChanged = (e: any) => setPasswordNew(e.target.value);
+
+	const [passwordTypeOld, setPasswordTypeOld] = useState("password");
+	const [passwordTypeNew, setPasswordTypeNew] = useState("password");
 
 	const onNameChanged = (e: any) => setName(e.target.value);
 	const onSurnameChanged = (e: any) => setSurname(e.target.value);
@@ -193,6 +211,15 @@ const EditMentorForm = ({ mentor }: any) => {
 	const onDateOfBirthChanged = (e: any) => setDateOfBirth(e.target.value);
 	const onBankAccountChanged = (e: any) => setBankAccount(e.target.value);
 	const onActiveChanged = (e: any) => setActive((prev: any) => !prev);
+
+	const togglePasswordOld = () =>
+		passwordTypeOld === "password"
+			? setPasswordTypeOld("text")
+			: setPasswordTypeOld("password");
+	const togglePasswordNew = () =>
+		passwordTypeNew === "password"
+			? setPasswordTypeNew("text")
+			: setPasswordTypeNew("password");
 
 	const errorClass = isError || isDelError ? "errorMessage" : "hide";
 	const validUsernameClass = !validUsername ? "form__input--incomplete" : "";
@@ -252,28 +279,25 @@ const EditMentorForm = ({ mentor }: any) => {
 
 			<form className="form" onSubmit={(e) => e.preventDefault()}>
 				<div className="form__mentor-number">
-					<h2>Tvorba nového mentora</h2>
+					<h2>Úprava mentora</h2>
 					<div className="form__action-buttons">
 						<button
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveMentorClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 						<button
 							className="icon-button form--delete-button"
 							title="Smazat lekci"
-							onClick={onDeleteMentorClicked}
-						>
+							onClick={onDeleteMentorClicked}>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>
 					</div>
@@ -298,40 +322,64 @@ const EditMentorForm = ({ mentor }: any) => {
 						<summary>Změnit heslo</summary>
 						<label
 							className="form__label"
-							htmlFor="client-passwordOld"
-						>
+							htmlFor="client-passwordOld">
 							Staré heslo:
 						</label>
 						<input
 							className={`form__input ${validPasswordOldClass}`}
 							id="client-passwordOld"
 							name="password"
-							type="password"
+							type={passwordTypeOld}
 							autoComplete="current-password"
 							value={passwordOld}
 							onChange={onPasswordOldChanged}
 						/>
+						<button
+							className="font__input--change-password-visibility"
+							onClick={togglePasswordOld}>
+							{passwordTypeOld === "password" ? (
+								<i>
+									<FontAwesomeIcon icon={faEyeSlash} />
+								</i>
+							) : (
+								<i>
+									<FontAwesomeIcon icon={faEye} />
+								</i>
+							)}
+						</button>
 						<br />
 						<label
 							className="form__label"
-							htmlFor="client-password-new"
-						>
+							htmlFor="client-password-new">
 							Nové heslo:
 						</label>
 						<input
 							className={`form__input ${validPasswordNewClass}`}
 							id="client-password-new"
 							name="password"
-							type="password"
+							type={passwordTypeNew}
 							autoComplete="new-password"
 							value={passwordNew}
 							onChange={onPasswordNewChanged}
 						/>
+						<button
+							className="font__input--change-password-visibility"
+							onClick={togglePasswordNew}>
+							{passwordTypeNew === "password" ? (
+								<i>
+									<FontAwesomeIcon icon={faEyeSlash} />
+								</i>
+							) : (
+								<i>
+									<FontAwesomeIcon icon={faEye} />
+								</i>
+							)}
+						</button>
 					</details>
+					<MentorSetings />
 					<label
 						className="form__label form__checkbox-container"
-						htmlFor="mentor-active"
-					>
+						htmlFor="mentor-active">
 						účet aktivní:
 					</label>
 					<input
@@ -364,7 +412,7 @@ const EditMentorForm = ({ mentor }: any) => {
 						Příjmení:
 					</label>
 					<input
-						className={`form__input--info ${validSurnameClass}`}
+						className={`form__input ${validSurnameClass}`}
 						id="mentor-surname"
 						name="surname"
 						type="text"
@@ -376,12 +424,11 @@ const EditMentorForm = ({ mentor }: any) => {
 					<br />
 					<label
 						className="form__label"
-						htmlFor="mentor-date_of_birth"
-					>
+						htmlFor="mentor-date_of_birth">
 						Datum narození:
 					</label>
 					<input
-						className={`form__input--info ${validDateOfBirthClass}`}
+						className={`form__input ${validDateOfBirthClass}`}
 						id="mentor-date_of_birth"
 						name="date_of_birtht"
 						type="date"
@@ -396,7 +443,7 @@ const EditMentorForm = ({ mentor }: any) => {
 							G-mail:
 						</label>
 						<input
-							className={`form__input--info ${validGmailClass}`}
+							className={`form__input ${validGmailClass}`}
 							id="mentor-gmail"
 							name="gmail"
 							type="text"
@@ -410,7 +457,7 @@ const EditMentorForm = ({ mentor }: any) => {
 							E-mail:
 						</label>
 						<input
-							className={`form__input--info ${validEmailClass}`}
+							className={`form__input ${validEmailClass}`}
 							id="mentor-email"
 							name="email"
 							type="text"
@@ -422,12 +469,11 @@ const EditMentorForm = ({ mentor }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="mentor-phone_number"
-						>
+							htmlFor="mentor-phone_number">
 							Telefoní číslo:
 						</label>
 						<input
-							className={`form__input--info ${validPhoneNumberClass}`}
+							className={`form__input ${validPhoneNumberClass}`}
 							id="mentor-phone_number"
 							name="phone_number"
 							type="tel"
@@ -438,12 +484,11 @@ const EditMentorForm = ({ mentor }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="mentor-bank_account"
-						>
+							htmlFor="mentor-bank_account">
 							Číslo účtu:
 						</label>
 						<input
-							className={`form__input--info ${validBankAccountClass}`}
+							className={`form__input ${validBankAccountClass}`}
 							id="mentor-bank_account"
 							name="bank_account"
 							type="text"

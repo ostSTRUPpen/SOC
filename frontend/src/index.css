@@ -27,10 +27,8 @@ code {
   outline:  1px solid orange;
 }
 
-#lesson-info  {
-  /* Nepremává */
-  width: 100rm; /* Set the width of the input field to 200 pixels */
-  min-height: 30px; /* Set the height of the input field to 30 pixels */
+textarea #lessonimfo, #lesson-theme {
+  max-width: 100%;
 }
 
 details[open] {
@@ -40,6 +38,20 @@ details[open] {
 details[open] > details[open] {
   background-color: rgb(163, 163, 163);
 }
+
+.form__input--value {
+  width: 80px;
+}
+
+.public-login .login {
+  display: flex; /* use flexbox layout */
+  align-items: center; /* center the div vertically */
+  justify-content: center; /* center the div horizontally */
+}
+
+/*.form__input {
+  width: 100%;
+}*/
 
 @keyframes tick { to { transform: rotate(359deg);}}
 

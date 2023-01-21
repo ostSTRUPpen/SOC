@@ -10,7 +10,11 @@ const InvoiceList = () => {
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetInvoicesQuery("");
+	} = useGetInvoicesQuery("invoiceList", {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
 	let content: any;
 
 	if (isLoading) {
@@ -48,7 +52,7 @@ const InvoiceList = () => {
 			filteredIds = [...ids];
 		} else if (mentorId !== undefined && klientId === undefined) {
 			filteredIds = ids.filter(
-				(invoiceId) => entities[invoiceId].lektor === mentorId
+				(invoiceId) => entities[invoiceId].mentor === mentorId
 			);
 		} else if (mentorId === undefined && klientId !== undefined) {
 			filteredIds = ids.filter(
@@ -65,34 +69,39 @@ const InvoiceList = () => {
 			: null;
 		content = (
 			<>
-				<table className="table table--invoices">
-					<thead className="table_header">
-						<tr>
-							<th
-								scope="col"
-								className="table__th invoice__mentor"
-							>
-								Mentor
-							</th>
-							<th
-								scope="col"
-								className="table__th invoice__klient"
-							>
-								Klient
-							</th>
-							<th scope="col" className="table__th invoice__date">
-								Datum
-							</th>
-							<th
-								scope="col"
-								className="table__th invoice__value"
-							>
-								Částka
-							</th>
-						</tr>
-					</thead>
-					<tbody>{tableContent}</tbody>
-				</table>
+				<div>
+					<table className="table table--invoices">
+						<thead className="table_header">
+							<tr>
+								<th
+									scope="col"
+									className="table__th invoice__mentor"
+								>
+									Mentor
+								</th>
+								<th
+									scope="col"
+									className="table__th invoice__klient"
+								>
+									Klient
+								</th>
+								<th
+									scope="col"
+									className="table__th invoice__date"
+								>
+									Datum
+								</th>
+								<th
+									scope="col"
+									className="table__th invoice__value"
+								>
+									Částka
+								</th>
+							</tr>
+						</thead>
+						<tbody>{tableContent}</tbody>
+					</table>
+				</div>
 				<br />
 				<p>
 					<Link to={`/sec/invoices/new`}>Nová faktura</Link>

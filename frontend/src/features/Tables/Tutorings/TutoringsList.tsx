@@ -3,22 +3,18 @@ import Tutoring from "./Tutoring";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-// TOHLE CELÉ SE MUSÍ PŘEPSAT - NEPLNÍ TO FUNKCI
-/*
-Potřebuji pouze tutorings pro příslošné ID lektora/klienta
-Ty následně musím rozdělit do více tabulek (viz MIRO)
-Pro každé tutoring musím získat poslední dvě lekce pro dané tutoring ID a přiřadit je do příslušné tabulky
-Každá tabulka musí být zároveň odkaz na správu všech zapsaných lekcí daného doučování
-*/
-
 const TutoringsList = () => {
-	const { lektorId, klientId }: any = useParams();
+	const { lektorId, klientId, mentorId }: any = useParams();
 	const {
 		data: tutorings,
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetTutoringsQuery("");
+	} = useGetTutoringsQuery("tutoringsList", {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
 	let content: any;
 
 	if (isLoading) {
@@ -52,16 +48,35 @@ const TutoringsList = () => {
 	if (isSuccess) {
 		const { ids, entities } = tutorings;
 		let filteredIds;
-		if (lektorId === undefined && klientId === undefined) {
+		if (
+			lektorId === undefined &&
+			klientId === undefined &&
+			mentorId === undefined
+		) {
 			filteredIds = [...ids];
-		} else if (lektorId !== undefined && klientId === undefined) {
+		} else if (
+			lektorId !== undefined &&
+			klientId === undefined &&
+			mentorId === undefined
+		) {
 			filteredIds = ids.filter(
 				(tutoringId) => entities[tutoringId].lektor === lektorId
 			);
-		} else if (lektorId === undefined && klientId !== undefined) {
+		} else if (
+			lektorId === undefined &&
+			klientId !== undefined &&
+			mentorId === undefined
+		) {
 			filteredIds = ids.filter(
 				(tutoringId) => entities[tutoringId].client === klientId
 			);
+		} else if (
+			lektorId === undefined &&
+			klientId === undefined &&
+			mentorId !== undefined
+		) {
+			// TODO ? Musí z tutoring dostat ID lektora a podle něj získat lektora a z něj dostat ID mentora
+			filteredIds = [...ids];
 		} else {
 			filteredIds = [...ids];
 		}
@@ -72,32 +87,34 @@ const TutoringsList = () => {
 			: null;
 		content = (
 			<>
-				<table className="table table--tutorings">
-					<thead className="table_header">
-						<tr>
-							<th
-								scope="col"
-								className="table__th tutoring__lektor"
-							>
-								Lektor
-							</th>
-							<th
-								scope="col"
-								className="table__th tutoring__klient"
-							>
-								Klient
-							</th>
-							<th
-								scope="col"
-								className="table__th tutoring__theme"
-							>
-								Předmět
-							</th>
-						</tr>
-					</thead>
-					<tbody>{tableContent}</tbody>
-				</table>
-				<br />
+				<div>
+					<table className="table table--tutorings">
+						<thead className="table_header">
+							<tr>
+								<th
+									scope="col"
+									className="table__th tutoring__lektor"
+								>
+									Lektor
+								</th>
+								<th
+									scope="col"
+									className="table__th tutoring__klient"
+								>
+									Klient
+								</th>
+								<th
+									scope="col"
+									className="table__th tutoring__theme"
+								>
+									Předmět
+								</th>
+							</tr>
+						</thead>
+						<tbody>{tableContent}</tbody>
+					</table>
+					<br />
+				</div>
 				<p>
 					<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
 				</p>

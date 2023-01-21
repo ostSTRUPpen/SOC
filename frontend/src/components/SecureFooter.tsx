@@ -22,11 +22,7 @@ const SecureFooter = () => {
 	}
 	*/
 	const content = (
-		<footer className="secure-footer">
-			{/*{goHomeButton}*/}
-			<p>Current User:</p>
-			<p>Status:</p>
-		</footer>
+		<footer className="secure-footer">{/*{goHomeButton}*/}</footer>
 	);
 	return content;
 };

@@ -4,16 +4,25 @@ import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 import { selectLessonById } from "./lessonsApiSlice";
+import useAuth from "../../../hooks/useAuth";
 
 const Lesson: any = ({ lessonId, tutoringId }: any) => {
 	const lesson = useSelector((state) => selectLessonById(state, lessonId));
+
+	const { isAdmin, isMentor, isLektor } = useAuth();
 
 	const navigate = useNavigate();
 
 	if (lesson) {
 		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/lessons/${lessonId}`);
-		const canEdit = 1;
+		const canEdit: boolean = isAdmin
+			? true
+			: isMentor
+			? true
+			: isLektor
+			? true
+			: false;
 
 		let editing;
 		if (canEdit) {
@@ -22,8 +31,7 @@ const Lesson: any = ({ lessonId, tutoringId }: any) => {
 					<button
 						title="edit button"
 						className="icon-button table__button--edit"
-						onClick={handleEdit}
-					>
+						onClick={handleEdit}>
 						<FontAwesomeIcon icon={faPenToSquare} />
 					</button>
 				</td>

@@ -10,6 +10,8 @@ import {
 	faTimesCircle,
 	faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../../hooks/useAuth";
+import { ROLES } from "../../../config/roles";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
 
@@ -30,16 +32,22 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 	const [validValue, setValidValue] = useState(false);
 	const [date, setDate] = useState(invoice.date);
 
+	const { id, role } = useAuth();
+
 	useEffect(() => {
 		if (isSuccess || isDelSuccess) {
 			setMentor("");
 			setClient("");
 			setValue("");
 			setDate("");
-			navigate(`/sec/invoices`);
+			if (role === ROLES.Mentor) {
+				navigate(`/sec/invoices/show1/${id}`);
+			} else {
+				navigate(`/sec/invoices`);
+			}
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, isDelSuccess, navigate]);
+	}, [isSuccess, isDelSuccess, navigate, id, role]);
 
 	useEffect(() => {
 		setValidValue(VALUE_REGEX.test(value));
@@ -70,7 +78,11 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		setMentor("");
 		setClient("");
 		setValue("");
-		navigate(`/sec/invoices`);
+		if (role === ROLES.Mentor) {
+			navigate(`/sec/invoices/show1/${id}`);
+		} else {
+			navigate(`/sec/invoices`);
+		}
 		/* Možná bude třeba změnit ^ TODO */
 	};
 
@@ -84,12 +96,15 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < mentors.length; i++) {
-		optionsMentor.push(
-			<option
-				key={mentors[i].id}
-				value={mentors[i].id}
-			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-		);
+		if (mentors[i].id === id || role === ROLES.Admin) {
+			optionsMentor.push(
+				<option
+					key={mentors[i].id}
+					value={
+						mentors[i].id
+					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
+			);
+		}
 	}
 
 	let optionsClient: Array<JSX.Element> = [
@@ -98,12 +113,15 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < clients.length; i++) {
-		optionsClient.push(
-			<option
-				key={clients[i].id}
-				value={clients[i].id}
-			>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
-		);
+		if (clients[i].mentor === id || role === ROLES.Admin) {
+			optionsClient.push(
+				<option
+					key={clients[i].id}
+					value={
+						clients[i].id
+					}>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
+			);
+		}
 	}
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onClientsChanged = (e: any) => setClient(e.target.value);
@@ -158,22 +176,19 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveInvoiceClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 						<button
 							className="icon-button form--delete-button"
 							title="Smazat fakturu"
-							onClick={onDeleteInvoiceClicked}
-						>
+							onClick={onDeleteInvoiceClicked}>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>
 					</div>
@@ -189,8 +204,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 					size={1}
 					value={mentor}
 					onChange={onMentorsChanged}
-					title="Příslušný mentor"
-				>
+					title="Příslušný mentor">
 					{optionsMentor}
 				</select>
 				<br />
@@ -205,8 +219,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 					size={1}
 					value={client}
 					onChange={onClientsChanged}
-					title="Příslušný klient"
-				>
+					title="Příslušný klient">
 					{optionsClient}
 				</select>
 				<br />
@@ -227,10 +240,11 @@ const EditInvoiceForm = ({ invoice, mentors, clients }: any) => {
 					Hodnota:
 				</label>
 				<input
-					className={`form__input ${validValueClass}`}
+					className={`form__input--value ${validValueClass}`}
 					id="value"
 					name="value"
 					type="number"
+					max={99999}
 					autoComplete="off"
 					value={value}
 					onChange={onValuesChanged}

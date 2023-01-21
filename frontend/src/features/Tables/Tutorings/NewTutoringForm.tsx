@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../../hooks/useAuth";
+import { ROLES } from "../../../config/roles";
 
 const SUBJECT_REGEX = /^[A-z]{1,3}$/;
 
@@ -17,15 +19,21 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 	const [subject, setSubject] = useState("");
 	const [validSubject, setValidSubject] = useState(false);
 
+	const { id, role } = useAuth();
+
 	useEffect(() => {
 		if (isSuccess) {
 			setLektor("");
 			setClient("");
 			setSubject("");
-			navigate(`/sec/tutorings`);
+			if (role === ROLES.Mentor) {
+				navigate(`/sec/tutorings/show3/${id}`);
+			} else {
+				navigate(`/sec/tutorings`);
+			}
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, navigate]);
+	}, [isSuccess, navigate, id, role]);
 
 	useEffect(() => {
 		setValidSubject(SUBJECT_REGEX.test(subject));
@@ -49,7 +57,11 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 		setLektor("");
 		setClient("");
 		setSubject("");
-		navigate(`/sec/tutorings`);
+		if (role === ROLES.Mentor) {
+			navigate(`/sec/tutorings/show3/${id}`);
+		} else {
+			navigate(`/sec/tutorings`);
+		}
 		/* Možná bude třeba změnit ^ TODO */
 	};
 
@@ -59,12 +71,15 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < lektors.length; i++) {
-		optionsLektor.push(
-			<option
-				key={lektors[i].id}
-				value={lektors[i].id}
-			>{`${lektors[i].name} ${lektors[i].surname}`}</option>
-		);
+		if (lektors[i].mentor === id || role === ROLES.Admin) {
+			optionsLektor.push(
+				<option
+					key={lektors[i].id}
+					value={
+						lektors[i].id
+					}>{`${lektors[i].name} ${lektors[i].surname}`}</option>
+			);
+		}
 	}
 
 	let optionsClient: Array<JSX.Element> = [
@@ -73,12 +88,23 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < clients.length; i++) {
-		optionsClient.push(
-			<option
-				key={clients[i].id}
-				value={clients[i].id}
-			>{`${clients[i].name_child} ${clients[i].surname_child}`}</option>
-		);
+		if (clients[i].mentor === id && role !== ROLES.Admin) {
+			optionsClient.push(
+				<option
+					key={clients[i].id}
+					value={
+						clients[i].id
+					}>{`${clients[i].name_child} ${clients[i].surname_child}`}</option>
+			);
+		} else if (role === ROLES.Admin) {
+			optionsClient.push(
+				<option
+					key={clients[i].id}
+					value={
+						clients[i].id
+					}>{`${clients[i].name_child} ${clients[i].surname_child}`}</option>
+			);
+		}
 	}
 
 	const onLektorsChanged = (e: any) => setLektor(e.target.value);
@@ -118,15 +144,13 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveTutoringClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 					</div>
@@ -142,8 +166,7 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 					size={1}
 					value={lektor}
 					onChange={onLektorsChanged}
-					title="Příslušný mentor"
-				>
+					title="Příslušný mentor">
 					{optionsLektor}
 				</select>
 				<br />
@@ -158,8 +181,7 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 					size={1}
 					value={client}
 					onChange={onClientsChanged}
-					title="Příslušný klient"
-				>
+					title="Příslušný klient">
 					{optionsClient}
 				</select>
 				<br />

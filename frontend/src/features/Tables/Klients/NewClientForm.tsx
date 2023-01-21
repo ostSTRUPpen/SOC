@@ -2,7 +2,15 @@ import { useState, useEffect } from "react";
 import { useAddNewClientMutation } from "./clientsApiSlice";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+	faEye,
+	faEyeSlash,
+	faSave,
+	faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import ClientSetings from "../../Settings/ClientSetings";
+import useAuth from "../../../hooks/useAuth";
+import { ROLES } from "../../../config/roles";
 
 const USERNAME_REGEX = /^[A-z]{3,20}$/;
 const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
@@ -47,6 +55,10 @@ const NewClientForm = ({ mentors }: any) => {
 	const [validPhoneNumberChild, setValidPhoneNumberChild] = useState(false);
 	const [dateOfBirthChild, setDateOfBirthChild] = useState("");
 
+	const [passwordType, setPasswordType] = useState("password");
+
+	const { id, role } = useAuth();
+
 	useEffect(() => {
 		if (isSuccess) {
 			setMentor("");
@@ -64,10 +76,14 @@ const NewClientForm = ({ mentors }: any) => {
 			setEmailChild("");
 			setPhoneNumberChild("");
 			setDateOfBirthChild("");
-			navigate(`/sec/clients`);
+			if (role === ROLES.Mentor) {
+				navigate(`/sec/clients/show/${id}`);
+			} else {
+				navigate(`/sec/clients`);
+			}
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, navigate]);
+	}, [isSuccess, navigate, id, role]);
 
 	useEffect(() => {
 		setValidUsername(USERNAME_REGEX.test(username));
@@ -154,12 +170,15 @@ const NewClientForm = ({ mentors }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < mentors.length; i++) {
-		options.push(
-			<option
-				key={mentors[i].id}
-				value={mentors[i].id}
-			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-		);
+		if (mentors[i].id === id || role === ROLES.Admin) {
+			options.push(
+				<option
+					key={mentors[i].id}
+					value={
+						mentors[i].id
+					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
+			);
+		}
 	}
 
 	const onStopEditingClicked = (e: any) => {
@@ -179,7 +198,11 @@ const NewClientForm = ({ mentors }: any) => {
 		setEmailChild("");
 		setPhoneNumberChild("");
 		setDateOfBirthChild("");
-		navigate(`/sec/clients`);
+		if (role === ROLES.Mentor) {
+			navigate(`/sec/clients/show/${id}`);
+		} else {
+			navigate(`/sec/clients`);
+		}
 		/* Možná bude třeba změnit ^ TODO */
 	};
 	const onUsernameChanged = (e: any) => setUsername(e.target.value);
@@ -201,6 +224,11 @@ const NewClientForm = ({ mentors }: any) => {
 	const onChildDateOfBirthChanged = (e: any) =>
 		setDateOfBirthChild(e.target.value);
 	const onMentorIdChanged = (e: any) => setMentor(e.target.value);
+
+	const togglePassword = () =>
+		passwordType === "password"
+			? setPasswordType("text")
+			: setPasswordType("password");
 
 	const errorClass = isError ? "errorMessage" : "hide";
 	const validUsernameClass = !validUsername ? "form__input--incomplete" : "";
@@ -266,15 +294,13 @@ const NewClientForm = ({ mentors }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveClientClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 					</div>
@@ -292,8 +318,7 @@ const NewClientForm = ({ mentors }: any) => {
 						size={1}
 						value={mentor}
 						onChange={onMentorIdChanged}
-						title="Příslušný mentor"
-					>
+						title="Příslušný mentor">
 						{options}
 					</select>
 					<br />
@@ -317,13 +342,26 @@ const NewClientForm = ({ mentors }: any) => {
 					<input
 						className={`form__input ${validPasswordClass}`}
 						id="client-password"
-						name="pasword"
-						type="password"
+						name="password"
+						type={passwordType}
 						autoComplete="new-password"
 						value={password}
 						onChange={onPasswordChanged}
 					/>
-					<br />
+					<button
+						className="font__input--change-password-visibility"
+						onClick={togglePassword}>
+						{passwordType === "password" ? (
+							<i>
+								<FontAwesomeIcon icon={faEyeSlash} />
+							</i>
+						) : (
+							<i>
+								<FontAwesomeIcon icon={faEye} />
+							</i>
+						)}
+					</button>
+					<ClientSetings />
 				</details>
 				<br />
 				<details open>
@@ -344,8 +382,7 @@ const NewClientForm = ({ mentors }: any) => {
 					<br />
 					<label
 						className="form__label"
-						htmlFor="client-surname_parent"
-					>
+						htmlFor="client-surname_parent">
 						Příjmení rodiče:
 					</label>
 					<input
@@ -363,8 +400,7 @@ const NewClientForm = ({ mentors }: any) => {
 						<summary>Kontakt</summary>
 						<label
 							className="form__label"
-							htmlFor="client-gmail_parent"
-						>
+							htmlFor="client-gmail_parent">
 							G-mail rodiče:
 						</label>
 						<input
@@ -380,8 +416,7 @@ const NewClientForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="client-email_parent"
-						>
+							htmlFor="client-email_parent">
 							E-mail rodiče:
 						</label>
 						<input
@@ -397,8 +432,7 @@ const NewClientForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="client-phone_number_parent"
-						>
+							htmlFor="client-phone_number_parent">
 							Telefoní číslo rodiče:
 						</label>
 						<input
@@ -413,8 +447,7 @@ const NewClientForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="client-bank_account"
-						>
+							htmlFor="client-bank_account">
 							Číslo účtu:
 						</label>
 						<input
@@ -448,8 +481,7 @@ const NewClientForm = ({ mentors }: any) => {
 					<br />
 					<label
 						className="form__label"
-						htmlFor="client-surname_child"
-					>
+						htmlFor="client-surname_child">
 						Příjmení dítěte:
 					</label>
 					<input
@@ -465,8 +497,7 @@ const NewClientForm = ({ mentors }: any) => {
 					<br />
 					<label
 						className="form__label"
-						htmlFor="lektor-date_of_birth_child"
-					>
+						htmlFor="lektor-date_of_birth_child">
 						Datum narození dítěte:
 					</label>
 					<input
@@ -483,8 +514,7 @@ const NewClientForm = ({ mentors }: any) => {
 						<summary>Kontakt</summary>
 						<label
 							className="form__label"
-							htmlFor="client-gmail_child"
-						>
+							htmlFor="client-gmail_child">
 							G-mail dítěte:
 						</label>
 						<input
@@ -500,8 +530,7 @@ const NewClientForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="client-email_child"
-						>
+							htmlFor="client-email_child">
 							E-mail dítěte:
 						</label>
 						<input
@@ -517,8 +546,7 @@ const NewClientForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="client-phone_number_child"
-						>
+							htmlFor="client-phone_number_child">
 							Telefoní číslo dítěte:
 						</label>
 						<input

@@ -10,7 +10,12 @@ const SalaryList = () => {
 		isLoading,
 		isSuccess,
 		error,
-	} = useGetSalariesQuery("");
+	} = useGetSalariesQuery("salaryList", {
+		pollingInterval: 15000,
+		refetchOnFocus: true,
+		refetchOnMountOrArgChange: true,
+	});
+
 	let content: any;
 
 	if (isLoading) {
@@ -48,7 +53,7 @@ const SalaryList = () => {
 			filteredIds = [...ids];
 		} else if (mentorId !== undefined && lektorId === undefined) {
 			filteredIds = ids.filter(
-				(salaryId) => entities[salaryId].lektor === mentorId
+				(salaryId) => entities[salaryId].mentor === mentorId
 			);
 		} else if (mentorId === undefined && lektorId !== undefined) {
 			filteredIds = ids.filter(
@@ -64,34 +69,42 @@ const SalaryList = () => {
 			: null;
 		content = (
 			<>
-				<table className="table table--salaries">
-					<thead className="table_header">
-						<tr>
-							<th
-								scope="col"
-								className="table__th salary__mentor"
-							>
-								Mentor
-							</th>
-							<th
-								scope="col"
-								className="table__th salary__lektor"
-							>
-								Lektor
-							</th>
-							<th scope="col" className="table__th salary__date">
-								Datum
-							</th>
-							<th scope="col" className="table__th salary__value">
-								Částka
-							</th>
-						</tr>
-					</thead>
-					<tbody>{tableContent}</tbody>
-				</table>
+				<div>
+					<table className="table table--salaries">
+						<thead className="table_header">
+							<tr>
+								<th
+									scope="col"
+									className="table__th salary__mentor"
+								>
+									Mentor
+								</th>
+								<th
+									scope="col"
+									className="table__th salary__lektor"
+								>
+									Lektor
+								</th>
+								<th
+									scope="col"
+									className="table__th salary__date"
+								>
+									Datum
+								</th>
+								<th
+									scope="col"
+									className="table__th salary__value"
+								>
+									Částka
+								</th>
+							</tr>
+						</thead>
+						<tbody>{tableContent}</tbody>
+					</table>
+				</div>
 				<br />
 				<p>
-					<Link to={`/sec/salaries/new`}>Nová faktura</Link>
+					<Link to={`/sec/salaries/new`}>Nová výplata</Link>
 				</p>
 			</>
 		);

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { selectSalaryById } from "./salariesApiSlice";
 import { selectMentorById } from "../Mentors/mentorsApiSlice";
 import { selectLektorById } from "../Lektors/lektorsApiSlice";
+import useAuth from "../../../hooks/useAuth";
 
 const Salary: any = ({ salaryId }: any) => {
 	const salary = useSelector((state) => selectSalaryById(state, salaryId));
@@ -16,13 +17,15 @@ const Salary: any = ({ salaryId }: any) => {
 		selectLektorById(state, salary.lektor)
 	);
 
+	const { isAdmin, isMentor } = useAuth();
+
 	const navigate = useNavigate();
 
 	if (salary) {
 		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/salaries/edit/${salaryId}`);
 
-		const canEdit: boolean = true;
+		const canEdit: boolean = isAdmin ? true : isMentor ? true : false;
 
 		let editing: JSX.Element;
 
@@ -31,8 +34,7 @@ const Salary: any = ({ salaryId }: any) => {
 				<button
 					title="edit salaries"
 					className="icon-button table__button--edi"
-					onClick={handleEdit}
-				>
+					onClick={handleEdit}>
 					<FontAwesomeIcon icon={faPenToSquare} />
 				</button>
 			);

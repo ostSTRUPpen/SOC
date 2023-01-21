@@ -4,15 +4,26 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
+import { readFromLocalStorage } from "../../../hooks/localStorage";
+
 const LENGTH_REGEX = /^[0-9]{1,3}$/;
 
 const NewLessonForm = ({ tutoring }: any) => {
 	const day = new Date();
-	const today: string = `${day.getFullYear()}-${String(
+	let today: string = `${day.getFullYear()}-${String(
 		day.getMonth() + 1
 	).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
 
-	const defaultLength: string = "60";
+	let defaultLength: string = String(readFromLocalStorage("standartLength"));
+	if (defaultLength === "Not found") {
+		defaultLength = "60";
+	}
+
+	const prefilLessonDate = readFromLocalStorage("prefilLessonDate");
+
+	if (prefilLessonDate === "Not found" || prefilLessonDate === false) {
+		today = "";
+	}
 
 	const [addNewLesson, { isLoading, isSuccess, isError, error }] =
 		useAddNewLessonMutation();
@@ -143,23 +154,24 @@ const NewLessonForm = ({ tutoring }: any) => {
 					type="date"
 					autoComplete="off"
 					value={date}
-					defaultValue={today}
 					onChange={onDateChanged}
 				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-theme">
 					Téma lekce:
 				</label>
-				<input
+				<br />
+				<textarea
 					className={`form__input ${validThemeClass}`}
 					id="lesson-theme"
 					name="téma"
-					type="text"
+					cols={35}
+					rows={2}
 					maxLength={100}
 					autoComplete="off"
 					value={theme}
 					onChange={onThemeChanged}
-				/>
+				></textarea>
 				<br />
 				<label className="form__label" htmlFor="lesson-length">
 					Délka lekce:
@@ -171,23 +183,24 @@ const NewLessonForm = ({ tutoring }: any) => {
 					type="number"
 					autoComplete="off"
 					value={length}
-					defaultValue="60"
 					onChange={onLengthChanged}
 				/>
 				<br />
 				<label className="form__label" htmlFor="lesson-info">
 					Poznámka k lekci:
 				</label>
-				<input
+				<br />
+				<textarea
 					className={`form__input ${validInfoClass}`}
 					id="lesson-info"
 					name="poznámky"
-					type="text"
+					cols={35}
+					rows={10}
 					maxLength={500}
 					autoComplete="off"
 					value={info}
 					onChange={onInfoChanged}
-				/>
+				></textarea>
 			</form>
 		</>
 	);

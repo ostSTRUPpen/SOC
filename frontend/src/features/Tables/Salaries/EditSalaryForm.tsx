@@ -10,6 +10,8 @@ import {
 	faTimesCircle,
 	faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../../hooks/useAuth";
+import { ROLES } from "../../../config/roles";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
 
@@ -30,16 +32,22 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 	const [validValue, setValidValue] = useState(false);
 	const [date, setDate] = useState(salary.date);
 
+	const { id, role } = useAuth();
+
 	useEffect(() => {
 		if (isSuccess || isDelSuccess) {
 			setMentor("");
 			setLektor("");
 			setValue("");
 			setDate("");
-			navigate(`/sec/salaries`);
+			if (role === ROLES.Mentor) {
+				navigate(`/sec/salaries/show1/${id}`);
+			} else {
+				navigate(`/sec/salaries`);
+			}
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, isDelSuccess, navigate]);
+	}, [isSuccess, isDelSuccess, navigate, id, role]);
 
 	useEffect(() => {
 		setValidValue(VALUE_REGEX.test(value));
@@ -70,7 +78,11 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 		setMentor("");
 		setLektor("");
 		setValue("");
-		navigate(`/sec/salaries`);
+		if (role === ROLES.Mentor) {
+			navigate(`/sec/salaries/show1/${id}`);
+		} else {
+			navigate(`/sec/salaries`);
+		}
 		/* Možná bude třeba změnit ^ TODO */
 	};
 
@@ -84,12 +96,15 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < mentors.length; i++) {
-		optionsMentor.push(
-			<option
-				key={mentors[i].id}
-				value={mentors[i].id}
-			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-		);
+		if (mentors[i].id === id || role === ROLES.Admin) {
+			optionsMentor.push(
+				<option
+					key={mentors[i].id}
+					value={
+						mentors[i].id
+					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
+			);
+		}
 	}
 
 	let optionsLektor: Array<JSX.Element> = [
@@ -98,12 +113,15 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < lektors.length; i++) {
-		optionsLektor.push(
-			<option
-				key={lektors[i].id}
-				value={lektors[i].id}
-			>{`${lektors[i].name} ${lektors[i].surname}`}</option>
-		);
+		if (lektors[i].mentor === id || role === ROLES.Admin) {
+			optionsLektor.push(
+				<option
+					key={lektors[i].id}
+					value={
+						lektors[i].id
+					}>{`${lektors[i].name} ${lektors[i].surname}`}</option>
+			);
+		}
 	}
 
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
@@ -159,22 +177,19 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveSalaryClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 						<button
 							className="icon-button form--delete-button"
 							title="Smazat fakturu"
-							onClick={onDeleteSalaryClicked}
-						>
+							onClick={onDeleteSalaryClicked}>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>
 					</div>
@@ -190,13 +205,12 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 					size={1}
 					value={mentor}
 					onChange={onMentorsChanged}
-					title="Příslušný mentor"
-				>
+					title="Příslušný mentor">
 					{optionsMentor}
 				</select>
 				<br />
 				<label className="form__label" htmlFor="lektors">
-					Klient:
+					Lektor:
 				</label>
 				<select
 					id="lektors"
@@ -206,8 +220,7 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 					size={1}
 					value={lektor}
 					onChange={onLektorsChanged}
-					title="Příslušný klient"
-				>
+					title="Příslušný klient">
 					{optionsLektor}
 				</select>
 				<br />
@@ -228,10 +241,11 @@ const EditSalaryForm = ({ salary, mentors, lektors }: any) => {
 					Hodnota:
 				</label>
 				<input
-					className={`form__input ${validValueClass}`}
+					className={`form__input--value ${validValueClass}`}
 					id="value"
 					name="value"
 					type="number"
+					max={99999}
 					autoComplete="off"
 					value={value}
 					onChange={onValuesChanged}

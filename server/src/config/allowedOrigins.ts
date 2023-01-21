@@ -4,4 +4,4 @@ const allowedOrigins: string[] = [
 	"undefined",
 ];
 
-export {};
+export = allowedOrigins;

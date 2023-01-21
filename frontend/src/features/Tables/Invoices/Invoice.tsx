@@ -7,6 +7,8 @@ import { selectInvoiceById } from "./invoicesApiSlice";
 import { selectMentorById } from "../Mentors/mentorsApiSlice";
 import { selectClientById } from "../Klients/clientsApiSlice";
 
+import useAuth from "../../../hooks/useAuth";
+
 const Invoice: any = ({ invoiceId }: any) => {
 	const invoice = useSelector((state) => selectInvoiceById(state, invoiceId));
 	const mentor = useSelector((state) =>
@@ -16,13 +18,15 @@ const Invoice: any = ({ invoiceId }: any) => {
 		selectClientById(state, invoice.client)
 	);
 
+	const { isAdmin, isMentor } = useAuth();
+
 	const navigate = useNavigate();
 
 	if (invoice) {
 		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/invoices/edit/${invoiceId}`);
 
-		const canEdit: boolean = true;
+		const canEdit: boolean = isAdmin ? true : isMentor ? true : false;
 
 		let editing: JSX.Element;
 
@@ -31,8 +35,7 @@ const Invoice: any = ({ invoiceId }: any) => {
 				<button
 					title="edit invoices"
 					className="icon-button table__button--edi"
-					onClick={handleEdit}
-				>
+					onClick={handleEdit}>
 					<FontAwesomeIcon icon={faPenToSquare} />
 				</button>
 			);

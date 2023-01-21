@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use("/", express.static(path.join(__dirname, "/public")));
 // Routing
 app.use("/", require("./routes/root"));
-//app.use("/auth", require("./routes/authRoutes"));
+app.use("/auth", require("./routes/authRoutes"));
 app.use("/mentors", require("./routes/mentorRoutes"));
 app.use("/lektors", require("./routes/lektorRoutes"));
 app.use("/clients", require("./routes/clientRoutes"));
@@ -49,7 +49,7 @@ app.all("*"),
     };
 app.use(errorHandler);
 mongoose.connection.once("open", () => {
-    console.log("[server[ Connected to MongoDB");
+    console.log("[server] Connected to MongoDB");
     app.listen(PORT, () => console.log(`[server] Server running on port ${PORT}`));
 });
 mongoose.connection.on("error", (err) => {

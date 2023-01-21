@@ -167,16 +167,18 @@ const EditLessonForm = ({ lesson }: any) => {
 				<label className="form__label" htmlFor="lesson-theme">
 					Téma lekce:
 				</label>
-				<input
+				<br />
+				<textarea
 					className={`form__input ${validThemeClass}`}
 					id="lesson-theme"
 					name="téma"
-					type="text"
+					cols={35}
+					rows={2}
 					maxLength={100}
 					autoComplete="off"
 					value={theme}
 					onChange={onThemeChanged}
-				/>
+				></textarea>
 				<br />
 				<label className="form__label" htmlFor="lesson-length">
 					Délka lekce:
@@ -194,16 +196,18 @@ const EditLessonForm = ({ lesson }: any) => {
 				<label className="form__label" htmlFor="lesson-info">
 					Poznámka k lekci:
 				</label>
-				<input
-					className={`form__input--info ${validInfoClass}`}
+				<br />
+				<textarea
+					className={`form__input ${validInfoClass}`}
 					id="lesson-info"
 					name="poznámky"
-					type="text"
+					cols={35}
+					rows={10}
 					maxLength={500}
 					autoComplete="off"
 					value={info}
 					onChange={onInfoChanged}
-				/>
+				></textarea>
 			</form>
 		</>
 	);

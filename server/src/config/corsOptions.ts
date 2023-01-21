@@ -1,6 +1,6 @@
 const allowedOrigins: string[] = require("./allowedOrigins");
 
-const corsOptions: unknown = {
+const corsOptions: any = {
 	origin: (origin: string, callback: any) => {
 		if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
 			callback(null, true);
@@ -12,4 +12,4 @@ const corsOptions: unknown = {
 	optionsSuccessStatus: 200,
 };
 
-export { corsOptions };
+export = corsOptions;

@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { selectTutoringById } from "./tutoringsApiSlice";
 import { selectLektorById } from "../Lektors/lektorsApiSlice";
 import { selectClientById } from "../Klients/clientsApiSlice";
+import useAuth from "../../../hooks/useAuth";
 
 const Tutoring: any = ({ tutoringId }: any) => {
 	const tutoring = useSelector((state) =>
@@ -18,6 +19,8 @@ const Tutoring: any = ({ tutoringId }: any) => {
 		selectClientById(state, tutoring.client)
 	);
 
+	const { isAdmin, isMentor } = useAuth();
+
 	const navigate = useNavigate();
 
 	if (tutoring) {
@@ -26,7 +29,7 @@ const Tutoring: any = ({ tutoringId }: any) => {
 		const handleEdit = () => navigate(`/sec/tutorings/edit/${tutoringId}`);
 		const isActive = tutoring.active ? "" : "table__cell--inactive";
 
-		const canEdit: boolean = true;
+		const canEdit: boolean = isAdmin ? true : isMentor ? true : false;
 
 		let editing: JSX.Element;
 
@@ -35,8 +38,7 @@ const Tutoring: any = ({ tutoringId }: any) => {
 				<button
 					title="edit tutorings"
 					className="icon-button table__button--edi"
-					onClick={handleEdit}
-				>
+					onClick={handleEdit}>
 					<FontAwesomeIcon icon={faPenToSquare} />
 				</button>
 			);
@@ -47,8 +49,7 @@ const Tutoring: any = ({ tutoringId }: any) => {
 		return (
 			<tr className="table__row tutoring">
 				<td
-					className={`table__cell ${isActive}`}
-				>{`${lektor.name} ${lektor.surname}`}</td>
+					className={`table__cell ${isActive}`}>{`${lektor.name} ${lektor.surname}`}</td>
 				<td className={`table__cell ${isActive}`}>
 					{`${client.name_child} ${client.surname_child}`}
 				</td>
@@ -59,8 +60,7 @@ const Tutoring: any = ({ tutoringId }: any) => {
 					<button
 						title="view lessons"
 						className="icon-button table__button--view"
-						onClick={displayLessons}
-					>
+						onClick={displayLessons}>
 						<FontAwesomeIcon icon={faEye} />
 					</button>
 					{editing}

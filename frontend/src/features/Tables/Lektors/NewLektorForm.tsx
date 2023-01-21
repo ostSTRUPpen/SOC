@@ -2,7 +2,15 @@ import { useState, useEffect } from "react";
 import { useAddNewLektorMutation } from "./lektorsApiSlice";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+	faEye,
+	faEyeSlash,
+	faSave,
+	faTimesCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import LektorSettings from "../../Settings/LektorSettings";
+import { ROLES } from "../../../config/roles";
+import useAuth from "../../../hooks/useAuth";
 
 const USERNAME_REGEX = /^[A-z]{3,20}$/;
 const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
@@ -33,7 +41,10 @@ const NewLektorForm = ({ mentors }: any) => {
 	const [bankAccount, setBankAccount] = useState("");
 	const [validBankAccount, setValidBankAccount] = useState(false);
 	const [dateOfBirth, setDateOfBirth] = useState("");
-	const [active, setActive] = useState(true);
+
+	const [passwordType, setPasswordType] = useState("password");
+
+	const { id, role } = useAuth();
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -47,11 +58,14 @@ const NewLektorForm = ({ mentors }: any) => {
 			setPhoneNumber("");
 			setBankAccount("");
 			setDateOfBirth("");
-			setActive(false);
-			navigate(`/sec/lektors`);
+			if (role === ROLES.Mentor) {
+				navigate(`/sec/lektors/show/${id}`);
+			} else {
+				navigate(`/sec/lektors`);
+			}
 			/* Možná bude třeba změnit ^ TODO */
 		}
-	}, [isSuccess, navigate]);
+	}, [isSuccess, navigate, id, role]);
 
 	useEffect(() => {
 		setValidUsername(USERNAME_REGEX.test(username));
@@ -102,7 +116,6 @@ const NewLektorForm = ({ mentors }: any) => {
 			phone_num: phoneNumber,
 			bank_account: bankAccount,
 			date_of_birth: dateOfBirth,
-			active: Boolean(active),
 		});
 	};
 
@@ -118,8 +131,11 @@ const NewLektorForm = ({ mentors }: any) => {
 		setPhoneNumber("");
 		setBankAccount("");
 		setDateOfBirth("");
-		setActive(false);
-		navigate(`/sec/lektors`);
+		if (role === ROLES.Mentor) {
+			navigate(`/sec/lektors/show/${id}`);
+		} else {
+			navigate(`/sec/lektors`);
+		}
 	};
 
 	const onUsernameChanged = (e: any) => setUsername(e.target.value);
@@ -133,7 +149,10 @@ const NewLektorForm = ({ mentors }: any) => {
 	const onBankAccountChanged = (e: any) => setBankAccount(e.target.value);
 	const onMentorIdChanged = (e: any) => setMentor(e.target.value);
 
-	const onActiveChanged = (e: any) => setActive((prev: any) => !prev);
+	const togglePassword = () =>
+		passwordType === "password"
+			? setPasswordType("text")
+			: setPasswordType("password");
 
 	const errorClass = isError ? "errorMessage" : "hide";
 	const validUsernameClass = !validUsername ? "form__input--incomplete" : "";
@@ -174,12 +193,15 @@ const NewLektorForm = ({ mentors }: any) => {
 		</option>,
 	];
 	for (let i = 0; i < mentors.length; i++) {
-		options.push(
-			<option
-				key={mentors[i].id}
-				value={mentors[i].id}
-			>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-		);
+		if (mentors[i].id === id || role === ROLES.Admin) {
+			options.push(
+				<option
+					key={mentors[i].id}
+					value={
+						mentors[i].id
+					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
+			);
+		}
 	}
 
 	const content = (
@@ -194,15 +216,13 @@ const NewLektorForm = ({ mentors }: any) => {
 							className="icon-button form--save-button"
 							title="Uložit změny"
 							onClick={onSaveLektorClicked}
-							disabled={!canSave}
-						>
+							disabled={!canSave}>
 							<FontAwesomeIcon icon={faSave} />
 						</button>
 						<button
 							className="icon-button form--cancel-button"
 							title="Zahodit změny"
-							onClick={onStopEditingClicked}
-						>
+							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
 					</div>
@@ -220,8 +240,7 @@ const NewLektorForm = ({ mentors }: any) => {
 						size={1}
 						value={mentor}
 						onChange={onMentorIdChanged}
-						title="Příslušný lektor"
-					>
+						title="Příslušný lektor">
 						{options}
 					</select>
 					<br />
@@ -245,27 +264,26 @@ const NewLektorForm = ({ mentors }: any) => {
 					<input
 						className={`form__input ${validPasswordClass}`}
 						id="lektor-password"
-						name="pasword"
-						type="password"
+						name="password"
+						type={passwordType}
 						autoComplete="new-password"
 						value={password}
 						onChange={onPasswordChanged}
 					/>
-					<br />
-					<label
-						className="form__label form__checkbox-container"
-						htmlFor="lektor-active"
-					>
-						účet aktivní:
-					</label>
-					<input
-						className="form__checkbox"
-						id="lektor-active"
-						name="lektor-active"
-						type="checkbox"
-						checked={active}
-						onChange={onActiveChanged}
-					/>
+					<button
+						className="font__input--change-password-visibility"
+						onClick={togglePassword}>
+						{passwordType === "password" ? (
+							<i>
+								<FontAwesomeIcon icon={faEyeSlash} />
+							</i>
+						) : (
+							<i>
+								<FontAwesomeIcon icon={faEye} />
+							</i>
+						)}
+					</button>
+					<LektorSettings />
 				</details>
 				<br />
 				<details open>
@@ -300,8 +318,7 @@ const NewLektorForm = ({ mentors }: any) => {
 					<br />
 					<label
 						className="form__label"
-						htmlFor="lektor-date_of_birth"
-					>
+						htmlFor="lektor-date_of_birth">
 						Datum narození:
 					</label>
 					<input
@@ -346,8 +363,7 @@ const NewLektorForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="lektor-phone_number"
-						>
+							htmlFor="lektor-phone_number">
 							Telefoní číslo:
 						</label>
 						<input
@@ -362,8 +378,7 @@ const NewLektorForm = ({ mentors }: any) => {
 						<br />
 						<label
 							className="form__label"
-							htmlFor="lektor-bank_account"
-						>
+							htmlFor="lektor-bank_account">
 							Číslo účtu:
 						</label>
 						<input
