@@ -1,6 +1,14 @@
-saver.bat
-node_modules
-.env
-.vscode
+#Github
 commit_log.txt
+saver.bat
+
+#Node
+node_modules
+
+#VS Code
+.vscode
+.hintrc
+
+#Secrets
+.env
 secrets.txt
