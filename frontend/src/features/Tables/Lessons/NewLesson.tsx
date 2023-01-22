@@ -4,7 +4,7 @@ import useTitle from "../../../hooks/useTitle";
 import useAuth from "../../../hooks/useAuth";
 import { useGetLessonsQuery } from "./lessonsApiSlice";
 
-const LESSON_NUMBER_REGEX = /^[0-9]$/;
+const LESSON_NUMBER_REGEX = /^[0-9]{1,3}$/;
 
 const NewLesson = () => {
 	useTitle("LT IS: Tvorba lekce");
@@ -17,7 +17,6 @@ const NewLesson = () => {
 	});
 
 	let lastLessonNumber: number = 0;
-	console.log(lessons);
 	if (lessons) {
 		let lessonNumbers: Array<number> = [0];
 		for (let i = 0; i < lessons.length; i++) {
@@ -26,7 +25,7 @@ const NewLesson = () => {
 			}
 		}
 
-		let lastLessonNumber = Math.max(...lessonNumbers);
+		lastLessonNumber = Math.max(...lessonNumbers);
 		if (!LESSON_NUMBER_REGEX.test(String(lastLessonNumber))) {
 			lastLessonNumber = 0;
 		}
