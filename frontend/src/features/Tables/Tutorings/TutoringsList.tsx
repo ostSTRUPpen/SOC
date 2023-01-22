@@ -108,6 +108,26 @@ const TutoringsList = () => {
 									className="table__th tutoring__theme">
 									Předmět
 								</th>
+								<th
+									scope="col"
+									className="table__th tutoring__theme">
+									Proběhlé lekce
+								</th>
+								<th
+									scope="col"
+									className="table__th tutoring__theme">
+									Předplacenné lekce
+								</th>
+								<th
+									scope="col"
+									className="table__th tutoring__theme">
+									Bilance lektora
+								</th>
+								<th
+									scope="col"
+									className="table__th tutoring__theme">
+									Bilance klienta
+								</th>
 							</tr>
 						</thead>
 						<tbody>{tableContent}</tbody>

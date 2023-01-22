@@ -1,13 +1,13 @@
 import {
 	saveToLocalStorage,
 	readFromLocalStorage,
-} from "../../hooks/localStorage";
+} from "../../hooks/useLocalStorage";
 import { useState } from "react";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
 
 const MentorSetings = () => {
-	const [darkMode, setDarkMode] = useState(readFromLocalStorage("darkMode"));
+	/*const [darkMode, setDarkMode] = useState(readFromLocalStorage("darkMode"));*/
 	const [standartSalaryValue, setStandartSalaryValue] = useState(
 		readFromLocalStorage("standartSalaryValue")
 	);
@@ -22,15 +22,15 @@ const MentorSetings = () => {
 	);
 
 	// Dark mode logic
-	if (darkMode === "Not found") {
+	/*if (darkMode === "Not found") {
 		setDarkMode(false);
 		saveToLocalStorage("darkMode", false);
-	}
+	}*/
 
-	const onDarkModeChanged = () => {
+	/*const onDarkModeChanged = () => {
 		setDarkMode(!darkMode);
 		saveToLocalStorage("darkMode", !darkMode);
-	};
+	}; */
 
 	// Standart salary logic
 	if (standartSalaryValue === "Not found") {
@@ -85,16 +85,15 @@ const MentorSetings = () => {
 	return (
 		<details>
 			<summary>Nastavení aplikace</summary>
-			<label htmlFor="dark-mode">Tmavý režim: </label>
+			{/*<label htmlFor="dark-mode">Tmavý režim: </label>
 			<input
 				className="app_settings dark-mode"
 				id="dark-mode"
 				name="dark-mode"
 				type="checkbox"
 				checked={darkMode}
-				onChange={onDarkModeChanged}
-			></input>
-			<br />
+				onChange={onDarkModeChanged}></input>
+			<br />*/}
 			<h2>Faktury: </h2>
 			<label htmlFor="prefil-invoice-date">
 				Při zápisu faktury předvyplnit dnešní datum:
@@ -105,8 +104,7 @@ const MentorSetings = () => {
 				name="prefil-invoice-date"
 				type="checkbox"
 				checked={prefilInvoiceDate}
-				onChange={onPrefillInvoiceDateChanged}
-			></input>
+				onChange={onPrefillInvoiceDateChanged}></input>
 			<br />
 			<label htmlFor="invoice-prefill">Standartní částka faktury: </label>
 			<input
@@ -116,8 +114,7 @@ const MentorSetings = () => {
 				type="number"
 				max={99999}
 				value={standartInvoiceValue}
-				onChange={onStandartInvoiceValueChanged}
-			></input>
+				onChange={onStandartInvoiceValueChanged}></input>
 			<br />
 			<h2>Výplaty: </h2>
 			<br />
@@ -130,8 +127,7 @@ const MentorSetings = () => {
 				name="prefil-salary-date"
 				type="checkbox"
 				checked={prefilSalaryDate}
-				onChange={onPrefillSalaryDateChanged}
-			></input>
+				onChange={onPrefillSalaryDateChanged}></input>
 			<br />
 			<label htmlFor="salary-prefill">Standartní částka výplaty: </label>
 			<input
@@ -141,8 +137,7 @@ const MentorSetings = () => {
 				type="number"
 				max={99999}
 				value={standartSalaryValue}
-				onChange={onStandartSalaryValueChanged}
-			></input>
+				onChange={onStandartSalaryValueChanged}></input>
 		</details>
 	);
 };

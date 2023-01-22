@@ -38,7 +38,7 @@ const Salary: any = ({ salaryId }: any) => {
 		if (canEdit) {
 			editing = (
 				<button
-					title="edit salaries"
+					title="Upravit"
 					className="icon-button table__button--edi"
 					onClick={handleEdit}>
 					<FontAwesomeIcon icon={faPenToSquare} />

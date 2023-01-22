@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
-import { readFromLocalStorage } from "../../../hooks/localStorage";
+import { readFromLocalStorage } from "../../../hooks/useLocalStorage";
 import useAuth from "../../../hooks/useAuth";
 import { ROLES } from "../../../config/roles";
 

@@ -40,7 +40,7 @@ const Invoice: any = ({ invoiceId }: any) => {
 		if (canEdit) {
 			editing = (
 				<button
-					title="edit invoices"
+					title="Upravit"
 					className="icon-button table__button--edi"
 					onClick={handleEdit}>
 					<FontAwesomeIcon icon={faPenToSquare} />

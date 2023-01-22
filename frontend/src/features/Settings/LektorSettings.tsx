@@ -1,13 +1,13 @@
 import {
 	saveToLocalStorage,
 	readFromLocalStorage,
-} from "../../hooks/localStorage";
+} from "../../hooks/useLocalStorage";
 import { useState } from "react";
 
 const LENGTH_REGEX = /^[0-9]{1,3}$/;
 
 const LektorSetings = () => {
-	const [darkMode, setDarkMode] = useState(readFromLocalStorage("darkMode"));
+	/*const [darkMode, setDarkMode] = useState(readFromLocalStorage("darkMode"));*/
 	const [standartLength, setStandartLength] = useState(
 		readFromLocalStorage("standartLength")
 	);
@@ -16,15 +16,15 @@ const LektorSetings = () => {
 	);
 
 	// Dark mode logic
-	if (darkMode === "Not found") {
+	/*if (darkMode === "Not found") {
 		setDarkMode(false);
 		saveToLocalStorage("darkMode", false);
-	}
+	}*/
 
-	const onDarkModeChanged = () => {
+	/*const onDarkModeChanged = () => {
 		setDarkMode(!darkMode);
 		saveToLocalStorage("darkMode", !darkMode);
-	};
+	};*/
 
 	// Standart length logic
 	if (standartLength === "Not found") {
@@ -55,16 +55,15 @@ const LektorSetings = () => {
 	return (
 		<details>
 			<summary>Nastavení aplikace</summary>
-			<label htmlFor="dark-mode">Tmavý režim: </label>
+			{/*<label htmlFor="dark-mode">Tmavý režim: </label>
 			<input
 				className="app_settings dark-mode"
 				id="dark-mode"
 				name="dark-mode"
 				type="checkbox"
 				checked={darkMode}
-				onChange={onDarkModeChanged}
-			></input>
-			<br />
+				onChange={onDarkModeChanged}></input>
+	<br />*/}
 			<label htmlFor="length-prefill">Standartní délka lekce: </label>
 			<input
 				className="app_settings length-prefill"
@@ -73,8 +72,7 @@ const LektorSetings = () => {
 				type="number"
 				max={180}
 				value={standartLength}
-				onChange={onStandartLengthChanged}
-			></input>
+				onChange={onStandartLengthChanged}></input>
 			<br />
 			<label htmlFor="prefill-lesson-date">
 				Při zápisu lekce předvyplnit dnešní datum:{" "}
@@ -85,8 +83,7 @@ const LektorSetings = () => {
 				name="prefill-lesson-date"
 				type="checkbox"
 				checked={prefillLessonDate}
-				onChange={onPrefilLessonDateChanged}
-			></input>
+				onChange={onPrefilLessonDateChanged}></input>
 		</details>
 	);
 };

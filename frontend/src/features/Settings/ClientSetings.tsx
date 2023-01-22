@@ -1,11 +1,11 @@
-import {
+/*import {
 	saveToLocalStorage,
 	readFromLocalStorage,
-} from "../../hooks/localStorage";
-import { useState } from "react";
+} from "../../hooks/useLocalStorage";
+import { useState } from "react";*/
 
 const ClientSetings = () => {
-	const [darkMode, setDarkMode] = useState(readFromLocalStorage("darkMode"));
+	/*const [darkMode, setDarkMode] = useState(readFromLocalStorage("darkMode"));
 
 	if (darkMode === "Not found") {
 		setDarkMode(false);
@@ -27,10 +27,10 @@ const ClientSetings = () => {
 				name="dark-mode"
 				type="checkbox"
 				checked={darkMode}
-				onChange={onDarkModeChanged}
-			></input>
+				onChange={onDarkModeChanged}></input>
 		</details>
-	);
+	);*/
+	return <></>;
 };
 
 export default ClientSetings;

@@ -82,8 +82,9 @@ const Login = () => {
 
 				<form className="form" onSubmit={handleSubmit}>
 					<label htmlFor="username">Uživatelské jméno:</label>
+					<br />
 					<input
-						className="form__input"
+						className="form__input login_form--username"
 						type="text"
 						id="username"
 						ref={userRef}
@@ -94,6 +95,7 @@ const Login = () => {
 					/>
 					<br />
 					<label htmlFor="password">Heslo:</label>
+					<br />
 					<input
 						className="form__input"
 						type={passwordType}
@@ -103,7 +105,7 @@ const Login = () => {
 						required
 					/>
 					<input
-						className="font__input--change-password-visibility"
+						className="font__input--change-password-visibility login_form--password_visibility"
 						title="Zobrazit heslo"
 						type="button"
 						onClick={togglePassword}
@@ -125,7 +127,7 @@ const Login = () => {
 					</label>
 					<br />
 					<input
-						className="form__submit-button"
+						className="form__submit-button login_form--submit_button"
 						title="Přihlásit se"
 						type="submit"
 						value="Přihlásit se"

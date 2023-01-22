@@ -84,7 +84,7 @@ const SecureHeader = () => {
 	const logoutButton: JSX.Element = (
 		<button
 			className="secure__header--logout header_icon_button"
-			title="Logout"
+			title="Odhlásit se"
 			onClick={onLogOutClicked}>
 			<FontAwesomeIcon icon={faRightFromBracket} />
 		</button>
@@ -95,7 +95,7 @@ const SecureHeader = () => {
 		homeButton = (
 			<button
 				className="secure-header__button header_icon_button"
-				title="Home"
+				title="Domů"
 				onClick={onHomeClicked}>
 				<FontAwesomeIcon icon={faHouse} />
 			</button>
@@ -241,18 +241,18 @@ const SecureHeader = () => {
 			<p className={errClass}>{error?.data?.message}</p>
 			<header className="secure-header">
 				<div className="secure-header__container">
-					<h2 className="secure-header__title">
-						Learning Triangle informační systém
-					</h2>
+					<h3 className="secure-header__title">
+						Learning Triangle Informační Systém
+					</h3>
 					<nav className="secure-header__nav">
 						{homeButton}
 						{navButtons}
 						{logoutButton}
 						{/* add nav buttons later TODO */}
 					</nav>
-					<h3>
+					<h4>
 						{name} {surname}, {status}
-					</h3>
+					</h4>
 				</div>
 			</header>
 		</>

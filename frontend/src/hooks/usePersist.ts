@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { saveToLocalStorage, readFromLocalStorage } from "./localStorage";
+import { saveToLocalStorage, readFromLocalStorage } from "./useLocalStorage";
 
 const usePersist = () => {
 	const [persist, setPersist] = useState(

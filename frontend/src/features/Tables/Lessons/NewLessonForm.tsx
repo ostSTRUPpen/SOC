@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 
-import { readFromLocalStorage } from "../../../hooks/localStorage";
+import { readFromLocalStorage } from "../../../hooks/useLocalStorage";
 
 const LENGTH_REGEX = /^[0-9]{1,3}$/;
 

@@ -275,6 +275,15 @@ const FinancesComp = ({
 				</details>
 			</div>
 		);
+	} else if (role === "tutoring") {
+		content = (
+			<>
+				<td className="table__cell">{tutoringHours}</td>
+				<td className="table__cell">{prepaidLessons}</td>
+				<td className="table__cell">{lektorNeedsToGetPaid}</td>
+				<td className="table__cell">{clientNeedsToPay}</td>
+			</>
+		);
 	}
 	return content;
 };

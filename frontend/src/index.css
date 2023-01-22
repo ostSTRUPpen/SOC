@@ -107,6 +107,7 @@ details[open] > details[open] {
   font-size: 1.5rem;
   place-content: center;
   display: grid;
+  background-color: rgb(240, 240, 240);
 }
 
 .middle__button:hover,
@@ -114,9 +115,40 @@ details[open] > details[open] {
   transform: scale(1.1);
 }
 
+.login_form--submit_button {
+  width: 100%;
+  place-content: center;
+}
+
+.login_form--password_visibility{
+  width: 75px;
+}
+
+.login_form--username {
+  width: 100%;
+}
+
+table, td {
+  border: 1px solid;
+}
+
+table th {
+  border: 1px solid;
+}
+
+.dashboard h5 {
+  text-align: center;
+}
+
 /*.form__input {
   width: 100%;
 }*/
+
+* {
+  color: black;
+}
+
+
 
 @keyframes tick { to { transform: rotate(359deg);}}
 

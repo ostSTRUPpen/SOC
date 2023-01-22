@@ -35,8 +35,8 @@ const Welcome = () => {
 	const navLektorToSettings = () => navigate(`/sec/lektors/${id}`);
 
 	const content = (
-		<section className="Dashboard">
-			<h4>Dobrý den</h4>
+		<section className="dashboard">
+			<h5>Dobrý den</h5>
 			{isAdmin && (
 				<div>
 					<button className="middle__button" onClick={navToMentors}>

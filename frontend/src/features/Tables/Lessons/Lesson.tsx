@@ -32,7 +32,7 @@ const Lesson: any = ({ lessonId, tutoringId }: any) => {
 			editing = (
 				<td className="table__cell">
 					<button
-						title="edit button"
+						title="Upravit"
 						className="icon-button table__button--edit"
 						onClick={handleEdit}>
 						<FontAwesomeIcon icon={faPenToSquare} />

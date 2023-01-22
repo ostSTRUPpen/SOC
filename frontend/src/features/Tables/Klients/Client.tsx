@@ -30,7 +30,7 @@ const Client: any = ({ clientId }: any) => {
 			viewTutorings = (
 				<td className="table__cell">
 					<button
-						title="view button"
+						title="Zobrazit doučování"
 						className="icon-button table__button--view"
 						onClick={handleViewTutorings}>
 						<FontAwesomeIcon icon={faEye} />
@@ -45,7 +45,7 @@ const Client: any = ({ clientId }: any) => {
 			editing = (
 				<td className="table__cell">
 					<button
-						title="edit button"
+						title="Upravit"
 						className="icon-button table__button--edit"
 						onClick={handleEdit}>
 						<FontAwesomeIcon icon={faPenToSquare} />
