@@ -15,7 +15,6 @@ const connectDB = require("./config/dbConn");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || "3500";
 //Main code:
-//console.log(require("dotenv").config());
 console.log(process.env.NODE_ENV);
 connectDB();
 app.use(logger);

@@ -2,6 +2,7 @@ import { useGetLessonsQuery } from "./lessonsApiSlice";
 import Lesson from "./Lesson";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
+import useAuth from "../../../hooks/useAuth";
 
 const LessonsList = ({ amount, tutoringId }: any) => {
 	useTitle("LT IS: List lekcí");
@@ -15,6 +16,8 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 		refetchOnFocus: true,
 		refetchOnMountOrArgChange: true,
 	});
+
+	const { isAdmin, isMentor, isLektor } = useAuth();
 
 	let content: any;
 
@@ -33,11 +36,13 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
 					<br />
-					<p>
-						<Link to={`/sec/lessons/new/${tutoringId}`}>
-							Vytvořit první lekci
-						</Link>
-					</p>
+					{(isAdmin || isMentor || isLektor) && (
+						<p>
+							<Link to={`/sec/lessons/new/${tutoringId}`}>
+								Vytvořit první lekci
+							</Link>
+						</p>
+					)}
 				</div>
 			);
 		} else {
@@ -112,11 +117,13 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 					</table>
 				</div>
 				<br />
-				<p>
-					<Link to={`/sec/lessons/new/${tutoringId}`}>
-						Nová lekce
-					</Link>
-				</p>
+				{(isAdmin || isMentor || isLektor) && (
+					<p>
+						<Link to={`/sec/lessons/new/${tutoringId}`}>
+							Nová lekce
+						</Link>
+					</p>
+				)}
 			</div>
 		);
 	}

@@ -3,6 +3,7 @@ import Client from "./Client";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
+import useAuth from "../../../hooks/useAuth";
 
 const ClientsList = () => {
 	useTitle("LT IS: List klientů");
@@ -17,6 +18,8 @@ const ClientsList = () => {
 		refetchOnFocus: true,
 		refetchOnMountOrArgChange: true,
 	});
+
+	const { isAdmin, isMentor } = useAuth();
 
 	let content: any;
 
@@ -35,11 +38,13 @@ const ClientsList = () => {
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
 					<br />
-					<p>
-						<Link to="/sec/clients/new/">
-							Vytvořit prvního klienta
-						</Link>
-					</p>
+					{(isAdmin || isMentor) && (
+						<p>
+							<Link to="/sec/clients/new/">
+								Vytvořit prvního klienta
+							</Link>
+						</p>
+					)}
 				</div>
 			);
 		} else {
@@ -147,9 +152,11 @@ const ClientsList = () => {
 					</table>
 				</div>
 				<br />
-				<p>
-					<Link to="/sec/clients/new/">Přidat klienta</Link>
-				</p>
+				{(isAdmin || isMentor) && (
+					<p>
+						<Link to="/sec/clients/new/">Přidat klienta</Link>{" "}
+					</p>
+				)}
 			</div>
 		);
 	}

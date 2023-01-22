@@ -3,6 +3,7 @@ import Lektor from "./Lektor";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
+import useAuth from "../../../hooks/useAuth";
 
 const LektorsList = () => {
 	useTitle("LT IS: List lektorů");
@@ -17,6 +18,8 @@ const LektorsList = () => {
 		refetchOnFocus: true,
 		refetchOnMountOrArgChange: true,
 	});
+
+	const { isAdmin, isMentor } = useAuth();
 
 	let content: any;
 
@@ -34,11 +37,13 @@ const LektorsList = () => {
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
 					<br />
-					<p>
-						<Link to="/sec/lektors/new/">
-							Vytvořit prvního lektora
-						</Link>
-					</p>
+					{(isAdmin || isMentor) && (
+						<p>
+							<Link to="/sec/lektors/new/">
+								Vytvořit prvního lektora
+							</Link>
+						</p>
+					)}
 				</div>
 			);
 		} else {
@@ -122,9 +127,11 @@ const LektorsList = () => {
 					</table>
 				</div>
 				<br />
-				<p>
-					<Link to="/sec/lektors/new/">Přidat lektora</Link>
-				</p>
+				{(isAdmin || isMentor) && (
+					<p>
+						<Link to="/sec/lektors/new/">Přidat lektora</Link>
+					</p>
+				)}
 			</div>
 		);
 	}

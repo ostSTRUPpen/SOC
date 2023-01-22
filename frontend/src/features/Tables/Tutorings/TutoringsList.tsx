@@ -3,6 +3,7 @@ import Tutoring from "./Tutoring";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
+import useAuth from "../../../hooks/useAuth";
 
 const TutoringsList = () => {
 	useTitle("LT IS: List doučování");
@@ -19,6 +20,8 @@ const TutoringsList = () => {
 	});
 	let content: any;
 
+	const { isAdmin, isMentor } = useAuth();
+
 	if (isLoading) {
 		// Změnit na nějakou animaci
 		content = <div className="loading"></div>;
@@ -34,11 +37,13 @@ const TutoringsList = () => {
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
 					<br />
-					<p>
-						<Link to={`/sec/tutorings/new`}>
-							Vytvořit první doučování
-						</Link>
-					</p>
+					{(isAdmin || isMentor) && (
+						<p>
+							<Link to={`/sec/tutorings/new`}>
+								Vytvořit první doučování
+							</Link>
+						</p>
+					)}
 				</div>
 			);
 		} else {
@@ -134,9 +139,11 @@ const TutoringsList = () => {
 					</table>
 					<br />
 				</div>
-				<p>
-					<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
-				</p>
+				{(isAdmin || isMentor) && (
+					<p>
+						<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
+					</p>
+				)}
 			</div>
 		);
 	}

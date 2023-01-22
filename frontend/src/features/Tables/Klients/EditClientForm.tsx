@@ -74,7 +74,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 	);
 	const [active, setActive] = useState(client.active);
 
-	const { id, role } = useAuth();
+	const { id, role, isAdmin, isMentor } = useAuth();
 
 	useEffect(() => {
 		if (isSuccess || isDelSuccess) {
@@ -435,35 +435,41 @@ const EditClientForm = ({ client, mentors }: any) => {
 				</div>
 				<details>
 					<summary>Účet</summary>
-					<label className="form__label" htmlFor="mentors">
-						Příslušný mentor:
-					</label>
-					<select
-						id="mentors"
-						name="mentor_select"
-						className={`form__select ${validMentorClass}`}
-						multiple={false}
-						size={1}
-						value={mentor}
-						onChange={onMentorIdChanged}
-						title="Příslušný mentor">
-						{options}
-					</select>
-					<br />
-					<label className="form__label" htmlFor="client-username">
-						Uživatelské jméno:
-					</label>
-					<input
-						className={`form__input ${validUsernameClass}`}
-						id="client-username"
-						name="username"
-						type="text"
-						maxLength={20}
-						autoComplete="off"
-						value={username}
-						onChange={onUsernameChanged}
-					/>
-					<br />
+					{(isAdmin || isMentor) && (
+						<>
+							<label className="form__label" htmlFor="mentors">
+								Příslušný mentor:
+							</label>
+							<select
+								id="mentors"
+								name="mentor_select"
+								className={`form__select ${validMentorClass}`}
+								multiple={false}
+								size={1}
+								value={mentor}
+								onChange={onMentorIdChanged}
+								title="Příslušný mentor">
+								{options}
+							</select>
+							<br />
+							<label
+								className="form__label"
+								htmlFor="client-username">
+								Uživatelské jméno:
+							</label>
+							<input
+								className={`form__input ${validUsernameClass}`}
+								id="client-username"
+								name="username"
+								type="text"
+								maxLength={20}
+								autoComplete="off"
+								value={username}
+								onChange={onUsernameChanged}
+							/>
+							<br />
+						</>
+					)}
 					<details>
 						<summary>Změnit heslo</summary>
 						<label

@@ -8,6 +8,7 @@ import {
 	faUsers,
 	faCreditCardAlt,
 	faWallet,
+	faFileInvoice,
 } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
@@ -103,7 +104,7 @@ const SecureHeader = () => {
 	}
 
 	let navButtons: JSX.Element = <div></div>;
-	if (pathname === "/sec" || true) {
+	/*if (pathname === "/sec" || true) {
 		navButtons = (
 			<>
 				{isAdmin && (
@@ -116,7 +117,7 @@ const SecureHeader = () => {
 						</button>
 						<button
 							className="secure-header__navbutton header_icon_button"
-							title="Faktury"
+							title="Finance"
 							onClick={onAdminNavToTutoringsClicked}>
 							<FontAwesomeIcon icon={faWallet} />
 						</button>
@@ -150,7 +151,7 @@ const SecureHeader = () => {
 						</button>
 						<button
 							className="secure-header__navbutton header_icon_button"
-							title="Faktury"
+							title="Finance"
 							onClick={onMentorNavToTutoringsClicked}>
 							<FontAwesomeIcon icon={faWallet} />
 						</button>
@@ -158,7 +159,7 @@ const SecureHeader = () => {
 							className="secure-header__navbutton header_icon_button"
 							title="Faktury"
 							onClick={onMentorNavToInvoicesClicked}>
-							<FontAwesomeIcon icon={faCreditCard} />
+							<FontAwesomeIcon icon={faFileInvoice} />
 						</button>
 						<button
 							className="secure-header__navbutton header_icon_button"
@@ -184,7 +185,7 @@ const SecureHeader = () => {
 						</button>
 						<button
 							className="secure-header__navbutton header_icon_button"
-							title="Faktury"
+							title="Finance"
 							onClick={onClientNavToTutoringsClicked}>
 							<FontAwesomeIcon icon={faWallet} />
 						</button>
@@ -192,7 +193,7 @@ const SecureHeader = () => {
 							className="secure-header__navbutton header_icon_button"
 							title="Faktury"
 							onClick={onClientNavToInvoicesClicked}>
-							<FontAwesomeIcon icon={faCreditCard} />
+							<FontAwesomeIcon icon={faFileInvoice} />
 						</button>
 						<button
 							className="secure-header__navbutton header_icon_button"
@@ -232,7 +233,7 @@ const SecureHeader = () => {
 				)}
 			</>
 		);
-	}
+	}*/
 
 	const errClass = isError ? "errmsg" : "offscreen";
 

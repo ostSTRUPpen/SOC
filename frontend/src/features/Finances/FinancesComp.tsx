@@ -102,12 +102,12 @@ const FinancesComp = ({
 					<tbody>
 						<tr className="table__row finance--lektor">
 							<td className="table__cell">{tutoringHours}</td>
-							<td className="table__cell">{lektorProfit}</td>
+							<td className="table__cell">{lektorProfit} Kč</td>
 							<td className="table__cell">
-								{lektorGotPaidAmount}
+								{lektorGotPaidAmount} Kč
 							</td>
 							<td className="table__cell">
-								{lektorNeedsToGetPaid}
+								{lektorNeedsToGetPaid} Kč
 							</td>
 						</tr>
 					</tbody>
@@ -141,8 +141,12 @@ const FinancesComp = ({
 					<tbody>
 						<tr className="table__row finance--client">
 							<td className="table__cell">{prepaidLessons}</td>
-							<td className="table__cell">{clientPaidAmount}</td>
-							<td className="table__cell">{clientNeedsToPay}</td>
+							<td className="table__cell">
+								{clientPaidAmount} Kč
+							</td>
+							<td className="table__cell">
+								{clientNeedsToPay} Kč
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -188,10 +192,12 @@ const FinancesComp = ({
 							<td className="table__cell">{tutoringHours}</td>
 							<td className="table__cell">{prepaidLessons}</td>
 							<td className="table__cell">
-								{lektorNeedsToGetPaid}
+								{lektorNeedsToGetPaid} Kč
 							</td>
-							<td className="table__cell">{clientNeedsToPay}</td>
-							<td className="table__cell">{mentorProfit}</td>
+							<td className="table__cell">
+								{clientNeedsToPay} Kč
+							</td>
+							<td className="table__cell">{mentorProfit} Kč</td>
 						</tr>
 					</tbody>
 				</table>
@@ -225,12 +231,14 @@ const FinancesComp = ({
 						<tbody>
 							<tr className="table__row finance--lektor">
 								<td className="table__cell">{tutoringHours}</td>
-								<td className="table__cell">{lektorProfit}</td>
 								<td className="table__cell">
-									{lektorGotPaidAmount}
+									{lektorProfit} Kč
 								</td>
 								<td className="table__cell">
-									{lektorNeedsToGetPaid}
+									{lektorGotPaidAmount} Kč
+								</td>
+								<td className="table__cell">
+									{lektorNeedsToGetPaid} Kč
 								</td>
 							</tr>
 						</tbody>
@@ -264,10 +272,10 @@ const FinancesComp = ({
 									{prepaidLessons}
 								</td>
 								<td className="table__cell">
-									{clientPaidAmount}
+									{clientPaidAmount} Kč
 								</td>
 								<td className="table__cell">
-									{clientNeedsToPay}
+									{clientNeedsToPay} Kč
 								</td>
 							</tr>
 						</tbody>
@@ -278,10 +286,10 @@ const FinancesComp = ({
 	} else if (role === "tutoring") {
 		content = (
 			<>
-				<td className="table__cell">{tutoringHours}</td>
-				<td className="table__cell">{prepaidLessons}</td>
-				<td className="table__cell">{lektorNeedsToGetPaid}</td>
-				<td className="table__cell">{clientNeedsToPay}</td>
+				<td className="table__cell">{tutoringHours} Kč</td>
+				<td className="table__cell">{prepaidLessons} Kč</td>
+				<td className="table__cell">{-lektorNeedsToGetPaid} Kč</td>
+				<td className="table__cell">{-clientNeedsToPay} Kč</td>
 			</>
 		);
 	}

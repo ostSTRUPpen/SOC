@@ -52,7 +52,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         },
     }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
     const refreshToken = jwt.sign({ username: foundUser.username }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: "28d" });
-    console.log(refreshToken);
     // Create secure cookie with refresh token
     res.cookie("jwt", refreshToken, {
         httpOnly: true,
@@ -60,7 +59,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         sameSite: "None",
         maxAge: 4 * 7 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
     });
-    console.log(res.cookie);
     // Send accessToken containing username and roles
     res.json({ accessToken });
 });
@@ -69,7 +67,6 @@ const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 // @access Public - because access token has expired
 const refresh = (req, res) => {
     const cookies = req.cookies;
-    // console.log(req.cookies.jwt);
     if (!(cookies === null || cookies === void 0 ? void 0 : cookies.jwt))
         return res.status(401).json({ message: "Unauthorized" });
     const refreshToken = cookies.jwt;
@@ -113,9 +110,7 @@ const refresh = (req, res) => {
 // @route POST /auth/logout
 // @access Public - just to clear cookie if exists
 const logout = (req, res) => {
-    console.log("here");
     const cookies = req.cookies;
-    console.log(cookies);
     if (!(cookies === null || cookies === void 0 ? void 0 : cookies.jwt))
         return res.sendStatus(204); //No content
     res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });

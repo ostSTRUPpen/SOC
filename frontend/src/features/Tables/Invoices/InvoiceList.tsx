@@ -3,6 +3,7 @@ import { useGetInvoicesQuery } from "./invoicesApiSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
+import useAuth from "../../../hooks/useAuth";
 
 const InvoiceList = () => {
 	useTitle("LT IS: List faktur");
@@ -17,6 +18,9 @@ const InvoiceList = () => {
 		refetchOnFocus: true,
 		refetchOnMountOrArgChange: true,
 	});
+
+	const { isAdmin, isMentor } = useAuth();
+
 	let content: any;
 
 	if (isLoading) {
@@ -34,11 +38,13 @@ const InvoiceList = () => {
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
 					<br />
-					<p>
-						<Link to={`/sec/invoices/new`}>
-							Vytvořit první fakturu
-						</Link>
-					</p>
+					{(isAdmin || isMentor) && (
+						<p>
+							<Link to={`/sec/invoices/new`}>
+								Vytvořit první fakturu
+							</Link>
+						</p>
+					)}
 				</div>
 			);
 		} else {
@@ -101,9 +107,11 @@ const InvoiceList = () => {
 					</table>
 				</div>
 				<br />
-				<p>
-					<Link to={`/sec/invoices/new`}>Nová faktura</Link>
-				</p>
+				{(isAdmin || isMentor) && (
+					<p>
+						<Link to={`/sec/invoices/new`}>Nová faktura</Link>
+					</p>
+				)}
 			</div>
 		);
 	}

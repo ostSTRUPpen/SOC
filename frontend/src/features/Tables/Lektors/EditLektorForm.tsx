@@ -58,7 +58,7 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 	const [passwordTypeOld, setPasswordTypeOld] = useState("password");
 	const [passwordTypeNew, setPasswordTypeNew] = useState("password");
 
-	const { id, role } = useAuth();
+	const { id, role, isMentor, isAdmin } = useAuth();
 
 	useEffect(() => {
 		if (isSuccess || isDelSuccess) {
@@ -334,21 +334,25 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 				</div>
 				<details>
 					<summary>Účet</summary>
-					<label className="form__label" htmlFor="mentors">
-						Příslušný mentor:
-					</label>
-					<select
-						id="mentors"
-						name="mentor_select"
-						className={`form__select ${validMentorClass}`}
-						multiple={false}
-						size={1}
-						value={mentor}
-						onChange={onMentorIdChanged}
-						title="Příslušný lektor">
-						{options}
-					</select>
-					<br />
+					{(isAdmin || isMentor) && (
+						<>
+							<label className="form__label" htmlFor="mentors">
+								Příslušný mentor:
+							</label>
+							<select
+								id="mentors"
+								name="mentor_select"
+								className={`form__select ${validMentorClass}`}
+								multiple={false}
+								size={1}
+								value={mentor}
+								onChange={onMentorIdChanged}
+								title="Příslušný mentor">
+								{options}
+							</select>
+							<br />
+						</>
+					)}
 					<label className="form__label" htmlFor="lektor-username">
 						Uživatelské jméno:
 					</label>

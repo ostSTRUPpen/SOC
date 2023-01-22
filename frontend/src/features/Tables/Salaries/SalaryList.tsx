@@ -3,6 +3,7 @@ import { useGetSalariesQuery } from "./salariesApiSlice";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
+import useAuth from "../../../hooks/useAuth";
 
 const SalaryList = () => {
 	useTitle("LT IS: List výplat");
@@ -17,6 +18,8 @@ const SalaryList = () => {
 		refetchOnFocus: true,
 		refetchOnMountOrArgChange: true,
 	});
+
+	const { isAdmin, isMentor } = useAuth();
 
 	let content: any;
 
@@ -35,11 +38,13 @@ const SalaryList = () => {
 					<div>Došlo k chybě:</div>
 					<div>{errMsg}</div>
 					<br />
-					<p>
-						<Link to={`/sec/salaries/new`}>
-							Vytvořit první výplatu
-						</Link>
-					</p>
+					{(isAdmin || isMentor) && (
+						<p>
+							<Link to={`/sec/salaries/new`}>
+								Vytvořit první výplatu
+							</Link>
+						</p>
+					)}
 				</div>
 			);
 		} else {
@@ -101,9 +106,11 @@ const SalaryList = () => {
 					</table>
 				</div>
 				<br />
-				<p>
-					<Link to={`/sec/salaries/new`}>Nová výplata</Link>
-				</p>
+				{(isAdmin || isMentor) && (
+					<p>
+						<Link to={`/sec/salaries/new`}>Nová výplata</Link>
+					</p>
+				)}
 			</div>
 		);
 	}
