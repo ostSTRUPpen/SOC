@@ -19,7 +19,6 @@ const SecureLayout = () => {
 	return (
 		<div>
 			<SecureHeader />
-			<hr className="secure_header--hr" />
 			{/*<div className={`secure-container ${colorSchema}`}>*/}
 			<div className="secure-container">
 				<Outlet />

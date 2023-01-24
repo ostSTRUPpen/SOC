@@ -83,6 +83,11 @@ const InvoiceList = () => {
 							<tr>
 								<th
 									scope="col"
+									className="table__th invoice__number">
+									Číslo faktury
+								</th>
+								<th
+									scope="col"
 									className="table__th invoice__mentor">
 									Mentor
 								</th>

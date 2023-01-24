@@ -30,8 +30,8 @@ exports.getAllInvoices = getAllInvoices;
 // @route POST /invoices
 // @access Private
 const createNewInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { mentor, client, value, date, tutoring } = req.body;
-    if (!mentor || !client || !value || !date || !tutoring) {
+    const { mentor, client, value, date, tutoring, invoice_number } = req.body;
+    if (!mentor || !client || !value || !date || !tutoring || !invoice_number) {
         return res.status(400).json({
             message: "Všechna pole jsou povinná",
         });
@@ -42,6 +42,7 @@ const createNewInvoice = (req, res) => __awaiter(void 0, void 0, void 0, functio
         tutoring: tutoring,
         date: date,
         value: value,
+        invoice_number: invoice_number,
     })
         .collation({ locale: "cs", strength: 2 })
         .lean()
@@ -57,6 +58,7 @@ const createNewInvoice = (req, res) => __awaiter(void 0, void 0, void 0, functio
         tutoring,
         date,
         value,
+        invoice_number,
     };
     const invoice = yield Invoice.create(invoiceObject);
     if (invoice) {
@@ -73,8 +75,14 @@ exports.createNewInvoice = createNewInvoice;
 // @route PATCH /invoices
 // @access Private
 const updateInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id, mentor, client, value, date, tutoring } = req.body;
-    if (!id || !mentor || !client || !value || !date || !tutoring) {
+    const { id, mentor, client, value, date, tutoring, invoice_number } = req.body;
+    if (!id ||
+        !mentor ||
+        !client ||
+        !value ||
+        !date ||
+        !tutoring ||
+        !invoice_number) {
         return res.status(400).json({
             message: "Všechna pole jsou povinná",
         });
@@ -90,6 +98,7 @@ const updateInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         tutoring: tutoring,
         date: date,
         value: value,
+        invoice_number: invoice_number,
     })
         .collation({ locale: "cs", strength: 2 })
         .lean()
@@ -103,9 +112,10 @@ const updateInvoice = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     invoiceToUpdate.mentor = mentor;
     invoiceToUpdate.value = value;
     invoiceToUpdate.date = date;
+    invoiceToUpdate.invoice_number = invoice_number;
     const updatedInvoice = yield invoiceToUpdate.save();
     res.json({
-        message: `Faktura s datem ${updatedInvoice.date} upravena`,
+        message: `Faktura s číslem ${updatedInvoice.invoice_number} upravena`,
     });
 });
 exports.updateInvoice = updateInvoice;

@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 import { useGetLektorsQuery } from "./lektorsApiSlice";
 import { useGetMentorsQuery } from "../Mentors/mentorsApiSlice";
+import { useGetTutoringsQuery } from "../Tutorings/tutoringsApiSlice";
+import FinancesComp from "../../Finances/FinancesComp";
+import { useGetLessonsQuery } from "../Lessons/lessonsApiSlice";
+import { useGetSalariesQuery } from "../Salaries/salariesApiSlice";
 
 const Lektor: any = ({ lektorId }: any) => {
 	const { lektor } = useGetLektorsQuery("lektorsList", {
@@ -14,6 +18,24 @@ const Lektor: any = ({ lektorId }: any) => {
 	const { mentor } = useGetMentorsQuery("mentorsList", {
 		selectFromResult: ({ data }: any) => ({
 			mentor: data?.entities[lektor.mentor],
+		}),
+	});
+
+	const { tutorings } = useGetTutoringsQuery("tutoringsList", {
+		selectFromResult: ({ data }: any) => ({
+			tutorings: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { lessons } = useGetLessonsQuery("lessonsList", {
+		selectFromResult: ({ data }: any) => ({
+			lessons: data?.ids.map((id: any) => data?.entities[id]),
+		}),
+	});
+
+	const { salaries } = useGetSalariesQuery("salariesList", {
+		selectFromResult: ({ data }: any) => ({
+			salaries: data?.ids.map((id: any) => data?.entities[id]),
 		}),
 	});
 
@@ -58,6 +80,18 @@ const Lektor: any = ({ lektorId }: any) => {
 			editing = <td className="table__cell" hidden></td>;
 		}
 
+		const financeInfo: JSX.Element = (
+			<FinancesComp
+				lessons={lessons}
+				salaries={salaries}
+				role={"lektor_list"}
+				salaryPerHour={150}
+				pricePerHour={250}
+				lektor={lektor}
+				tutorings={tutorings}
+			/>
+		);
+
 		return (
 			<tr className="table__row lektor">
 				<td className="table__cell">{`${mentor.name} ${mentor.surname}`}</td>
@@ -69,6 +103,7 @@ const Lektor: any = ({ lektorId }: any) => {
 				<td className="table__cell">{lektor.email}</td>
 				<td className="table__cell">{lektor.phone_num}</td>
 				<td className="table__cell">{lektor.bank_account}</td>
+				{financeInfo}
 				{viewTutorings}
 				{editing}
 			</tr>

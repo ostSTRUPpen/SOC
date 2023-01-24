@@ -7,7 +7,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -56,6 +55,7 @@ details[open] > details[open] {
   top: 0;
   z-index: 1;
   padding: 0 0.5em;
+  background-color: white;
 }
 
 .secure-header__container .secure-header__title {
@@ -68,7 +68,6 @@ details[open] > details[open] {
 }
 .secure-header__nav {
   display: flex;
-  display: flex;
   flex-flow: row nowrap;
   justify-content: flex-end;
   gap: 0.5em;
@@ -77,7 +76,7 @@ details[open] > details[open] {
 .header_icon_button {
   width: 48;
   size: 48;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   background-color: transparent;
   border: none;
   display: grid;
@@ -87,6 +86,10 @@ details[open] > details[open] {
 .header_icon_button:hover,
 .header_icon_button:focus-visible {
   transform: scale(1.2);
+}
+
+.nav__helper--selected {
+  text-decoration-line: underline;
 }
 
 .icon-button {
@@ -148,6 +151,19 @@ table th {
   color: black;
 }
 
+/*
+button :disabled, input :disabled{
+  background-color:red;
+}
+*/
+
+/* Utility */
+.red {
+  background-color: lightcoral;
+}
+.green {
+  background: lawngreen;
+}
 
 
 @keyframes tick { to { transform: rotate(359deg);}}

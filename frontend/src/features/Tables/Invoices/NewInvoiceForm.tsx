@@ -8,6 +8,7 @@ import { ROLES } from "../../../config/roles";
 import useAuth from "../../../hooks/useAuth";
 
 const VALUE_REGEX = /^[0-9]{2,5}$/;
+const INVOICE_NUMBER_REGEX = /^[0-9]{8,10}$/;
 
 const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 	const day = new Date();
@@ -41,6 +42,8 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 	const [value, setValue] = useState(defaultValue);
 	const [validValue, setValidValue] = useState(false);
 	const [date, setDate] = useState(today);
+	const [invoiceNumber, setInvoiceNumber] = useState(0);
+	const [validInvoiceNumber, setValidInvoiceNumber] = useState(false);
 
 	useEffect(() => {
 		if (isSuccess) {
@@ -49,6 +52,7 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 			setTutoring("");
 			setValue("");
 			setDate("");
+			setInvoiceNumber(0);
 			navigate(`/sec/invoices/show1/${id}`);
 			/* Možná bude třeba změnit ^ TODO */
 		}
@@ -58,6 +62,12 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 		setValidValue(VALUE_REGEX.test(value));
 	}, [value]);
 
+	useEffect(() => {
+		setValidInvoiceNumber(
+			INVOICE_NUMBER_REGEX.test(invoiceNumber.toString())
+		);
+	}, [invoiceNumber]);
+
 	let canSave: boolean =
 		[
 			mentor,
@@ -65,6 +75,7 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 			tutoring,
 			validValue,
 			date,
+			validInvoiceNumber,
 			mentor !== "0",
 			client !== "0",
 			tutoring !== "0",
@@ -77,6 +88,7 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 			tutoring,
 			value,
 			date,
+			invoice_number: invoiceNumber,
 		});
 	};
 
@@ -86,6 +98,7 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 		setClient("");
 		setTutoring("");
 		setValue("");
+		setInvoiceNumber(0);
 		navigate(`/sec/invoices/show1/${id}`);
 		/* Možná bude třeba změnit ^ TODO */
 	};
@@ -143,6 +156,7 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 	const onTutoringsChanged = (e: any) => setTutoring(e.target.value);
 	const onValuesChanged = (e: any) => setValue(e.target.value);
 	const onDateChanged = (e: any) => setDate(e.target.value);
+	const onInvoiceNumberChanged = (e: any) => setInvoiceNumber(e.target.value);
 
 	const errorClass = isError ? "errorMessage" : "hide";
 	const validMentorClass =
@@ -153,6 +167,9 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 		!tutoring || tutoring === "0" ? "form__input--incomplete" : "";
 	const validValueClass = !validValue ? "form__input--incomplete" : "";
 	const validDateClass = !date ? "form__input--incomplete" : "";
+	const validInvoiceNumberClass = !validInvoiceNumber
+		? "form__input--incomplete"
+		: "";
 
 	let errorContent;
 	if (error) {
@@ -263,6 +280,18 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 					onChange={onValuesChanged}
 				/>
 				<br />
+				<label className="form__label" htmlFor="invoice_number">
+					Číslo faktury:
+				</label>
+				<input
+					className={`form__input--invoice_number ${validInvoiceNumberClass}`}
+					id="invoice_number"
+					name="invoice_number"
+					type="number"
+					autoComplete="off"
+					value={invoiceNumber}
+					onChange={onInvoiceNumberChanged}
+				/>
 			</form>
 		</div>
 	);

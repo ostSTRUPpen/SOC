@@ -1,6 +1,3 @@
-//import { Link } from "react-router-dom";
-//import LessonsList from "../Tables/Lessons/LessonsList";
-//import TutoringsList from "../Tables/Tutorings/TutoringsList";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import useTitle from "../../hooks/useTitle";
@@ -54,6 +51,10 @@ const Welcome = () => {
 						Klienti
 					</button>
 					<br />
+					<button className="middle__button" onClick={navToTutorings}>
+						Finance
+					</button>
+					<br />
 
 					<button className="middle__button" onClick={navToTutorings}>
 						Doučování
@@ -100,6 +101,13 @@ const Welcome = () => {
 
 					<button
 						className="middle__button"
+						onClick={navMentorToTutorings}>
+						Finance
+					</button>
+					<br />
+
+					<button
+						className="middle__button"
 						onClick={navMentorToInvoices}>
 						Faktury
 					</button>
@@ -126,6 +134,14 @@ const Welcome = () => {
 						Doučování
 					</button>
 					<br />
+
+					<button
+						className="middle__button"
+						onClick={navLektorToTutorings}>
+						Finance
+					</button>
+					<br />
+
 					<button
 						className="middle__button"
 						onClick={navLektorToSalaries}>
@@ -145,6 +161,12 @@ const Welcome = () => {
 						className="middle__button"
 						onClick={navClientToTutorings}>
 						Doučování
+					</button>
+					<br />
+					<button
+						className="middle__button"
+						onClick={navClientToTutorings}>
+						Finance
 					</button>
 					<br />
 					<button

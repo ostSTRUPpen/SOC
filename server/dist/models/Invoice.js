@@ -25,12 +25,16 @@ const invoiceSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    invoice_number: {
+        type: String,
+        required: true,
+    },
 }, {
     timestamps: true,
 });
 invoiceSchema.plugin(AutoIncrement, {
-    inc_field: "invoice_number",
-    id: "invoiceNum",
+    inc_field: "incremented_invoice_number",
+    id: "incrementedInvoiceNumber",
     start_seq: 0,
 });
 module.exports = mongoose.model("Invoice", invoiceSchema);

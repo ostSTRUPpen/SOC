@@ -121,6 +121,21 @@ const LektorsList = () => {
 									className="table__th lektor__bank_account">
 									Bankovní účet
 								</th>
+								<th
+									scope="col"
+									className="table__th lektor__bank_account">
+									Proběhlé lekce celkem
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__bank_account">
+									Bilance
+								</th>
+								<th
+									scope="col"
+									className="table__th lektor__bank_account">
+									Celkem doučování
+								</th>
 							</tr>
 						</thead>
 						<tbody>{tableContent}</tbody>

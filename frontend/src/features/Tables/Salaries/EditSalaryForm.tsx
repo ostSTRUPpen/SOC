@@ -112,7 +112,6 @@ const EditSalaryForm = ({ salary, mentors, lektors, tutorings }: any) => {
 			);
 		}
 	}
-	console.log(lektors);
 	let optionsLektor: Array<JSX.Element> = [
 		<option key={0} value={0}>
 			Vybrat lektora

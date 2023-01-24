@@ -52,6 +52,7 @@ const Invoice: any = ({ invoiceId }: any) => {
 
 		return (
 			<tr className="table__row invoice">
+				<td className="table__cell">{invoice.invoice_number}</td>
 				<td className="table__cell">{`${mentor.name} ${mentor.surname}`}</td>
 				<td className="table__cell">
 					{`${client.name_parent} ${client.surname_parent}`}

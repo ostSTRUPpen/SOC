@@ -33,8 +33,8 @@ const salarySchema = new mongoose.Schema(
 );
 
 salarySchema.plugin(AutoIncrement, {
-	inc_field: "salary_number",
-	id: "salaryNum",
+	inc_field: "incremented_salary_number",
+	id: "incrementedSalaryNumber",
 	start_seq: 0,
 });
 

@@ -21,8 +21,8 @@ const getAllInvoices = async (req: any, res: any) => {
 // @route POST /invoices
 // @access Private
 const createNewInvoice = async (req: any, res: any) => {
-	const { mentor, client, value, date, tutoring } = req.body;
-	if (!mentor || !client || !value || !date || !tutoring) {
+	const { mentor, client, value, date, tutoring, invoice_number } = req.body;
+	if (!mentor || !client || !value || !date || !tutoring || !invoice_number) {
 		return res.status(400).json({
 			message: "Všechna pole jsou povinná",
 		});
@@ -34,6 +34,7 @@ const createNewInvoice = async (req: any, res: any) => {
 		tutoring: tutoring,
 		date: date,
 		value: value,
+		invoice_number: invoice_number,
 	})
 		.collation({ locale: "cs", strength: 2 })
 		.lean()
@@ -50,6 +51,7 @@ const createNewInvoice = async (req: any, res: any) => {
 		tutoring,
 		date,
 		value,
+		invoice_number,
 	};
 
 	const invoice = await Invoice.create(invoiceObject);
@@ -66,8 +68,17 @@ const createNewInvoice = async (req: any, res: any) => {
 // @route PATCH /invoices
 // @access Private
 const updateInvoice = async (req: any, res: any) => {
-	const { id, mentor, client, value, date, tutoring } = req.body;
-	if (!id || !mentor || !client || !value || !date || !tutoring) {
+	const { id, mentor, client, value, date, tutoring, invoice_number } =
+		req.body;
+	if (
+		!id ||
+		!mentor ||
+		!client ||
+		!value ||
+		!date ||
+		!tutoring ||
+		!invoice_number
+	) {
 		return res.status(400).json({
 			message: "Všechna pole jsou povinná",
 		});
@@ -86,6 +97,7 @@ const updateInvoice = async (req: any, res: any) => {
 		tutoring: tutoring,
 		date: date,
 		value: value,
+		invoice_number: invoice_number,
 	})
 		.collation({ locale: "cs", strength: 2 })
 		.lean()
@@ -100,11 +112,12 @@ const updateInvoice = async (req: any, res: any) => {
 	invoiceToUpdate.mentor = mentor;
 	invoiceToUpdate.value = value;
 	invoiceToUpdate.date = date;
+	invoiceToUpdate.invoice_number = invoice_number;
 
 	const updatedInvoice = await invoiceToUpdate.save();
 
 	res.json({
-		message: `Faktura s datem ${updatedInvoice.date} upravena`,
+		message: `Faktura s číslem ${updatedInvoice.invoice_number} upravena`,
 	});
 };
 
