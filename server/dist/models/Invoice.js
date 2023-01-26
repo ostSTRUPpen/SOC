@@ -18,11 +18,11 @@ const invoiceSchema = new mongoose.Schema({
         ref: "Tutoring",
     },
     date: {
-        type: String,
+        type: Date,
         required: true,
     },
     value: {
-        type: String,
+        type: Number,
         required: true,
     },
     invoice_number: {

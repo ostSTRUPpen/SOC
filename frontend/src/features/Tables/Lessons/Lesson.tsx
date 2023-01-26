@@ -17,7 +17,6 @@ const Lesson: any = ({ lessonId, tutoringId }: any) => {
 	const navigate = useNavigate();
 
 	if (lesson) {
-		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/lessons/${lessonId}`);
 		const canEdit: boolean = isAdmin
 			? true

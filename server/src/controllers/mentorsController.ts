@@ -16,7 +16,20 @@ const getAllMentors = async (req: any, res: any) => {
 	if (!mentors.length) {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
-	res.json(mentors);
+	const mentorsWithProperDates = await Promise.all(
+		mentors.map(async (mentor: any) => {
+			return {
+				...mentor,
+				date_of_birth: `${mentor.date_of_birth.getUTCFullYear()}-${String(
+					mentor.date_of_birth.getUTCMonth() + 1
+				).padStart(2, "0")}-${String(
+					mentor.date_of_birth.getUTCDate()
+				).padStart(2, "0")}`,
+			};
+		})
+	);
+
+	res.json(mentorsWithProperDates);
 };
 
 // @desc Create new mentor

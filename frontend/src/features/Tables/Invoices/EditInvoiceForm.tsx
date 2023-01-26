@@ -51,7 +51,6 @@ const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 			} else {
 				navigate(`/sec/invoices`);
 			}
-			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, isDelSuccess, navigate, id, role]);
 
@@ -102,7 +101,6 @@ const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 		} else {
 			navigate(`/sec/invoices`);
 		}
-		/* Možná bude třeba změnit ^ TODO */
 	};
 
 	const onDeleteInvoiceClicked = async (e: any) => {
@@ -114,49 +112,49 @@ const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 			Vybrat mentora
 		</option>,
 	];
-	for (let i = 0; i < mentors.length; i++) {
-		if (mentors[i].id === id || role === ROLES.Admin) {
-			optionsMentor.push(
-				<option
-					key={mentors[i].id}
-					value={
-						mentors[i].id
-					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-			);
-		}
-	}
+	mentors.forEach((mentor: any) =>
+		mentor.id === id || role === ROLES.Admin
+			? optionsMentor.push(
+					<option
+						key={mentor.id}
+						value={
+							mentor.id
+						}>{`${mentor.name} ${mentor.surname}`}</option>
+			  )
+			: ""
+	);
 
 	let optionsClient: Array<JSX.Element> = [
 		<option key={0} value={0}>
 			Vybrat klienta
 		</option>,
 	];
-	for (let i = 0; i < clients.length; i++) {
-		if (clients[i].mentor === id || role === ROLES.Admin) {
-			optionsClient.push(
-				<option
-					key={clients[i].id}
-					value={
-						clients[i].id
-					}>{`${clients[i].name_parent} ${clients[i].surname_parent}`}</option>
-			);
-		}
-	}
+	clients.forEach((client: any) =>
+		client.mentor === id || role === ROLES.Admin
+			? optionsClient.push(
+					<option
+						key={client.id}
+						value={
+							client.id
+						}>{`${client.name_parent} ${client.surname_parent}`}</option>
+			  )
+			: ""
+	);
 
 	let optionsTutoring: Array<JSX.Element> = [
 		<option key={0} value={0}>
 			Vybrat doučování
 		</option>,
 	];
-	for (let i = 0; i < tutorings.length; i++) {
-		if (tutorings[i].client === client) {
-			optionsTutoring.push(
-				<option key={tutorings[i].id} value={tutorings[i].id}>
-					{tutorings[i].name}
-				</option>
-			);
-		}
-	}
+	tutorings.forEach((tutoring: any) =>
+		tutoring.client === client
+			? optionsTutoring.push(
+					<option key={tutoring.id} value={tutoring.id}>
+						{tutoring.name}
+					</option>
+			  )
+			: ""
+	);
 
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onClientsChanged = (e: any) => setClient(e.target.value);
@@ -181,19 +179,16 @@ const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = error.message;
 		}
 	}
 	if (delerror) {
 		if ("status" in delerror) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in delerror
 					? delerror.error
@@ -201,7 +196,6 @@ const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = delerror.message;
 		}
 	}
@@ -297,7 +291,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 					Hodnota:
 				</label>
 				<input
-					className={`form__input--value ${validValueClass}`}
+					className={`form__input form__input--value ${validValueClass}`}
 					id="value"
 					name="value"
 					type="number"
@@ -311,7 +305,7 @@ const EditInvoiceForm = ({ invoice, mentors, clients, tutorings }: any) => {
 					Číslo faktury:
 				</label>
 				<input
-					className={`form__input--invoice_number ${validInvoiceNumberClass}`}
+					className={`form__input form__input--invoice_number ${validInvoiceNumberClass}`}
 					id="invoice_number"
 					name="invoice_number"
 					type="number"

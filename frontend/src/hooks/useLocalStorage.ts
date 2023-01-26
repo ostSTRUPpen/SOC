@@ -6,7 +6,7 @@ const saveToLocalStorage = (
 	return true;
 };
 
-const readFromLocalStorage = (key: string) /*: string | number*/ => {
+const readFromLocalStorage = (key: string) => {
 	const item = localStorage.getItem(key);
 	if (item === null || item === "null") {
 		return "Not found";

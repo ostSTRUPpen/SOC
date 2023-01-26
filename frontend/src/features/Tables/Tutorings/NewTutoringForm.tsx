@@ -31,7 +31,6 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 			} else {
 				navigate(`/sec/tutorings`);
 			}
-			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, navigate, id, role]);
 
@@ -62,7 +61,6 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 		} else {
 			navigate(`/sec/tutorings`);
 		}
-		/* Možná bude třeba změnit ^ TODO */
 	};
 
 	let optionsLektor: Array<JSX.Element> = [
@@ -70,42 +68,34 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 			Vybrat lektora
 		</option>,
 	];
-	for (let i = 0; i < lektors.length; i++) {
-		if (lektors[i].mentor === id || role === ROLES.Admin) {
-			optionsLektor.push(
-				<option
-					key={lektors[i].id}
-					value={
-						lektors[i].id
-					}>{`${lektors[i].name} ${lektors[i].surname}`}</option>
-			);
-		}
-	}
+	lektors.forEach((lektor: any) =>
+		lektor.mentor === id || role === ROLES.Admin
+			? optionsLektor.push(
+					<option
+						key={lektor.id}
+						value={
+							lektor.id
+						}>{`${lektor.name} ${lektor.surname}`}</option>
+			  )
+			: ""
+	);
 
 	let optionsClient: Array<JSX.Element> = [
 		<option key={0} value={0}>
 			Vybrat klienta
 		</option>,
 	];
-	for (let i = 0; i < clients.length; i++) {
-		if (clients[i].mentor === id && role !== ROLES.Admin) {
-			optionsClient.push(
-				<option
-					key={clients[i].id}
-					value={
-						clients[i].id
-					}>{`${clients[i].name_child} ${clients[i].surname_child}`}</option>
-			);
-		} else if (role === ROLES.Admin) {
-			optionsClient.push(
-				<option
-					key={clients[i].id}
-					value={
-						clients[i].id
-					}>{`${clients[i].name_child} ${clients[i].surname_child}`}</option>
-			);
-		}
-	}
+	clients.forEach((client: any) =>
+		client.mentor === id || role === ROLES.Admin
+			? optionsClient.push(
+					<option
+						key={client.id}
+						value={
+							client.id
+						}>{`${client.name_parent} ${client.surname_parent}`}</option>
+			  )
+			: ""
+	);
 
 	const onLektorsChanged = (e: any) => setLektor(e.target.value);
 	const onClientsChanged = (e: any) => setClient(e.target.value);
@@ -121,13 +111,11 @@ const NewTutoringForm = ({ mentorId, lektors, clients }: any) => {
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = error.message;
 		}
 	}

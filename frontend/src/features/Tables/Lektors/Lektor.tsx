@@ -42,7 +42,6 @@ const Lektor: any = ({ lektorId }: any) => {
 	const navigate = useNavigate();
 
 	if (lektor && mentor) {
-		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleViewTutorings = () =>
 			navigate(`/sec/tutorings/show1/${lektorId}`);
 		const handleEdit = () => navigate(`/sec/lektors/${lektorId}`);

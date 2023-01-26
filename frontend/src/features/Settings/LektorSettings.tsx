@@ -40,7 +40,7 @@ const LektorSetings = () => {
 		}
 	};
 
-	//Prefil date logic
+	// Prefil date logic
 
 	if (prefillLessonDate === "Not found") {
 		setprefillLessonDate(false);

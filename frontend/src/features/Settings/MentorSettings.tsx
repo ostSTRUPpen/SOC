@@ -60,7 +60,7 @@ const MentorSetings = () => {
 		}
 	};
 
-	//Prefil salary date logic
+	// Prefil salary date logic
 	if (prefilSalaryDate === "Not found") {
 		setPrefillSalaryDate(false);
 		saveToLocalStorage("prefillSalaryDate", false);
@@ -71,7 +71,7 @@ const MentorSetings = () => {
 		saveToLocalStorage("prefillSalaryDate", !prefilSalaryDate);
 	};
 
-	//Prefill invoice date logic
+	// Prefill invoice date logic
 	if (prefilInvoiceDate === "Not found") {
 		setPrefillInvoiceDate(false);
 		saveToLocalStorage("prefillInvoiceDate", false);

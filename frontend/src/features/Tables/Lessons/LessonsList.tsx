@@ -22,12 +22,10 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 	let content: any;
 
 	if (isLoading) {
-		// Změnit na nějakou animaci
 		content = <div className="loading"></div>;
 	}
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
@@ -46,7 +44,6 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 				</div>
 			);
 		} else {
-			// you can access all properties of `SerializedError` here
 			return <div>{error.message}</div>;
 		}
 	}
@@ -60,10 +57,6 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 			filteredIds = ids.filter(
 				(lessonId) => entities[lessonId].tutoring === tutoringId
 			);
-			//Kvůli složitosti dropuju Adamovu představu o zobrazení dvou osledních lekcí
-			/*if (amount !== -1) {
-				Math.max(...entities.map((o: any) => o.number));
-			}*/
 		}
 		const tableContent =
 			filteredIds?.length &&

@@ -28,7 +28,6 @@ const Salary: any = ({ salaryId }: any) => {
 	const navigate = useNavigate();
 
 	if (salary) {
-		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/salaries/edit/${salaryId}`);
 
 		const canEdit: boolean = isAdmin ? true : isMentor ? true : false;

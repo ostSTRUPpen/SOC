@@ -12,34 +12,39 @@ const FinancesComp = ({
 	lektor,
 	tutorings,
 }: any) => {
+	if (!role) {
+		return <></>;
+	}
 	let content: JSX.Element = <div></div>;
 	if (tutoring && role !== "lektor_list") {
+		if (
+			!tutoring ||
+			!lessons ||
+			!invoices ||
+			!salaries ||
+			!role ||
+			!salaryPerHour ||
+			!pricePerHour
+		) {
+			return <></>;
+		}
 		const mentorPerHour = pricePerHour - salaryPerHour;
-		let sortedLessons: Array<any> = [];
-		for (let i = 0; i < lessons.length; i++) {
-			if (lessons[i].tutoring === tutoring.id) {
-				sortedLessons.push(lessons[i]);
-			}
-		}
 
-		let sortedInvoices: Array<any> = [];
-		for (let i = 0; i < invoices.length; i++) {
-			if (invoices[i].tutoring === tutoring.id) {
-				sortedInvoices.push(invoices[i]);
-			}
-		}
-		let sortedSalaries: Array<any> = [];
-		for (let i = 0; i < salaries.length; i++) {
-			if (salaries[i].tutoring === tutoring.id) {
-				sortedSalaries.push(salaries[i]);
-			}
-		}
+		const sortedLessons = lessons.filter(
+			(lesson: any) => lesson.tutoring === tutoring.id
+		);
+		const sortedInvoices = invoices.filter(
+			(invoice: any) => invoice.tutoring === tutoring.id
+		);
+		const sortedSalaries = salaries.filter(
+			(salary: any) => salary.tutoring === tutoring.id
+		);
 
 		// Finished lessons
 		let lessonLengthSum: number = 0;
-		for (let i = 0; i < sortedLessons.length; i++) {
-			lessonLengthSum += sortedLessons[i].length;
-		}
+		sortedLessons.forEach(
+			(lesson: any) => (lessonLengthSum += lesson.length)
+		);
 		const tutoringHours = parseFloat((lessonLengthSum / 60).toFixed(5));
 		const lektorProfit = parseFloat(
 			((lessonLengthSum / 60) * salaryPerHour).toFixed(5)
@@ -51,27 +56,30 @@ const FinancesComp = ({
 			((lessonLengthSum / 60) * mentorPerHour).toFixed(5)
 		);
 
-		//Salaries
+		// Salaries
 		let salariesAmoutSum: number = 0;
-		for (let i = 0; i < sortedSalaries.length; i++) {
-			salariesAmoutSum += Number(sortedSalaries[i].value);
-		}
+		sortedSalaries.forEach(
+			(salary: any) => (salariesAmoutSum += salary.value)
+		);
+
 		const lektorGotPaidAmount = salariesAmoutSum;
 		const lektorNeedsToGetPaid = lektorProfit - lektorGotPaidAmount;
 
-		//Invoices
+		// Invoices
 		let invoicesAmoutSum: number = 0;
-		for (let i = 0; i < sortedInvoices.length; i++) {
-			invoicesAmoutSum += Number(sortedInvoices[i].value);
-		}
+		sortedInvoices.forEach(
+			(invoice: any) => (invoicesAmoutSum += invoice.value)
+		);
+
 		const clientPaidAmount = invoicesAmoutSum;
 		const clientNeedsToPay = clientCost - clientPaidAmount;
 
-		//Prepaid lessons
+		// Prepaid lessons
 		const prepaidLessons = parseFloat(
 			(clientPaidAmount / pricePerHour - tutoringHours).toFixed(5)
 		);
 
+		// Color filling
 		const tutoringHoursColor = "green";
 		const prepaidLessonsColor =
 			prepaidLessons < 0 ? "red" : prepaidLessons > 0 ? "green" : "";
@@ -85,7 +93,7 @@ const FinancesComp = ({
 				: "";
 		const lektorGotPaidAmountColor = "green";
 
-		//const clientCostColor = "";
+		// const clientCostColor = "";
 		const clientPaidAmountColor = "";
 		const clientNeedsToPayColor =
 			clientNeedsToPay < 0 ? "green" : clientNeedsToPay > 0 ? "red" : "";
@@ -93,13 +101,19 @@ const FinancesComp = ({
 		const mentorProfitColor = "green";
 
 		const lektorBilanceColor =
-			lektorNeedsToGetPaid < 0
-				? "green"
-				: lektorNeedsToGetPaid > 0
+			lektorNeedsToGetPaid > 500
 				? "red"
+				: lektorNeedsToGetPaid < 500
+				? "green"
 				: "";
 		const clientBilanceColor =
-			clientNeedsToPay < 0 ? "red" : clientNeedsToPay > 0 ? "green" : "";
+			clientNeedsToPay > 0
+				? "red"
+				: clientNeedsToPay < 0
+				? "green"
+				: clientNeedsToPay === 0
+				? "orange"
+				: "";
 
 		if (role === ROLES.Lektor) {
 			content = (
@@ -366,53 +380,53 @@ const FinancesComp = ({
 			);
 		}
 	} else if (lektor && role === "lektor_list") {
-		let sortedTutorings: Array<any> = [];
-		for (let i = 0; i < tutorings.length; i++) {
-			if (tutorings[i].lektor === lektor.id) {
-				sortedTutorings.push(tutorings[i].id);
-			}
-		}
-		let sortedLessons: Array<any> = [];
-		for (let i = 0; i < lessons.length; i++) {
-			if (sortedTutorings.includes(lessons[i].tutoring)) {
-				sortedLessons.push(lessons[i]);
-			}
-		}
-		let sortedSalaries: Array<any> = [];
-		for (let i = 0; i < salaries.length; i++) {
-			if (salaries[i].lektor === lektor.id) {
-				sortedSalaries.push(salaries[i]);
-			}
+		if (!tutorings || !lessons || !salaries || !salaryPerHour || !lektor) {
+			return <></>;
 		}
 
-		//Tutorings
+		let sortedTutorings: Array<any> = [];
+		tutorings.forEach((tutoring: any) =>
+			tutoring.lektor === lektor.id
+				? sortedTutorings.push(tutoring.id)
+				: ""
+		);
+		const sortedLessons = lessons.filter((lesson: any) =>
+			sortedTutorings.includes(lesson.tutoring)
+		);
+		const sortedSalaries = salaries.filter(
+			(salary: any) => salary.lektor === lektor.id
+		);
+
+		// Tutorings
 		const tutoringsUnderControll = sortedTutorings.length;
 
 		// Finished lessons
 		let lessonLengthSum: number = 0;
-		for (let i = 0; i < sortedLessons.length; i++) {
-			lessonLengthSum += sortedLessons[i].length;
-		}
+		sortedLessons.forEach(
+			(lesson: any) => (lessonLengthSum += lesson.length)
+		);
+
 		const tutoringHours = parseFloat((lessonLengthSum / 60).toFixed(5));
 		const lektorProfit = parseFloat(
 			((lessonLengthSum / 60) * salaryPerHour).toFixed(5)
 		);
 
-		//Salaries
+		// Salaries
 		let salariesAmoutSum: number = 0;
-		for (let i = 0; i < sortedSalaries.length; i++) {
-			salariesAmoutSum += Number(sortedSalaries[i].value);
-		}
+		sortedSalaries.forEach(
+			(salary: any) => (salariesAmoutSum += salary.value)
+		);
+
 		const lektorGotPaidAmount = salariesAmoutSum;
 		const lektorNeedsToGetPaid = lektorProfit - lektorGotPaidAmount;
 
 		const tutoringHoursColor = "green";
 
 		const lektorBilanceColor =
-			lektorNeedsToGetPaid > 0
-				? "green"
-				: lektorNeedsToGetPaid < 0
+			lektorNeedsToGetPaid > 500
 				? "red"
+				: lektorNeedsToGetPaid < 500
+				? "green"
 				: "";
 
 		content = (
@@ -421,11 +435,9 @@ const FinancesComp = ({
 					{tutoringHours}
 				</td>
 				<td className={`table__cell ${lektorBilanceColor}`}>
-					{lektorNeedsToGetPaid} Kč
+					{-lektorNeedsToGetPaid} Kč
 				</td>
-				<td className={`table__cell ${lektorBilanceColor}`}>
-					{tutoringsUnderControll}
-				</td>
+				<td className={`table__cell`}>{tutoringsUnderControll}</td>
 			</>
 		);
 	}

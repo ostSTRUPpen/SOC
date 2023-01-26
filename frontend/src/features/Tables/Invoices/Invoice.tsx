@@ -30,7 +30,6 @@ const Invoice: any = ({ invoiceId }: any) => {
 	const navigate = useNavigate();
 
 	if (invoice) {
-		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/invoices/edit/${invoiceId}`);
 
 		const canEdit: boolean = isAdmin ? true : isMentor ? true : false;

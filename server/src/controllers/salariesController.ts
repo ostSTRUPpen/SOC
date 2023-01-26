@@ -14,7 +14,21 @@ const getAllSalaries = async (req: any, res: any) => {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
 
-	res.json(salaries);
+	const salariesWithProperDates = await Promise.all(
+		salaries.map(async (salary: any) => {
+			return {
+				...salary,
+				date: `${salary.date.getUTCFullYear()}-${String(
+					salary.date.getUTCMonth() + 1
+				).padStart(2, "0")}-${String(salary.date.getUTCDate()).padStart(
+					2,
+					"0"
+				)}`,
+			};
+		})
+	);
+
+	res.json(salariesWithProperDates);
 };
 
 // @desc Create new salary

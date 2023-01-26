@@ -81,7 +81,6 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 			} else {
 				navigate(`/sec/lektors`);
 			}
-			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, isDelSuccess, navigate, id, role]);
 
@@ -190,17 +189,17 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 			Vybrat mentora
 		</option>,
 	];
-	for (let i = 0; i < mentors.length; i++) {
-		if (mentors[i].id === id || role === ROLES.Admin) {
-			options.push(
-				<option
-					key={mentors[i].id}
-					value={
-						mentors[i].id
-					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-			);
-		}
-	}
+	mentors.forEach((mentor: any) =>
+		mentor.id === id || role === ROLES.Admin
+			? options.push(
+					<option
+						key={mentor.id}
+						value={
+							mentor.id
+						}>{`${mentor.name} ${mentor.surname}`}</option>
+			  )
+			: ""
+	);
 
 	const onDeleteLektorClicked = async () => {
 		await deleteLektor({ id: lektor.id });
@@ -278,19 +277,16 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = error.message;
 		}
 	}
 	if (delerror) {
 		if ("status" in delerror) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in delerror
 					? delerror.error
@@ -298,7 +294,6 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = delerror.message;
 		}
 	}

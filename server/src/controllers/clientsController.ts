@@ -16,7 +16,21 @@ const getAllClients = async (req: any, res: any) => {
 	if (!clients.length) {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
-	res.json(clients);
+
+	const clientsWithProperDates = await Promise.all(
+		clients.map(async (client: any) => {
+			return {
+				...client,
+				date_of_birth_child: `${client.date_of_birth_child.getUTCFullYear()}-${String(
+					client.date_of_birth_child.getUTCMonth() + 1
+				).padStart(2, "0")}-${String(
+					client.date_of_birth_child.getUTCDate()
+				).padStart(2, "0")}`,
+			};
+		})
+	);
+
+	res.json(clientsWithProperDates);
 };
 
 // @desc Create new client

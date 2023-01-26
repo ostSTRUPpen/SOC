@@ -6,7 +6,6 @@ const Welcome = () => {
 	useTitle("LT IS: Domovská stránka");
 	const { id, isLektor, isClient, isMentor, isAdmin } = useAuth();
 
-	// Ruším Adamův plán dashboardu plného inforamcí
 	const navigate = useNavigate();
 	const navToTutorings = () => navigate("/sec/tutorings");
 	const navToLektors = () => navigate("/sec/lektors");

@@ -54,11 +54,11 @@ const clientSchema = new mongoose.Schema({
 		type: String,
 	},
 	date_of_birth_child: {
-		type: String,
+		type: Date,
 	},
 	others: {
-		type: Array,
-		default: [],
+		type: Object,
+		default: {},
 	},
 	active: {
 		type: Boolean,

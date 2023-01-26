@@ -35,7 +35,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 
 	const navigate = useNavigate();
 
-	//Account
+	// Account
 	const [mentor, setMentor] = useState(client.mentor);
 	const [username, setUsername] = useState(client.username);
 	const [validUsername, setValidUsername] = useState(false);
@@ -44,7 +44,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 	const [passwordNew, setPasswordNew] = useState(client.passwordNew);
 	const [validPasswordNew, setValidPasswordNew] = useState(false);
 
-	//Parent
+	// Parent
 	const [nameParent, setNameParent] = useState(client.name_parent);
 	const [surnameParent, setSurnameParent] = useState(client.surname_parent);
 	const [gmailParent, setGmailParent] = useState(client.gmail_parent);
@@ -58,7 +58,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 	const [bankAccount, setBankAccount] = useState(client.bank_account);
 	const [validBankAccount, setValidBankAccount] = useState(false);
 
-	//Child
+	// Child
 	const [nameChild, setNameChild] = useState(client.name_child);
 	const [surnameChild, setSurnameChild] = useState(client.surname_child);
 	const [gmailChild, setGmailChild] = useState(client.gmail_child);
@@ -102,8 +102,6 @@ const EditClientForm = ({ client, mentors }: any) => {
 			} else {
 				navigate(`/sec/clients`);
 			}
-
-			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, isDelSuccess, navigate, role, id]);
 
@@ -252,17 +250,17 @@ const EditClientForm = ({ client, mentors }: any) => {
 			Vybrat mentora
 		</option>,
 	];
-	for (let i = 0; i < mentors.length; i++) {
-		if (mentors[i].id === id || role === ROLES.Admin) {
-			options.push(
-				<option
-					key={mentors[i].id}
-					value={
-						mentors[i].id
-					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-			);
-		}
-	}
+	mentors.forEach((mentor: any) =>
+		mentor.id === id || role === ROLES.Admin
+			? options.push(
+					<option
+						key={mentor.id}
+						value={
+							mentor.id
+						}>{`${mentor.name} ${mentor.surname}`}</option>
+			  )
+			: ""
+	);
 
 	const onDeleteClientClicked = async () => {
 		await deleteClient({ id: client.id });
@@ -294,7 +292,6 @@ const EditClientForm = ({ client, mentors }: any) => {
 		} else {
 			navigate(`/sec/clients`);
 		}
-		/* Možná bude třeba změnit ^ TODO */
 	};
 	const onUsernameChanged = (e: any) => setUsername(e.target.value);
 	const onPasswordOldChanged = (e: any) => setPasswordOld(e.target.value);
@@ -379,19 +376,16 @@ const EditClientForm = ({ client, mentors }: any) => {
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = error.message;
 		}
 	}
 	if (delerror) {
 		if ("status" in delerror) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in delerror
 					? delerror.error
@@ -399,7 +393,6 @@ const EditClientForm = ({ client, mentors }: any) => {
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = delerror.message;
 		}
 	}

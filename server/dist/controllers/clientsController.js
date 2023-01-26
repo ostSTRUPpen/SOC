@@ -26,7 +26,10 @@ const getAllClients = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     if (!clients.length) {
         return res.status(400).json({ message: "Nenalezena žádná data" });
     }
-    res.json(clients);
+    const clientsWithProperDates = yield Promise.all(clients.map((client) => __awaiter(void 0, void 0, void 0, function* () {
+        return Object.assign(Object.assign({}, client), { date_of_birth_child: `${client.date_of_birth_child.getUTCFullYear()}-${String(client.date_of_birth_child.getUTCMonth() + 1).padStart(2, "0")}-${String(client.date_of_birth_child.getUTCDate()).padStart(2, "0")}` });
+    })));
+    res.json(clientsWithProperDates);
 });
 exports.getAllClients = getAllClients;
 // @desc Create new client

@@ -26,8 +26,6 @@ const SALARIES_ROUTE_REGEX = /^\/sec\/salaries(\/.{1,100})?$/;
 const SETTINGS_ROUTE_REGEX =
 	/^\/sec\/((mentors)|(clients)|(lektors))\/[0-pA-z]{24}$/;
 
-//const TUTORINGS_ROUTE_REGEX = /^\/sec\/tutorings(\/?).*/;
-
 const SecureHeader = () => {
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
@@ -46,7 +44,6 @@ const SecureHeader = () => {
 
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
@@ -57,7 +54,6 @@ const SecureHeader = () => {
 				</div>
 			);
 		} else {
-			// you can access all properties of `SerializedError` here
 			return <div>{error.message}</div>;
 		}
 	}
@@ -307,137 +303,6 @@ const SecureHeader = () => {
 		);
 	}
 
-	/*if (pathname === "/sec" || true) {
-		navButtons = (
-			<>
-				{isAdmin && (
-					<>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Doučování"
-							onClick={onAdminNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faUsers} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Finance"
-							onClick={onAdminNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faWallet} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Faktury"
-							onClick={onAdminNavToInvoicesClicked}>
-							<FontAwesomeIcon icon={faCreditCard} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Výplaty"
-							onClick={onAdminNavToSalariesClicked}>
-							<FontAwesomeIcon icon={faCreditCardAlt} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Nastavení"
-							onClick={onAdminNavToSettingsClicked}>
-							<FontAwesomeIcon icon={faUserGear} />
-						</button>
-					</>
-				)}
-				{isMentor && (
-					<>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Doučování"
-							onClick={onMentorNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faUsers} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Finance"
-							onClick={onMentorNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faWallet} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Faktury"
-							onClick={onMentorNavToInvoicesClicked}>
-							<FontAwesomeIcon icon={faFileInvoice} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Výplaty"
-							onClick={onMentorNavToSalariesClicked}>
-							<FontAwesomeIcon icon={faCreditCardAlt} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Nastavení"
-							onClick={onMentorNavToSettingsClicked}>
-							<FontAwesomeIcon icon={faUserGear} />
-						</button>
-					</>
-				)}
-				{isClient && (
-					<>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Doučování"
-							onClick={onClientNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faUsers} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Finance"
-							onClick={onClientNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faWallet} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Faktury"
-							onClick={onClientNavToInvoicesClicked}>
-							<FontAwesomeIcon icon={faFileInvoice} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Nastavení"
-							onClick={onClientNavToSettingsClicked}>
-							<FontAwesomeIcon icon={faUserGear} />
-						</button>
-					</>
-				)}
-				{isLektor && (
-					<>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Doučování"
-							onClick={onLektorNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faUsers} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Faktury"
-							onClick={onLektorNavToTutoringsClicked}>
-							<FontAwesomeIcon icon={faWallet} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Výplaty"
-							onClick={onLektorNavToSalariesClicked}>
-							<FontAwesomeIcon icon={faCreditCard} />
-						</button>
-						<button
-							className="secure-header__navbutton header_icon_button"
-							title="Nastavení"
-							onClick={onLektorNavToSettingsClicked}>
-							<FontAwesomeIcon icon={faUserGear} />
-						</button>
-					</>
-				)}
-			</>
-		);
-	}*/
-
 	const errClass = isError ? "errmsg" : "offscreen";
 
 	const content = (
@@ -452,7 +317,6 @@ const SecureHeader = () => {
 						{homeButton}
 						{navButtons}
 						{logoutButton}
-						{/* add nav buttons later TODO */}
 					</nav>
 					<h4>
 						{name} {surname}, {status}

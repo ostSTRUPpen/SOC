@@ -11,7 +11,21 @@ const getAllLessons = async (req: any, res: any) => {
 	if (!lessons.length) {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
-	res.json(lessons);
+	const lessonsWithProperDates = await Promise.all(
+		lessons.map(async (lesson: any) => {
+			return {
+				...lesson,
+				date: `${lesson.date.getUTCFullYear()}-${String(
+					lesson.date.getUTCMonth() + 1
+				).padStart(2, "0")}-${String(lesson.date.getUTCDate()).padStart(
+					2,
+					"0"
+				)}`,
+			};
+		})
+	);
+
+	res.json(lessonsWithProperDates);
 };
 
 // @desc Create new lesson

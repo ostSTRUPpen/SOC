@@ -1,17 +1,13 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../../app/api/apiSlice";
-// TOHLE CELÉ SE MUSÍ PŘEPSAT - NEPLNÍ TO FUNKCI
-/*
-Potřebuji pouze lessons pro příslošné ID lektora/klienta
-https://redux-toolkit.js.org/rtk-query/usage-with-typescript
-*/
+
 const lessonsAdapter = createEntityAdapter({
 	sortComparer: (a: any, b: any) =>
 		a.completed === b.completed ? 0 : a.completed ? 1 : -1,
 });
 
 const initialState = lessonsAdapter.getInitialState();
-// https://redux-toolkit.js.org/rtk-query/usage-with-typescript (provideTags hází nevysvětlitelný error)
+
 export const lessonsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getLessons: builder.query({
@@ -82,22 +78,18 @@ export const {
 	useUpdateLessonMutation,
 } = lessonsApiSlice;
 
-// returns the query result object
 export const selectLessonsResult =
 	lessonsApiSlice.endpoints.getLessons.select("");
 
-// creates memoized selector
 const selectLessonsData = createSelector(
 	selectLessonsResult,
-	(lessonsResult) => lessonsResult.data // normalized state object with ids & entities
+	(lessonsResult) => lessonsResult.data
 );
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
 	selectAll: selectAllLessons,
 	selectById: selectLessonById,
 	selectIds: selectLessonIds,
-	// Pass in a selector that returns the lessons slice of state
 } = lessonsAdapter.getSelectors(
 	(state: any) => selectLessonsData(state) ?? initialState
 );

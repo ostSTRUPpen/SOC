@@ -23,7 +23,10 @@ const getAllInvoices = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (!invoices.length) {
         return res.status(400).json({ message: "Nenalezena žádná data" });
     }
-    res.json(invoices);
+    const invoicesWithProperDates = yield Promise.all(invoices.map((invoice) => __awaiter(void 0, void 0, void 0, function* () {
+        return Object.assign(Object.assign({}, invoice), { date: `${invoice.date.getUTCFullYear()}-${String(invoice.date.getUTCMonth() + 1).padStart(2, "0")}-${String(invoice.date.getUTCDate()).padStart(2, "0")}` });
+    })));
+    res.json(invoicesWithProperDates);
 });
 exports.getAllInvoices = getAllInvoices;
 // @desc Create new invoice

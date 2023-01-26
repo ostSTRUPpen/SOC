@@ -1,4 +1,3 @@
-# TODO Možná upravit
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow: /

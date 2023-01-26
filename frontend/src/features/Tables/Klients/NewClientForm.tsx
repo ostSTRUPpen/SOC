@@ -25,14 +25,14 @@ const NewClientForm = ({ mentors }: any) => {
 
 	const navigate = useNavigate();
 
-	//Account
+	// Account
 	const [mentor, setMentor] = useState("");
 	const [username, setUsername] = useState("");
 	const [validUsername, setValidUsername] = useState(false);
 	const [password, setPassword] = useState("");
 	const [validPassword, setValidPassword] = useState(false);
 
-	//Parent
+	// Parent
 	const [nameParent, setNameParent] = useState("");
 	const [surnameParent, setSurnameParent] = useState("");
 	const [gmailParent, setGmailParent] = useState("");
@@ -44,7 +44,7 @@ const NewClientForm = ({ mentors }: any) => {
 	const [bankAccount, setBankAccount] = useState("");
 	const [validBankAccount, setValidBankAccount] = useState(false);
 
-	//Child
+	// Child
 	const [nameChild, setNameChild] = useState("");
 	const [surnameChild, setSurnameChild] = useState("");
 	const [gmailChild, setGmailChild] = useState("");
@@ -81,7 +81,6 @@ const NewClientForm = ({ mentors }: any) => {
 			} else {
 				navigate(`/sec/clients`);
 			}
-			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, navigate, id, role]);
 
@@ -169,17 +168,17 @@ const NewClientForm = ({ mentors }: any) => {
 			Vybrat mentora
 		</option>,
 	];
-	for (let i = 0; i < mentors.length; i++) {
-		if (mentors[i].id === id || role === ROLES.Admin) {
-			options.push(
-				<option
-					key={mentors[i].id}
-					value={
-						mentors[i].id
-					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-			);
-		}
-	}
+	mentors.forEach((mentor: any) =>
+		mentor.id === id || role === ROLES.Admin
+			? options.push(
+					<option
+						key={mentor.id}
+						value={
+							mentor.id
+						}>{`${mentor.name} ${mentor.surname}`}</option>
+			  )
+			: ""
+	);
 
 	const onStopEditingClicked = (e: any) => {
 		e.preventDefault();
@@ -203,7 +202,6 @@ const NewClientForm = ({ mentors }: any) => {
 		} else {
 			navigate(`/sec/clients`);
 		}
-		/* Možná bude třeba změnit ^ TODO */
 	};
 	const onUsernameChanged = (e: any) => setUsername(e.target.value);
 	const onPasswordChanged = (e: any) => setPassword(e.target.value);
@@ -271,13 +269,11 @@ const NewClientForm = ({ mentors }: any) => {
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = error.message;
 		}
 	}

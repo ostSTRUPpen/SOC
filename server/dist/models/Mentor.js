@@ -34,11 +34,11 @@ const mentorSchema = new mongoose.Schema({
         required: true,
     },
     date_of_birth: {
-        type: String,
+        type: Date,
     },
     others: {
-        type: Array,
-        default: [],
+        type: Object,
+        default: {},
     },
     active: {
         type: Boolean,

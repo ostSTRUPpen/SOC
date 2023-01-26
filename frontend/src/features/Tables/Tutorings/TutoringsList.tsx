@@ -23,12 +23,10 @@ const TutoringsList = () => {
 	const { isAdmin, isMentor } = useAuth();
 
 	if (isLoading) {
-		// Změnit na nějakou animaci
 		content = <div className="loading"></div>;
 	}
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
@@ -47,7 +45,6 @@ const TutoringsList = () => {
 				</div>
 			);
 		} else {
-			// you can access all properties of `SerializedError` here
 			return <div>{error.message}</div>;
 		}
 	}
@@ -82,7 +79,6 @@ const TutoringsList = () => {
 			klientId === undefined &&
 			mentorId !== undefined
 		) {
-			// TODO ? Musí z tutoring dostat ID lektora a podle něj získat lektora a z něj dostat ID mentora
 			filteredIds = [...ids];
 		} else {
 			filteredIds = [...ids];

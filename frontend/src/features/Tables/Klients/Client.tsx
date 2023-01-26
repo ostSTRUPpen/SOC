@@ -18,7 +18,6 @@ const Client: any = ({ clientId }: any) => {
 
 	const navigate = useNavigate();
 	if (client && mentor) {
-		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleViewTutorings = () =>
 			navigate(`/sec/tutorings/show2/${clientId}`);
 		const handleEdit = () => navigate(`/sec/clients/${clientId}`);

@@ -54,7 +54,6 @@ const Tutoring: any = ({ tutoringId }: any) => {
 	const navigate = useNavigate();
 
 	if (tutoring) {
-		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const displayLessons = () => navigate(`/sec/tutorings/${tutoringId}`);
 		const handleEdit = () => navigate(`/sec/tutorings/edit/${tutoringId}`);
 		const displayFinances = () => navigate(`/sec/finances/${tutoringId}`);

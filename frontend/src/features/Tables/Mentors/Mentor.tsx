@@ -14,7 +14,6 @@ const Mentor: any = ({ mentorId }: any) => {
 	const navigate = useNavigate();
 
 	if (mentor) {
-		// Upravit, tak aby to pracovalo dle plánu TODO (pravděpodobně jako funkci, která to handlne, ale bez načítání stránky)
 		const handleEdit = () => navigate(`/sec/mentors/${mentorId}`);
 		const canEdit = 1;
 

@@ -16,7 +16,20 @@ const getAllLektors = async (req: any, res: any) => {
 	if (!lektors.length) {
 		return res.status(400).json({ message: "Nenalezena žádná data" });
 	}
-	res.json(lektors);
+	const lektorsWithProperDates = await Promise.all(
+		lektors.map(async (lektor: any) => {
+			return {
+				...lektor,
+				date_of_birth: `${lektor.date_of_birth.getUTCFullYear()}-${String(
+					lektor.date_of_birth.getUTCMonth() + 1
+				).padStart(2, "0")}-${String(
+					lektor.date_of_birth.getUTCDate()
+				).padStart(2, "0")}`,
+			};
+		})
+	);
+
+	res.json(lektorsWithProperDates);
 };
 
 // @desc Create new lektor

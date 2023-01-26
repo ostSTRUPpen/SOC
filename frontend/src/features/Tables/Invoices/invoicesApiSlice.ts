@@ -1,17 +1,13 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../../app/api/apiSlice";
-// TOHLE CELÉ SE MUSÍ PŘEPSAT - NEPLNÍ TO FUNKCI
-/*
-Potřebuji pouze invoices pro příslošné ID lektora/klienta
-https://redux-toolkit.js.org/rtk-query/usage-with-typescript
-*/
+
 const invoicesAdapter = createEntityAdapter({
 	sortComparer: (a: any, b: any) =>
 		a.completed === b.completed ? 0 : a.completed ? 1 : -1,
 });
 
 const initialState = invoicesAdapter.getInitialState();
-// https://redux-toolkit.js.org/rtk-query/usage-with-typescript (provideTags hází nevysvětlitelný error)
+
 export const invoicesApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getInvoices: builder.query({
@@ -82,22 +78,18 @@ export const {
 	useUpdateInvoiceMutation,
 } = invoicesApiSlice;
 
-// returns the query result object
 export const selectInvoicesResult =
 	invoicesApiSlice.endpoints.getInvoices.select("");
 
-// creates memoized selector
 const selectInvoicesData = createSelector(
 	selectInvoicesResult,
-	(invoicesResult) => invoicesResult.data // normalized state object with ids & entities
+	(invoicesResult) => invoicesResult.data
 );
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
 	selectAll: selectAllInvoices,
 	selectById: selectInvoiceById,
 	selectIds: selectInvoiceIds,
-	// Pass in a selector that returns the invoices slice of state
 } = invoicesAdapter.getSelectors(
 	(state: any) => selectInvoicesData(state) ?? initialState
 );

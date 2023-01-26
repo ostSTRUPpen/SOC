@@ -94,19 +94,16 @@ const EditLessonForm = ({ lesson }: any) => {
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = error.message;
 		}
 	}
 	if (delerror) {
 		if ("status" in delerror) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in delerror
 					? delerror.error
@@ -114,7 +111,6 @@ const EditLessonForm = ({ lesson }: any) => {
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = delerror.message;
 		}
 	}

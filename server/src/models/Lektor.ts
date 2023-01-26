@@ -37,12 +37,12 @@ const lektorSchema = new mongoose.Schema({
 		required: true,
 	},
 	date_of_birth: {
-		type: String,
+		type: Date,
 		required: true,
 	},
 	others: {
-		type: Array,
-		default: [],
+		type: Object,
+		default: {},
 	},
 	active: {
 		type: Boolean,

@@ -1,17 +1,12 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../../app/api/apiSlice";
-// TOHLE CELÉ SE MUSÍ PŘEPSAT - NEPLNÍ TO FUNKCI
-/*
-Potřebuji pouze clients pro příslošné ID clienta/klienta
-https://redux-toolkit.js.org/rtk-query/usage-with-typescript
-*/
+
 const clientsAdapter = createEntityAdapter({
 	sortComparer: (a: any, b: any) =>
 		a.completed === b.completed ? 0 : a.completed ? 1 : -1,
 });
 
 const initialState = clientsAdapter.getInitialState();
-// https://redux-toolkit.js.org/rtk-query/usage-with-typescript (provideTags hází nevysvětlitelný error)
 export const clientsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getClients: builder.query({
@@ -82,22 +77,18 @@ export const {
 	useUpdateClientMutation,
 } = clientsApiSlice;
 
-// returns the query result object
 export const selectClientsResult =
 	clientsApiSlice.endpoints.getClients.select("");
 
-// creates memoized selector
 const selectClientsData = createSelector(
 	selectClientsResult,
-	(clientsResult) => clientsResult.data // normalized state object with ids & entities
+	(clientsResult) => clientsResult.data
 );
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
 	selectAll: selectAllClients,
 	selectById: selectClientById,
 	selectIds: selectClientIds,
-	// Pass in a selector that returns the clients slice of state
 } = clientsAdapter.getSelectors(
 	(state: any) => selectClientsData(state) ?? initialState
 );

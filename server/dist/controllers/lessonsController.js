@@ -21,7 +21,10 @@ const getAllLessons = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     if (!lessons.length) {
         return res.status(400).json({ message: "Nenalezena žádná data" });
     }
-    res.json(lessons);
+    const lessonsWithProperDates = yield Promise.all(lessons.map((lesson) => __awaiter(void 0, void 0, void 0, function* () {
+        return Object.assign(Object.assign({}, lesson), { date: `${lesson.date.getUTCFullYear()}-${String(lesson.date.getUTCMonth() + 1).padStart(2, "0")}-${String(lesson.date.getUTCDate()).padStart(2, "0")}` });
+    })));
+    res.json(lessonsWithProperDates);
 });
 exports.getAllLessons = getAllLessons;
 // @desc Create new lesson

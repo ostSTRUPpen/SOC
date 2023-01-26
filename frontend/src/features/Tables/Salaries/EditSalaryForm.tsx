@@ -47,7 +47,6 @@ const EditSalaryForm = ({ salary, mentors, lektors, tutorings }: any) => {
 			} else {
 				navigate(`/sec/salaries`);
 			}
-			/* Možná bude třeba změnit ^ TODO */
 		}
 	}, [isSuccess, isDelSuccess, navigate, id, role]);
 
@@ -89,7 +88,6 @@ const EditSalaryForm = ({ salary, mentors, lektors, tutorings }: any) => {
 		} else {
 			navigate(`/sec/salaries`);
 		}
-		/* Možná bude třeba změnit ^ TODO */
 	};
 
 	const onDeleteSalaryClicked = async (e: any) => {
@@ -101,48 +99,48 @@ const EditSalaryForm = ({ salary, mentors, lektors, tutorings }: any) => {
 			Vybrat mentora
 		</option>,
 	];
-	for (let i = 0; i < mentors.length; i++) {
-		if (mentors[i].id === id || role === ROLES.Admin) {
-			optionsMentor.push(
-				<option
-					key={mentors[i].id}
-					value={
-						mentors[i].id
-					}>{`${mentors[i].name} ${mentors[i].surname}`}</option>
-			);
-		}
-	}
+	mentors.forEach((mentor: any) =>
+		mentor.id === id || role === ROLES.Admin
+			? optionsMentor.push(
+					<option
+						key={mentor.id}
+						value={
+							mentor.id
+						}>{`${mentor.name} ${mentor.surname}`}</option>
+			  )
+			: ""
+	);
 	let optionsLektor: Array<JSX.Element> = [
 		<option key={0} value={0}>
 			Vybrat lektora
 		</option>,
 	];
-	for (let i = 0; i < lektors.length; i++) {
-		if (lektors[i].mentor === id || role === ROLES.Admin) {
-			optionsLektor.push(
-				<option
-					key={lektors[i].id}
-					value={
-						lektors[i].id
-					}>{`${lektors[i].name} ${lektors[i].surname}`}</option>
-			);
-		}
-	}
+	lektors.forEach((lektor: any) =>
+		lektor.mentor === id || role === ROLES.Admin
+			? optionsLektor.push(
+					<option
+						key={lektor.id}
+						value={
+							lektor.id
+						}>{`${lektor.name} ${lektor.surname}`}</option>
+			  )
+			: ""
+	);
 
 	let optionsTutoring: Array<JSX.Element> = [
 		<option key={0} value={0}>
 			Vybrat doučování
 		</option>,
 	];
-	for (let i = 0; i < tutorings.length; i++) {
-		if (tutorings[i].lektor === lektor) {
-			optionsTutoring.push(
-				<option key={tutorings[i].id} value={tutorings[i].id}>
-					{tutorings[i].name}
-				</option>
-			);
-		}
-	}
+	tutorings.forEach((tutoring: any) =>
+		tutoring.lektor === lektor
+			? optionsTutoring.push(
+					<option key={tutoring.id} value={tutoring.id}>
+						{tutoring.name}
+					</option>
+			  )
+			: ""
+	);
 
 	const onMentorsChanged = (e: any) => setMentor(e.target.value);
 	const onLektorsChanged = (e: any) => setLektor(e.target.value);
@@ -163,19 +161,16 @@ const EditSalaryForm = ({ salary, mentors, lektors, tutorings }: any) => {
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in error ? error.error : JSON.stringify(error.data);
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = error.message;
 		}
 	}
 	if (delerror) {
 		if ("status" in delerror) {
-			// you can access all properties of `FetchBaseQueryError` here
 			const errMsg =
 				"error" in delerror
 					? delerror.error
@@ -183,7 +178,6 @@ const EditSalaryForm = ({ salary, mentors, lektors, tutorings }: any) => {
 
 			errorContent = errMsg;
 		} else {
-			// you can access all properties of `SerializedError` here
 			errorContent = delerror.message;
 		}
 	}

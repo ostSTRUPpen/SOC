@@ -23,7 +23,10 @@ const getAllSalaries = (req, res) => __awaiter(void 0, void 0, void 0, function*
     if (!salaries.length) {
         return res.status(400).json({ message: "Nenalezena žádná data" });
     }
-    res.json(salaries);
+    const salariesWithProperDates = yield Promise.all(salaries.map((salary) => __awaiter(void 0, void 0, void 0, function* () {
+        return Object.assign(Object.assign({}, salary), { date: `${salary.date.getUTCFullYear()}-${String(salary.date.getUTCMonth() + 1).padStart(2, "0")}-${String(salary.date.getUTCDate()).padStart(2, "0")}` });
+    })));
+    res.json(salariesWithProperDates);
 });
 exports.getAllSalaries = getAllSalaries;
 // @desc Create new salary

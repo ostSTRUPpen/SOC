@@ -19,11 +19,11 @@ const NewLesson = () => {
 	let lastLessonNumber: number = 0;
 	if (lessons) {
 		let lessonNumbers: Array<number> = [0];
-		for (let i = 0; i < lessons.length; i++) {
-			if (lessons[i].tutoring === tutoringId) {
-				lessonNumbers.push(lessons[i].lesson_number);
-			}
-		}
+		lessons.forEach((lesson: any) =>
+			lesson.tutoring === tutoringId
+				? lessonNumbers.push(lesson.lesson_number)
+				: ""
+		);
 
 		lastLessonNumber = Math.max(...lessonNumbers);
 		if (!LESSON_NUMBER_REGEX.test(String(lastLessonNumber))) {

@@ -68,7 +68,7 @@ const Login = () => {
 
 	const errClass = errMsg ? "errmsg" : "offscreen";
 
-	if (isLoading) return <p>Loading...</p>;
+	if (isLoading) return <div className="loading"></div>;
 
 	const content = (
 		<section className="public-login">

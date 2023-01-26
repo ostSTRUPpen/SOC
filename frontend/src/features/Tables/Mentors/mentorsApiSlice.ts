@@ -1,17 +1,13 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../../app/api/apiSlice";
-// TOHLE CELÉ SE MUSÍ PŘEPSAT - NEPLNÍ TO FUNKCI
-/*
-Potřebuji pouze mentors pro příslošné ID lektora/klienta
-https://redux-toolkit.js.org/rtk-query/usage-with-typescript
-*/
+
 const mentorsAdapter = createEntityAdapter({
 	sortComparer: (a: any, b: any) =>
 		a.completed === b.completed ? 0 : a.completed ? 1 : -1,
 });
 
 const initialState = mentorsAdapter.getInitialState();
-// https://redux-toolkit.js.org/rtk-query/usage-with-typescript (provideTags hází nevysvětlitelný error)
+
 export const mentorsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getMentors: builder.query({
@@ -82,22 +78,18 @@ export const {
 	useUpdateMentorMutation,
 } = mentorsApiSlice;
 
-// returns the query result object
 export const selectMentorsResult =
 	mentorsApiSlice.endpoints.getMentors.select("");
 
-// creates memoized selector
 const selectMentorsData = createSelector(
 	selectMentorsResult,
-	(mentorsResult) => mentorsResult.data // normalized state object with ids & entities
+	(mentorsResult) => mentorsResult.data
 );
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
 	selectAll: selectAllMentors,
 	selectById: selectMentorById,
 	selectIds: selectMentorIds,
-	// Pass in a selector that returns the mentors slice of state
 } = mentorsAdapter.getSelectors(
 	(state: any) => selectMentorsData(state) ?? initialState
 );

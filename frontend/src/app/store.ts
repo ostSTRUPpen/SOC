@@ -3,6 +3,8 @@ import { apiSlice } from "./api/apiSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import authReducer from "../features/auth/authSlice";
 
+const isInDevelopment = process.env.NODE_ENV === "development" ? true : false;
+
 export const store = configureStore({
 	reducer: {
 		[apiSlice.reducerPath]: apiSlice.reducer,
@@ -10,8 +12,7 @@ export const store = configureStore({
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(apiSlice.middleware),
-	//Vypnout v production!!! (PROD)
-	devTools: true,
+	devTools: isInDevelopment,
 });
 
 setupListeners(store.dispatch);

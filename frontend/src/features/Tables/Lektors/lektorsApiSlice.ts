@@ -1,17 +1,13 @@
 import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { apiSlice } from "../../../app/api/apiSlice";
-// TOHLE CELÉ SE MUSÍ PŘEPSAT - NEPLNÍ TO FUNKCI
-/*
-Potřebuji pouze lektors pro příslošné ID lektora/klienta
-https://redux-toolkit.js.org/rtk-query/usage-with-typescript
-*/
+
 const lektorsAdapter = createEntityAdapter({
 	sortComparer: (a: any, b: any) =>
 		a.completed === b.completed ? 0 : a.completed ? 1 : -1,
 });
 
 const initialState = lektorsAdapter.getInitialState();
-// https://redux-toolkit.js.org/rtk-query/usage-with-typescript (provideTags hází nevysvětlitelný error)
+
 export const lektorsApiSlice = apiSlice.injectEndpoints({
 	endpoints: (builder) => ({
 		getLektors: builder.query({
@@ -82,22 +78,18 @@ export const {
 	useUpdateLektorMutation,
 } = lektorsApiSlice;
 
-// returns the query result object
 export const selectLektorsResult =
 	lektorsApiSlice.endpoints.getLektors.select("");
 
-// creates memoized selector
 const selectLektorsData = createSelector(
 	selectLektorsResult,
-	(lektorsResult) => lektorsResult.data // normalized state object with ids & entities
+	(lektorsResult) => lektorsResult.data
 );
 
-//getSelectors creates these selectors and we rename them with aliases using destructuring
 export const {
 	selectAll: selectAllLektors,
 	selectById: selectLektorById,
 	selectIds: selectLektorIds,
-	// Pass in a selector that returns the lektors slice of state
 } = lektorsAdapter.getSelectors(
 	(state: any) => selectLektorsData(state) ?? initialState
 );
