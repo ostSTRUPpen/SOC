@@ -21,7 +21,6 @@ const PersistLogin = () => {
 			process.env.NODE_ENV !== "development"
 		) {
 			const verifyRefreshToken = async () => {
-				console.log("verifying refresh token");
 				try {
 					await refresh("");
 					setTrueSuccess(true);
@@ -38,13 +37,10 @@ const PersistLogin = () => {
 
 	let content;
 	if (!persist) {
-		console.log("no persist");
 		content = <Outlet />;
 	} else if (isLoading) {
-		console.log("loading");
 		content = <div className="loading"></div>;
 	} else if (isError) {
-		console.log("error");
 		content = (
 			<p className="errmsg">
 				{error.data?.message}
@@ -52,10 +48,8 @@ const PersistLogin = () => {
 			</p>
 		);
 	} else if (isSuccess && trueSuccess) {
-		console.log("success");
 		content = <Outlet />;
 	} else if (token && isUninitialized) {
-		console.log("token and uninit");
 		content = <Outlet />;
 	}
 
