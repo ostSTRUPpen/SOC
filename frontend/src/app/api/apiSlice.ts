@@ -2,7 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setCredentials } from "../../features/auth/authSlice";
 
 const isInDevelopmentBaseUrl =
-	process.env.NODE_ENV === "development" ? "http://localhost:3500" : "";
+	process.env.NODE_ENV === "development"
+		? "http://localhost:3500"
+		: "https://learning-triangle-soc-version-api.onrender.com";
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: isInDevelopmentBaseUrl,
