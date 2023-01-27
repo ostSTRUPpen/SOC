@@ -111,3 +111,4 @@
 20230125	20:54:35	ef2b21d8-45dd-4b1d-9b29-170e4ea4bf37	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
 20230125	20:54:51	4267f224-2e07-48e3-bbdb-0a834713894f	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
 20230127	13:27:13	27203eef-eb78-4687-80b5-f43b33a832a2	Error: Not allowed by CORS	GET	/	undefined
+20230127	13:41:26	d8cd38b1-bfc5-44f3-b2ca-ced46de92034	Error: Not allowed by CORS	GET	/	undefined

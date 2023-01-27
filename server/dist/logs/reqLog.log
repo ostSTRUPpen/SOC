@@ -11935,3 +11935,6 @@
 20230126	17:07:38	561c2caa-d0e0-44f3-a630-77757e8ec269	OPTIONS	/salaries	http://localhost:3000
 20230126	17:07:38	60bdf49d-4741-40be-b99d-3fc81aabdc29	GET	/salaries	http://localhost:3000
 20230127	13:27:13	f18b0f5f-bf43-4eab-a754-14957456c092	GET	/	undefined
+20230127	13:39:24	2d54e156-f654-4c41-9e78-b3dbf682a123	GET	/	undefined
+20230127	13:39:24	98501c49-5bc3-48b5-b903-74eaebb7d48c	GET	/css/index_style.css	undefined
+20230127	13:41:26	09fd675a-68f4-401d-898c-ff612a57f1f8	GET	/	undefined
