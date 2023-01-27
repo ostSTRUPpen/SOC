@@ -2,4 +2,4 @@
 .env
 
 #JS build
-#dist
+dist

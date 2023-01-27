@@ -15,4 +15,4 @@ node_modules
 secrets.txt
 
 #JS build server
-#dist
+dist
