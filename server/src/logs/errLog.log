@@ -1,0 +1,114 @@
+20221220	16:49:56	c543c417-df6b-4fcf-821c-507177d86e1d	ValidationError: Mentor validation failed: phone_num: Path `phone_num` is required.	POST	/mentors	undefined
+20221220	17:22:45	10295fa6-a8b2-4bf2-94a3-180fa7815ade	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	17:23:20	edbc4595-8d27-4290-92d3-5c2adb76c4d6	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	17:23:38	6ee5268a-618e-4842-bf1d-39ecd2d8efdb	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	17:27:57	d5704d7d-fde4-4b5a-9bab-b3cffc15dcf3	TypeError: Mentor.save is not a function	PATCH	/mentors	undefined
+20221220	17:29:15	2d8ff60b-1708-4f85-9168-f9152b3a3dad	SyntaxError: Unexpected string in JSON at position 162	PATCH	/mentors	undefined
+20221220	20:57:28	5f188bbd-1d23-4da5-a98d-3c689bbe5a5a	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	undefined
+20221220	21:12:28	94b8f37c-2178-4dea-8399-0b3511e74820	SyntaxError: Unexpected string in JSON at position 40	PATCH	/tutorings	undefined
+20221220	21:12:34	f7cae615-bfd7-4cc6-9b7f-5c93c5e1ef19	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:13:09	f3e7072f-1a0b-4382-a420-ee4503d65246	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:13:47	e130143f-706d-43f5-a195-7915d13bb45b	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:14:47	32eb4d7a-2898-474b-9e65-6b30132a5ea2	TypeError: tutoringToUpdate.save is not a function	PATCH	/tutorings	undefined
+20221220	21:15:45	dd478acf-06a6-4b11-bbf1-7d70d4f50082	CastError: Cast to ObjectId failed for value "{ id: '63a216f355493bf0f2f04e43' }" (type Object) at path "_id" for model "Tutoring"	PATCH	/tutorings	undefined
+20221220	21:15:51	b229c60e-8434-4630-852e-3f6e4e3e5100	CastError: Cast to ObjectId failed for value "{ id: '63a216f355493bf0f2f04e43' }" (type Object) at path "_id" for model "Tutoring"	PATCH	/tutorings	undefined
+20221220	21:16:42	c2159a6d-da7f-4a84-90d0-64beb3cbc2b7	CastError: Cast to ObjectId failed for value "{ id: '63a216f355493bf0f2f04e43' }" (type Object) at path "_id" for model "Tutoring"	PATCH	/tutorings	undefined
+20221220	21:24:11	307af5ae-981a-46ed-8a31-5df84ddd3f81	SyntaxError: Unexpected string in JSON at position 117	POST	/lessons	undefined
+20221220	21:25:18	a1488e8b-514a-4366-8db4-d733f885e91e	SyntaxError: Unexpected string in JSON at position 39	PATCH	/lessons	undefined
+20221220	21:55:54	1a27bbb1-120b-4fe7-87ef-0b832db7975c	SyntaxError: Unexpected string in JSON at position 38	PATCH	/invoices	undefined
+20221220	22:01:17	fc96d98c-ebd7-436f-895d-6181d906d1f6	SyntaxError: Unexpected string in JSON at position 39	PATCH	/salaries	undefined
+20221227	17:01:28	41694903-cfdd-4ae2-ba3e-62656e4178cb	SyntaxError: Unexpected string in JSON at position 169	POST	/lektors	undefined
+20221227	17:02:21	e4ab13e8-9d90-4ae6-9959-7815571937b0	SyntaxError: Unexpected string in JSON at position 240	POST	/clients	undefined
+20230102	15:23:41	ee2e689e-b6af-4114-81aa-ea565eb972b3	TypeError: Cannot read properties of null (reading 'name')	PATCH	/tutorings	undefined
+20230102	15:23:59	46d20138-ce4f-42c2-ab23-d079e1c75ebf	TypeError: Cannot read properties of null (reading 'name')	PATCH	/tutorings	undefined
+20230102	15:25:37	6f2ecf71-217d-445f-b484-8fa8d9b65644	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
+20230102	15:25:39	901119a2-6005-4de6-8df9-8533b71141d1	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
+20230102	15:26:10	60bbea9f-b6dd-49a7-b67c-ad7c2f5989a6	TypeError: Cannot read properties of null (reading 'name')	GET	/tutorings	undefined
+20230102	15:27:24	44a3685b-1fd0-4082-9ff8-553b7e3ca0ac	TypeError: Cannot read properties of null (reading 'name')	DELETE	/tutorings	undefined
+20230114	14:59:57	80fc9d56-d6aa-49c0-8dce-d497f0922e19	TypeError: Client.find is not a function	GET	/clients	undefined
+20230118	07:58:31	ebfa6d1f-816b-48b4-8e2c-b86c16a911fd	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000
+20230118	07:58:48	3b6e1d24-ea64-438f-bca7-8cd6c4485dd5	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000
+20230118	07:59:25	869b09e8-75eb-4bb1-9773-b456cf679c1e	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000
+20230118	08:00:23	92a7e8f4-c715-43fa-acc2-33325e2d272b	Error: Cannot set headers after they are sent to the client	PATCH	/mentors	http://localhost:3000
+20230120	18:25:57	21d65d2c-4484-4ff0-973e-b2d225a73071	Error: secretOrPrivateKey must have a value	POST	/auth	undefined
+20230120	18:26:48	186832c3-1f17-4e0b-9fd6-5c5ce5b3189c	Error: secretOrPrivateKey must have a value	POST	/auth	undefined
+20230120	18:27:52	ae9dec24-76f8-4cb5-9024-4025c77cabf5	Error: secretOrPrivateKey must have a value	POST	/auth	undefined
+20230120	18:29:29	4c0c4e04-abf8-4ff6-9ab3-d5c8a8bcbc69	Error: secretOrPrivateKey must have a value	POST	/auth	undefined
+20230120	18:29:58	abcc2972-8071-4b2d-bb52-ad559e1e638f	Error: secretOrPrivateKey must have a value	POST	/auth	undefined
+20230120	18:30:08	fffb8c2b-1836-4789-ba02-5752892613f3	Error: secretOrPrivateKey must have a value	POST	/auth	undefined
+20230120	18:49:51	d40a7458-cf60-488c-95c3-35319b0b7353	Too Many Requests: Příliš pokusů u přihlášení z této IP adresy. Zablokováno na 60 sekund.	POST	/	undefined
+20230120	18:50:06	9ab13807-9bb2-40b2-84b8-739bdbf7f806	Too Many Requests: Příliš pokusů u přihlášení z této IP adresy. Zablokováno na 60 sekund.	POST	/	undefined
+20230121	09:27:02	33fbfde2-9ca7-40a6-af16-730ac6e72be9	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
+20230121	09:28:35	0c29dd48-9ac8-404c-a278-bf16ef81fb60	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
+20230121	09:30:25	b00a371c-b41f-40be-8d0a-f46665299b98	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
+20230121	09:31:48	1a3a44f1-375d-428c-8f5e-fb1204e38085	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
+20230121	09:33:23	7c73defc-578f-4075-bdcd-81d5854fa839	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
+20230121	09:44:09	18b33b81-acf9-452c-9b5e-144d6636b662	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
+20230121	09:44:50	c4abc5e2-b76f-41ba-ad0e-c0e7b8e6d65e	TypeError: Cannot read properties of undefined (reading 'jwt')	GET	/auth/refresh	http://localhost:3000
+20230121	11:53:22	b4b43116-69e7-45a2-92c5-d1139f8d2f6b	Error: Cannot set headers after they are sent to the client	POST	/auth/logout	http://localhost:3000
+20230121	11:54:05	55f8d3cc-8314-4b69-a937-8bcdad02b16b	Error: Cannot set headers after they are sent to the client	POST	/auth/logout	http://localhost:3000
+20230121	18:37:47	05e50dba-ff65-44f4-b42f-8cc76afa2b77	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:37:51	5b37ae37-c79b-442e-ab8b-8aa8f3f32988	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:07	99ce5a6e-c0bf-49d2-b93e-2f38c2813e20	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:23	4ce4bd16-6c3f-4a6b-8143-95d89c9f98b8	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:33	70201866-57fe-4134-8822-70174a1c4fdf	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:36	83578a3f-e4df-4559-8c5d-73fd0047ab7f	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:41	3b7a073e-f38e-42ea-af35-b661ab996a2f	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:38:57	36641b0f-e3be-4c09-9880-a9e17a0615db	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:06	9b9f4ffc-fdb2-4e77-88b6-397b0bb8017d	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:09	61e5af23-0f77-43bb-b12e-67ed08c6dd72	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:13	7236c4be-5af0-4ad0-910f-d26285ee3495	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:28	c72e1c86-9f27-44af-ac70-c0ec54742107	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:39:44	620faab9-4260-495d-9edc-430bb0ea7c04	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:00	f493cc73-78bb-4034-a878-9ee9af3d3cf8	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:11	a41fcbe8-a613-4e94-abd8-7fdd10635a27	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:14	23a61f25-59f5-4106-9390-ed7eb1e3a4ac	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:30	7aebe490-f09c-4076-b201-0a42490f6a0c	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:41	c4c46785-8016-478e-b522-f663203178d9	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:40:56	a88173f6-6daa-4a2a-9ec4-5c19a3d550b9	TypeError: Cannot read properties of null (reading 'client')	GET	/salaries	http://localhost:3000
+20230121	18:41:12	663da992-a18b-4606-a007-300ffce8b72d	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:17	29186b35-aeba-431b-9c6b-49d69c0369a3	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:20	559e1cbf-f0a6-4455-98a1-b843e9aaba8b	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:22	2197def2-807d-49a3-8660-0f6d008530fb	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:38	f88e3930-f4ba-4a69-9295-3dc555e418c8	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:41:54	12efa1e4-78ab-4b7f-98a8-03895f5854f5	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:42:10	464984f5-bf45-4f55-85b5-7fb278ca708e	TypeError: salary.push is not a function	GET	/salaries	http://localhost:3000
+20230121	18:53:06	589da36c-5522-4f1e-a26e-51af883b5baf	ObjectParameterError: Parameter "filter" to findOne() must be an object, got 63cbb3d59a41b0963de789b5	PATCH	/tutorings	http://localhost:3000
+20230121	18:53:29	8246acc1-5311-4dda-b469-b0c33dde2bab	ObjectParameterError: Parameter "filter" to findOne() must be an object, got 63cbec2e7ebdca845743fb54	PATCH	/tutorings	http://localhost:3000
+20230121	18:53:38	3c084984-f7a3-4ca3-baa2-58fdf44b7053	ObjectParameterError: Parameter "filter" to findOne() must be an object, got 63cbec2e7ebdca845743fb54	PATCH	/tutorings	http://localhost:3000
+20230121	18:55:21	f31a25c2-da35-42dd-9730-2ced92442307	TypeError: Lektor.findById(...).lead is not a function	PATCH	/tutorings	http://localhost:3000
+20230121	18:55:54	57656155-517c-478f-a1bb-ff728da8aa2c	TypeError: Lektor.findById(...).lead is not a function	PATCH	/tutorings	http://localhost:3000
+20230125	20:18:24	6836fb58-377c-4ca2-a045-f6512cf9a07c	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:18:39	fab9dc62-9f9d-47d1-b831-1c83508d8c83	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:18:48	6562de52-7661-46f9-b909-c1d58b9f813b	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:19:12	a0b6165e-34b2-4f16-825a-9ab53730e13b	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:19:12	3e6cf353-9cef-41a9-bbf6-1f1294920735	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:19:27	d000b81d-5ef0-48e0-90de-d54c3a38b1c3	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:19:43	87d49bca-d618-4945-be80-ade47dd6658f	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:19:59	47897d18-4990-4e29-a293-aec6e106338d	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:20:15	2c74771d-50da-4327-8c97-10327f527ffb	TypeError: client.date_of_birth_child.getUTCFullYear is not a function	GET	/clients	http://localhost:3000
+20230125	20:26:37	0a669172-c30d-40bb-9c51-b75fd5394bea	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:26:42	ae3dc7f4-a21c-42f6-ba1f-02adcb4b0559	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:26:58	99ad54c4-33ae-46a3-87e0-926ecefb0425	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:00	f5e50a22-1393-43f6-a153-230d8a470005	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:03	a5422687-8b8d-4a57-b9b3-b9f6f6d56161	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:08	4f6d7caf-7c49-4de3-9300-d752aa9a24e8	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:24	792ff799-2c31-4b11-9ea8-b784cb5450c7	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:30	765b2c4d-0f97-4d05-891e-60783dcb556a	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:32	16604ca2-a4ff-4605-9bdf-a021b3d8129e	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:41	4ee803b0-dc71-4e24-815d-f1a1179ffb87	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:42	d89362c5-0279-4bbd-92e6-1e7a7bcf2510	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:44	9ceb73a4-7a82-406c-9839-6229d1d4a0e4	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:44	2d1826a8-080c-4968-97ac-e6010f66f80f	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:49	3d158475-3e27-49e3-a5d8-30811a4675ff	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:27:50	3af98024-ac31-4602-8708-71320ede83dd	TypeError: client.date_of_birth_child.getUTCDate(...).padStart is not a function	GET	/clients	http://localhost:3000
+20230125	20:30:15	8566ca7e-712f-4e9c-a8b1-505482d1e578	TypeError: invoice.date.getUTCFullYear is not a function	GET	/invoices	http://localhost:3000
+20230125	20:50:20	ae62e181-fd33-4101-b1bb-e3f3ade9a0dd	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
+20230125	20:50:22	7549a841-4193-4efe-9db9-213caded872c	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
+20230125	20:53:47	36eeb4c1-effa-430d-8328-88ac97ff2559	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
+20230125	20:54:03	4d859b6a-a499-4a03-a265-dfcb7134786f	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
+20230125	20:54:19	f031480f-9835-4f6f-a295-b6adec1bd63a	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
+20230125	20:54:35	ef2b21d8-45dd-4b1d-9b29-170e4ea4bf37	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
+20230125	20:54:51	4267f224-2e07-48e3-bbdb-0a834713894f	TypeError: mentor.date_of_birth.getUTCFullYear is not a function	GET	/mentors	http://localhost:3000
+20230127	13:27:13	27203eef-eb78-4687-80b5-f43b33a832a2	Error: Not allowed by CORS	GET	/	undefined
+20230127	13:41:26	d8cd38b1-bfc5-44f3-b2ca-ced46de92034	Error: Not allowed by CORS	GET	/	undefined
