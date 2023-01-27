@@ -1,13 +1,8 @@
 const allowedOrigins: string[] = require("./allowedOrigins");
 
-const isInDevelopment = process.env.NODE_ENV === "development" ? true : false;
-
 const corsOptions: any = {
 	origin: (origin: string, callback: any) => {
-		if (
-			allowedOrigins.indexOf(origin) !== -1 ||
-			(!origin && isInDevelopment)
-		) {
+		if (allowedOrigins.indexOf(origin) !== -1) {
 			callback(null, true);
 		} else {
 			callback(new Error("Not allowed by CORS"));
