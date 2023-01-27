@@ -13,3 +13,6 @@ node_modules
 #Secrets
 .env
 secrets.txt
+
+#JS build server
+dist
