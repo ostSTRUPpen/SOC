@@ -310,9 +310,13 @@ const SecureHeader = () => {
 			<p className={errClass}>{error?.data?.message}</p>
 			<header className="secure-header">
 				<div className="secure-header__container">
-					<h3 className="secure-header__title">
-						Learning Triangle Informační Systém
-					</h3>
+					<img
+						className="secure-header__title"
+						src={process.env.PUBLIC_URL + "lt_logo.png"}
+						alt="Learning Triangle logo"
+						height="1%"
+						width="100%"
+					/>
 					<nav className="secure-header__nav">
 						{homeButton}
 						{navButtons}

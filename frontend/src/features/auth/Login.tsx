@@ -73,7 +73,11 @@ const Login = () => {
 	const content = (
 		<section className="public-login">
 			<header>
-				<h1>Přihlášení do informačního systému</h1>
+				<img
+					src={process.env.PUBLIC_URL + "lt_logo.png"}
+					alt="Learning Triangle logo"
+				/>
+				<h3>Přihlášení</h3>
 			</header>
 			<main className="login">
 				<p ref={errRef} className={errClass} aria-live="assertive">

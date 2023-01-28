@@ -10,12 +10,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
+/* Secure main */
 .secure-container {
   display: flex;  
   justify-content: center;
   padding: 0.75em 0.5em 0.5em;
   flex-grow: 1;
+}
+
+/* Inputs*/
+.form__input--value {
+  width: 80px;
 }
 
 .form__input--incomplete {
@@ -30,6 +35,7 @@ textarea #lessonimfo, #lesson-theme {
   max-width: 100%;
 }
 
+/* Details */
 details[open] {
   background-color: lightgray;
 }
@@ -43,11 +49,6 @@ details > input, .form__input, .form__select {
   width: 100%;
 }
 
-.form__input--value {
-  width: 80px;
-}
-
-
 /* Secure header */
 .secure-header {
   position: sticky;
@@ -60,6 +61,7 @@ details > input, .form__input, .form__select {
 .secure-header__container .secure-header__title {
   display: flex;
   flex-flow: row;
+   width: 50%;
 }
 .secure-header__container .secure-header__nav {
   display: flex;
@@ -90,6 +92,32 @@ details > input, .form__input, .form__select {
 .nav__helper--selected {
   text-decoration-line: underline;
 }
+
+@media only screen and (max-width: 1000px) {
+  .secure-header__container .secure-header__title {
+    flex-flow: row;
+    width: 73%;
+  }
+  .secure-header__container .secure-header__nav {
+    flex-flow: column;
+  }
+  .secure-header__nav {
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-start;
+    gap: 0.5em;
+  }
+  
+  .header_icon_button {
+    width: 100%;
+    font-size: 1rem;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    place-content: center;
+  }
+}
+
 /* Icon buttons */
 .icon-button {
   width: 24;
@@ -121,8 +149,63 @@ details > input, .form__input, .form__select {
 .dashboard h5 {
   text-align: center;
 }
+
+/* Tables */
+table, td {
+  border: 1px solid;
+}
+
+table th {
+  border: 1px solid;
+}
+/* Public */
+.public {
+  font-size: 1.5em;
+}
+.public image {
+  width: 50%;
+}
+.public_page--adress {
+  font-style: italic;
+}
+
+.public_page--report_bugs--paragraph {
+  font-size: 0.7em;
+}
+
+.public_page--can_do--paragraph {
+  font-weight: 400;
+}
+
+.public_page--can_do--list {
+  list-style-type: circle;
+}
+
+.public_page--can_do--list_item {
+  font-style: bold;
+}
+.public-login-link {
+  font-size: 0.6em;
+}
+@media only screen and (max-width: 800px) {
+  .public {
+    font-size: 1em;
+  }
+  .public image {
+    width: 10%;
+  }
+}
+
 /* Login */
 .public-login .login {
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+.public-login image {
+  width: 50%;
+}
+.public-login h3 {
   display: flex; 
   align-items: center; 
   justify-content: center; 
@@ -139,15 +222,6 @@ details > input, .form__input, .form__select {
 
 .login_form--username {
   width: 100%;
-}
-
-/* Tables */
-table, td {
-  border: 1px solid;
-}
-
-table th {
-  border: 1px solid;
 }
 
 /* Utility */

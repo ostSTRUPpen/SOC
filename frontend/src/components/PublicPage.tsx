@@ -7,35 +7,12 @@ const PublicPage = () => {
 	const content = (
 		<section className="public">
 			<header>
-				<h1>Learning Triangle informační systém</h1>
+				<img
+					src={process.env.PUBLIC_URL + "lt_logo.png"}
+					alt="Learning Triangle logo"
+				/>
 			</header>
 			<main className="public__main">
-				<address className="public_page--adress">
-					Learning Triangle
-					<br />
-					Havlíčkův Brod
-					<br />
-					<a href="tel:+420722207321">(+420) 722 207 321</a>
-					<br />
-					<a href="mailto:info@learningtriangle.cz">
-						info@learningtriangle.cz
-					</a>
-					<br />
-					<a href="https://www.facebook.com/learningtriangle.cz">
-						Facebook
-					</a>
-				</address>
-
-				<p className="public_page--report_bugs--paragraph">
-					Nalezené chyby nebo bugy hlaste prosím na:{" "}
-					<a
-						className="public_page--report_bugs--email_link"
-						href="mailto:vojvol@post.cz">
-						vojvol@post.cz
-					</a>{" "}
-					s předmětem "Bug LT IS".
-				</p>
-
 				<p className="public_page--can_do--paragraph">
 					Informační systém zvládne:
 				</p>
@@ -54,9 +31,39 @@ const PublicPage = () => {
 						Předvyplnění částky u výplaty a faktury, dle nastavení
 					</li>
 				</ul>
+				<br />
+				<address className="public_page--adress">
+					<a href="https://www.learningtriangle.cz/">
+						Learning Triangle
+					</a>
+					<br />
+					Havlíčkův Brod
+					<br />
+					<a href="tel:+420722207321">(+420) 722 207 321</a>
+					<br />
+					<a href="mailto:info@learningtriangle.cz">
+						info@learningtriangle.cz
+					</a>
+					<br />
+					<a href="https://www.facebook.com/learningtriangle.cz">
+						Facebook
+					</a>
+				</address>
+				<br />
+				<p className="public_page--report_bugs--paragraph">
+					Nalezené chyby nebo bugy hlaste prosím na:{" "}
+					<a
+						className="public_page--report_bugs--email_link"
+						href="mailto:vojvol@post.cz">
+						vojvol@post.cz
+					</a>{" "}
+					s předmětem "Bug LT IS".
+				</p>
 			</main>
 			<footer>
-				<Link to="/login">Přihlášení do informačního systému</Link>
+				<Link to="/login" className="public-login-link">
+					Přihlášení do informačního systému
+				</Link>
 			</footer>
 		</section>
 	);
