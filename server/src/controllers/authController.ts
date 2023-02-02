@@ -70,9 +70,7 @@ const login = async (req: any, res: any) => {
 // @access Public - because access token has expired
 const refresh = (req: any, res: any) => {
 	const cookies = req.cookies;
-	console.log(cookies);
-	console.log(process.env.ACCESS_TOKEN_SECRET);
-	console.log(process.env.REFRESH_TOKEN_SECRET);
+	console.log(req);
 
 	if (!cookies?.jwt)
 		return res.status(401).json({ message: "Unauthorized 3" });
