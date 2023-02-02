@@ -27,12 +27,12 @@ const login = async (req: any, res: any) => {
 		: undefined;
 
 	if (!foundUser || !foundUser.active) {
-		return res.status(401).json({ message: "Unauthorized" });
+		return res.status(401).json({ message: "Unauthorized 1" });
 	}
 
 	const match = await bcrypt.compare(password, foundUser.password);
 
-	if (!match) return res.status(401).json({ message: "Unauthorized" });
+	if (!match) return res.status(401).json({ message: "Unauthorized 2" });
 
 	const accessToken = jwt.sign(
 		{
@@ -70,15 +70,20 @@ const login = async (req: any, res: any) => {
 // @access Public - because access token has expired
 const refresh = (req: any, res: any) => {
 	const cookies = req.cookies;
-	if (!cookies?.jwt) return res.status(401).json({ message: "Unauthorized" });
+	console.log(cookies);
+	if (!cookies?.jwt)
+		return res.status(401).json({ message: "Unauthorized 3" });
 
 	const refreshToken = cookies.jwt;
+
+	console.log(refreshToken);
+	console.log(process.env.REFRESH_TOKEN_SECRET);
 
 	jwt.verify(
 		refreshToken,
 		process.env.REFRESH_TOKEN_SECRET,
 		async (err: any, decoded: any) => {
-			if (err) return res.status(403).json({ message: "Forbidden" });
+			if (err) return res.status(403).json({ message: "Forbidden 2" });
 
 			const foundMentor = await Mentor.findOne({
 				username: decoded.username,
@@ -98,7 +103,7 @@ const refresh = (req: any, res: any) => {
 				: undefined;
 
 			if (!foundUser)
-				return res.status(401).json({ message: "Unauthorized" });
+				return res.status(401).json({ message: "Unauthorized 4" });
 
 			const accessToken = jwt.sign(
 				{
