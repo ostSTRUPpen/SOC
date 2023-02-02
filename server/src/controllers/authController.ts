@@ -71,13 +71,13 @@ const login = async (req: any, res: any) => {
 const refresh = (req: any, res: any) => {
 	const cookies = req.cookies;
 	console.log(cookies);
+	console.log(process.env.ACCESS_TOKEN_SECRET);
+	console.log(process.env.REFRESH_TOKEN_SECRET);
+
 	if (!cookies?.jwt)
 		return res.status(401).json({ message: "Unauthorized 3" });
 
 	const refreshToken = cookies.jwt;
-
-	console.log(refreshToken);
-	console.log(process.env.REFRESH_TOKEN_SECRET);
 
 	jwt.verify(
 		refreshToken,
