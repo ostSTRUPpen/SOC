@@ -90,8 +90,8 @@ const TutoringsList = () => {
 			: null;
 		content = (
 			<div>
-				<div>
-					<table className="table table--tutorings">
+				<div className="table-responsive">
+					<table className="table--tutorings table table-hover">
 						<thead className="table_header">
 							<tr>
 								<th

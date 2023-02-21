@@ -174,7 +174,7 @@ const EditTutoringForm = ({ tutoring, lektors, clients }: any) => {
 						</button>
 						<button
 							className="icon-button form--delete-button"
-							title="Smazat lekci"
+							title="Smazat doučování"
 							onClick={onDeleteTutoringClicked}>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>

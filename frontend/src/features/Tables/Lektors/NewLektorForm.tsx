@@ -242,7 +242,7 @@ const NewLektorForm = ({ mentors }: any) => {
 					</select>
 					<br />
 					<label className="form__label" htmlFor="lektor-username">
-						Uživatelské jméno:
+						Uživatelské jméno (Pouze písmena, délka 3-20 znaků.):
 					</label>
 					<input
 						className={`form__input ${validUsernameClass}`}
@@ -256,7 +256,7 @@ const NewLektorForm = ({ mentors }: any) => {
 					/>
 					<br />
 					<label className="form__label" htmlFor="lektor-password">
-						Heslo:
+						Heslo (Písmena, čísla a znaky !@#$. Délka 4-12.):
 					</label>
 					<input
 						className={`form__input ${validPasswordClass}`}

@@ -85,7 +85,9 @@ const Login = () => {
 				</p>
 
 				<form className="form" onSubmit={handleSubmit}>
-					<label htmlFor="username">Uživatelské jméno:</label>
+					<label htmlFor="username">
+						Uživatelské jméno (Pouze písmena, délka 3-20 znaků.):
+					</label>
 					<br />
 					<input
 						className="form__input login_form--username"
@@ -98,7 +100,9 @@ const Login = () => {
 						required
 					/>
 					<br />
-					<label htmlFor="password">Heslo:</label>
+					<label htmlFor="password">
+						Heslo (Písmena, čísla a znaky !@#$. Délka 4-12.):
+					</label>
 					<br />
 					<input
 						className="form__input"

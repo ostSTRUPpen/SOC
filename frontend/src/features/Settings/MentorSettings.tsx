@@ -4,7 +4,7 @@ import {
 } from "../../hooks/useLocalStorage";
 import { useState } from "react";
 
-const VALUE_REGEX = /^[0-9]{2,5}$/;
+const VALUE_REGEX = /^[0-9]{1,5}$/;
 
 const MentorSetings = () => {
 	/*const [darkMode, setDarkMode] = useState(readFromLocalStorage("darkMode"));*/
@@ -14,10 +14,10 @@ const MentorSetings = () => {
 	const [standartInvoiceValue, setStandartInvoiceValue] = useState(
 		readFromLocalStorage("standartInvoiceValue")
 	);
-	const [prefilSalaryDate, setPrefillSalaryDate] = useState(
+	const [prefillSalaryDate, setPrefillSalaryDate] = useState(
 		readFromLocalStorage("prefillSalaryDate")
 	);
-	const [prefilInvoiceDate, setPrefillInvoiceDate] = useState(
+	const [prefillInvoiceDate, setPrefillInvoiceDate] = useState(
 		readFromLocalStorage("prefillInvoiceDate")
 	);
 
@@ -61,25 +61,25 @@ const MentorSetings = () => {
 	};
 
 	// Prefil salary date logic
-	if (prefilSalaryDate === "Not found") {
+	if (prefillSalaryDate === "Not found") {
 		setPrefillSalaryDate(false);
 		saveToLocalStorage("prefillSalaryDate", false);
 	}
 
 	const onPrefillSalaryDateChanged = () => {
-		setPrefillSalaryDate(!prefilSalaryDate);
-		saveToLocalStorage("prefillSalaryDate", !prefilSalaryDate);
+		setPrefillSalaryDate(!prefillSalaryDate);
+		saveToLocalStorage("prefillSalaryDate", !prefillSalaryDate);
 	};
 
 	// Prefill invoice date logic
-	if (prefilInvoiceDate === "Not found") {
+	if (prefillInvoiceDate === "Not found") {
 		setPrefillInvoiceDate(false);
 		saveToLocalStorage("prefillInvoiceDate", false);
 	}
 
 	const onPrefillInvoiceDateChanged = () => {
-		setPrefillInvoiceDate(!prefilInvoiceDate);
-		saveToLocalStorage("prefillInvoiceDate", !prefilInvoiceDate);
+		setPrefillInvoiceDate(!prefillInvoiceDate);
+		saveToLocalStorage("prefillInvoiceDate", !prefillInvoiceDate);
 	};
 
 	return (
@@ -103,7 +103,7 @@ const MentorSetings = () => {
 				id="prefil-invoice-date"
 				name="prefil-invoice-date"
 				type="checkbox"
-				checked={prefilInvoiceDate}
+				checked={prefillInvoiceDate}
 				onChange={onPrefillInvoiceDateChanged}></input>
 			<br />
 			<label htmlFor="invoice-prefill">Standartní částka faktury: </label>
@@ -112,7 +112,7 @@ const MentorSetings = () => {
 				id="invoice-prefill"
 				name="invoice-prefill"
 				type="number"
-				max={99999}
+				max={10000}
 				value={standartInvoiceValue}
 				onChange={onStandartInvoiceValueChanged}></input>
 			<br />
@@ -126,7 +126,7 @@ const MentorSetings = () => {
 				id="prefil-salary-date"
 				name="prefil-salary-date"
 				type="checkbox"
-				checked={prefilSalaryDate}
+				checked={prefillSalaryDate}
 				onChange={onPrefillSalaryDateChanged}></input>
 			<br />
 			<label htmlFor="salary-prefill">Standartní částka výplaty: </label>
@@ -135,7 +135,7 @@ const MentorSetings = () => {
 				id="salary-prefill"
 				name="salary-prefill"
 				type="number"
-				max={99999}
+				max={10000}
 				value={standartSalaryValue}
 				onChange={onStandartSalaryValueChanged}></input>
 		</details>

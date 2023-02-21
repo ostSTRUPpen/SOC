@@ -19,11 +19,9 @@ const mentorSchema = new mongoose.Schema({
 	},
 	gmail: {
 		type: String,
-		default: "nenastaveno",
 	},
 	email: {
 		type: String,
-		default: "nenastaveno",
 	},
 	phone_num: {
 		type: String,

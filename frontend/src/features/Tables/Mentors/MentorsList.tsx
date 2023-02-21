@@ -86,7 +86,7 @@ const MentorsList = () => {
 								<th
 									scope="col"
 									className="table__th mentor__email">
-									e-email
+									e-mail
 								</th>
 								<th
 									scope="col"

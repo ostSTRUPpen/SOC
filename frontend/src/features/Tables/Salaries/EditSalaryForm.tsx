@@ -205,7 +205,7 @@ const EditSalaryForm = ({ salary, mentors, lektors, tutorings }: any) => {
 						</button>
 						<button
 							className="icon-button form--delete-button"
-							title="Smazat fakturu"
+							title="Smazat výplatu"
 							onClick={onDeleteSalaryClicked}>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>

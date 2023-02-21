@@ -418,12 +418,14 @@ const EditClientForm = ({ client, mentors }: any) => {
 							onClick={onStopEditingClicked}>
 							<FontAwesomeIcon icon={faTimesCircle} />
 						</button>
-						<button
-							className="icon-button form--delete-button"
-							title="Smazat lekci"
-							onClick={onDeleteClientClicked}>
-							<FontAwesomeIcon icon={faTrashCan} />
-						</button>
+						{(isAdmin || isMentor) && (
+							<button
+								className="icon-button form--delete-button"
+								title="Smazat klienta"
+								onClick={onDeleteClientClicked}>
+								<FontAwesomeIcon icon={faTrashCan} />
+							</button>
+						)}
 					</div>
 				</div>
 				<details>
@@ -448,7 +450,8 @@ const EditClientForm = ({ client, mentors }: any) => {
 							<label
 								className="form__label"
 								htmlFor="client-username">
-								Uživatelské jméno:
+								Uživatelské jméno (Pouze písmena, délka 3-20
+								znaků.):
 							</label>
 							<input
 								className={`form__input ${validUsernameClass}`}
@@ -468,7 +471,8 @@ const EditClientForm = ({ client, mentors }: any) => {
 						<label
 							className="form__label"
 							htmlFor="client-passwordOld">
-							Staré heslo:
+							Staré heslo (Písmena, čísla a znaky !@#$. Délka
+							4-12.):
 						</label>
 						<input
 							className={`form__input ${validPasswordOldClass}`}
@@ -496,7 +500,8 @@ const EditClientForm = ({ client, mentors }: any) => {
 						<label
 							className="form__label"
 							htmlFor="client-password-new">
-							Nové heslo:
+							Nové heslo (Písmena, čísla a znaky !@#$. Délka
+							4-12.):
 						</label>
 						<input
 							className={`form__input ${validPasswordNewClass}`}

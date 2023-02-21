@@ -107,7 +107,7 @@ const LektorsList = () => {
 								<th
 									scope="col"
 									className="table__th lektor__email">
-									e-email
+									e-mail
 								</th>
 								<th
 									scope="col"

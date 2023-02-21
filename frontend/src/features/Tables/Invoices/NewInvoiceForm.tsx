@@ -23,9 +23,9 @@ const NewInvoiceForm = ({ mentors, clients, tutorings }: any) => {
 		defaultValue = "0";
 	}
 
-	const prefilLessonDate = readFromLocalStorage("prefillInvoiceDate");
+	const prefillLessonDate = readFromLocalStorage("prefillInvoiceDate");
 
-	if (prefilLessonDate === "Not found" || prefilLessonDate === false) {
+	if (prefillLessonDate === "Not found" || prefillLessonDate === false) {
 		today = "";
 	}
 

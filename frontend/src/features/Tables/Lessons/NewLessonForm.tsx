@@ -13,15 +13,19 @@ const NewLessonForm = ({ tutoring, lastLessonNumber }: any) => {
 	let today: string = `${day.getFullYear()}-${String(
 		day.getMonth() + 1
 	).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+	console.log(day);
+	console.log(today);
 
 	let defaultLength: string = String(readFromLocalStorage("standartLength"));
 	if (defaultLength === "Not found") {
 		defaultLength = "60";
 	}
 
-	const prefilLessonDate = readFromLocalStorage("prefilLessonDate");
+	const prefillLessonDate = readFromLocalStorage("prefillLessonDate");
 
-	if (prefilLessonDate === "Not found" || prefilLessonDate === false) {
+	console.log(prefillLessonDate);
+
+	if (prefillLessonDate === "Not found" || prefillLessonDate === false) {
 		today = "";
 	}
 
@@ -137,6 +141,7 @@ const NewLessonForm = ({ tutoring, lastLessonNumber }: any) => {
 					id="lesson-number"
 					name="číslo"
 					type="number"
+					min={1}
 					autoComplete="off"
 					value={number}
 					onChange={onNumberChanged}

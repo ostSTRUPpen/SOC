@@ -291,7 +291,7 @@ const EditMentorForm = ({ mentor }: any) => {
 						</button>
 						<button
 							className="icon-button form--delete-button"
-							title="Smazat lekci"
+							title="Smazat mentora"
 							onClick={onDeleteMentorClicked}>
 							<FontAwesomeIcon icon={faTrashCan} />
 						</button>
@@ -300,7 +300,7 @@ const EditMentorForm = ({ mentor }: any) => {
 				<details>
 					<summary>Účet</summary>
 					<label className="form__label" htmlFor="mentor-username">
-						Uživatelské jméno:
+						Uživatelské jméno (Pouze písmena, délka 3-20 znaků.):
 					</label>
 					<input
 						className={`form__input ${validUsernameClass}`}
@@ -318,7 +318,8 @@ const EditMentorForm = ({ mentor }: any) => {
 						<label
 							className="form__label"
 							htmlFor="client-passwordOld">
-							Staré heslo:
+							Staré heslo (Písmena, čísla a znaky !@#$. Délka
+							4-12.):
 						</label>
 						<input
 							className={`form__input ${validPasswordOldClass}`}
@@ -346,7 +347,8 @@ const EditMentorForm = ({ mentor }: any) => {
 						<label
 							className="form__label"
 							htmlFor="client-password-new">
-							Nové heslo:
+							Nové heslo (Písmena, čísla a znaky !@#$. Délka
+							4-12.):
 						</label>
 						<input
 							className={`form__input ${validPasswordNewClass}`}

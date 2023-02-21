@@ -101,7 +101,7 @@ const ClientsList = () => {
 								<th
 									scope="col"
 									className="table__th client_parent__email">
-									e-email rodiče
+									e-mail rodiče
 								</th>
 								<th
 									scope="col"
@@ -131,7 +131,7 @@ const ClientsList = () => {
 								<th
 									scope="col"
 									className="table__th client_child__email">
-									e-email dítěte
+									e-mail dítěte
 								</th>
 								<th
 									scope="col"

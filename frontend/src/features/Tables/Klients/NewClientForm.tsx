@@ -319,7 +319,7 @@ const NewClientForm = ({ mentors }: any) => {
 					</select>
 					<br />
 					<label className="form__label" htmlFor="client-username">
-						Uživatelské jméno:
+						Uživatelské jméno (Pouze písmena, délka 3-20 znaků.):
 					</label>
 					<input
 						className={`form__input ${validUsernameClass}`}
@@ -333,7 +333,7 @@ const NewClientForm = ({ mentors }: any) => {
 					/>
 					<br />
 					<label className="form__label" htmlFor="client-password">
-						Heslo:
+						Heslo (Písmena, čísla a znaky !@#$. Délka 4-12.):
 					</label>
 					<input
 						className={`form__input ${validPasswordClass}`}

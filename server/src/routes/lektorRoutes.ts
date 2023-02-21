@@ -9,8 +9,8 @@ router.use(verifyJWT);
 router
 	.route("/")
 	.get(lektorController.getAllLektors)
-	.post(verifyJWT, lektorController.createNewLektor)
-	.patch(verifyJWT, lektorController.updateLektor)
-	.delete(verifyJWT, lektorController.deleteLektor);
+	.post(lektorController.createNewLektor)
+	.patch(lektorController.updateLektor)
+	.delete(lektorController.deleteLektor);
 
 export = router;

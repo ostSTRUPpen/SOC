@@ -1,7 +1,7 @@
 {
   "name": "lt_is_server_soc",
   "version": "1.0.0",
-  "description": "Learning Triangle Information System - SOC version (https://blog.logrocket.com/how-to-set-up-node-typescript-express/)",
+  "description": "Learning Triangle Information System - SOC version",
   "main": "dist/server",
   "scripts": {
     "build": "npx tsc",

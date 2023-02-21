@@ -190,7 +190,7 @@ const NewMentorForm = ({ mentors }: any) => {
 				<details open>
 					<summary>Účet</summary>
 					<label className="form__label" htmlFor="mentor-username">
-						Uživatelské jméno:
+						Uživatelské jméno (Pouze písmena, délka 3-20 znaků.):
 					</label>
 					<input
 						className={`form__input ${validUsernameClass}`}
@@ -204,7 +204,7 @@ const NewMentorForm = ({ mentors }: any) => {
 					/>
 					<br />
 					<label className="form__label" htmlFor="mentor-password">
-						Heslo:
+						Heslo (Písmena, čísla a znaky !@#$. Délka 4-12.):
 					</label>
 					<input
 						className={`form__input ${validPasswordClass}`}

@@ -4,12 +4,12 @@ import { saveToLocalStorage, readFromLocalStorage } from "./useLocalStorage";
 const usePersist = () => {
 	const [persist, setPersist] = useState(
 		readFromLocalStorage("persist") === "Not found"
-			? JSON.parse("false")
-			: JSON.parse(readFromLocalStorage("persist"))
+			? false
+			: readFromLocalStorage("persist")
 	);
 
 	useEffect(() => {
-		saveToLocalStorage("persist", JSON.stringify(persist));
+		saveToLocalStorage("persist", persist);
 	}, [persist]);
 
 	return [persist, setPersist];

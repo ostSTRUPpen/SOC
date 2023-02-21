@@ -22,9 +22,9 @@ const NewSalaryForm = ({ mentorId, mentors, lektors, tutorings }: any) => {
 		defaultValue = "0";
 	}
 
-	const prefilLessonDate = readFromLocalStorage("prefillSalaryDate");
+	const prefillLessonDate = readFromLocalStorage("prefillSalaryDate");
 
-	if (prefilLessonDate === "Not found" || prefilLessonDate === false) {
+	if (prefillLessonDate === "Not found" || prefillLessonDate === false) {
 		today = "";
 	}
 

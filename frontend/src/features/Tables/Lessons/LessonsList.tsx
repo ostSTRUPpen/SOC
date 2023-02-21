@@ -3,6 +3,7 @@ import Lesson from "./Lesson";
 import { Link } from "react-router-dom";
 import useTitle from "../../../hooks/useTitle";
 import useAuth from "../../../hooks/useAuth";
+import { useGetTutoringsQuery } from "../Tutorings/tutoringsApiSlice";
 
 const LessonsList = ({ amount, tutoringId }: any) => {
 	useTitle("LT IS: List lekcí");
@@ -15,6 +16,12 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 		pollingInterval: 15000,
 		refetchOnFocus: true,
 		refetchOnMountOrArgChange: true,
+	});
+
+	const { tutoring } = useGetTutoringsQuery("tutoringsList", {
+		selectFromResult: ({ data }: any) => ({
+			tutoring: data?.entities[tutoringId],
+		}),
 	});
 
 	const { isAdmin, isMentor, isLektor } = useAuth();
@@ -71,6 +78,9 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 		content = (
 			<div>
 				<div>
+					<h5>
+						{tutoring.name}, Předmět: {tutoring.subject}
+					</h5>
 					<table className="table table--lessons">
 						<thead className="table_header">
 							<tr>
