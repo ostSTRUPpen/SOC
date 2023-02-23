@@ -70,6 +70,11 @@ const ClientsList = () => {
 		content = (
 			<div>
 				<div>
+					{(isAdmin || isMentor) && (
+						<p className="align-center">
+							<Link to="/sec/clients/new/">Přidat klienta</Link>{" "}
+						</p>
+					)}
 					<table className="table table--clients">
 						<thead className="table_header">
 							<tr>
@@ -150,7 +155,7 @@ const ClientsList = () => {
 				</div>
 				<br />
 				{(isAdmin || isMentor) && (
-					<p>
+					<p className="align-center">
 						<Link to="/sec/clients/new/">Přidat klienta</Link>{" "}
 					</p>
 				)}

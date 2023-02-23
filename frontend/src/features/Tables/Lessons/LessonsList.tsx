@@ -81,6 +81,13 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 					<h5>
 						{tutoring.name}, Předmět: {tutoring.subject}
 					</h5>
+					{(isAdmin || isMentor || isLektor) && (
+						<p className="align-center">
+							<Link to={`/sec/lessons/new/${tutoringId}`}>
+								Nová lekce
+							</Link>
+						</p>
+					)}
 					<table className="table table--lessons">
 						<thead className="table_header">
 							<tr>
@@ -121,7 +128,7 @@ const LessonsList = ({ amount, tutoringId }: any) => {
 				</div>
 				<br />
 				{(isAdmin || isMentor || isLektor) && (
-					<p>
+					<p className="align-center">
 						<Link to={`/sec/lessons/new/${tutoringId}`}>
 							Nová lekce
 						</Link>

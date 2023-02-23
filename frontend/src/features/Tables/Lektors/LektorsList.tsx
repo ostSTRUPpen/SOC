@@ -71,6 +71,11 @@ const LektorsList = () => {
 		content = (
 			<div>
 				<div>
+					{(isAdmin || isMentor) && (
+						<p className="align-center">
+							<Link to="/sec/lektors/new/">Přidat lektora</Link>
+						</p>
+					)}
 					<table className="table table--lektors">
 						<thead className="table_header">
 							<tr>
@@ -141,7 +146,7 @@ const LektorsList = () => {
 				</div>
 				<br />
 				{(isAdmin || isMentor) && (
-					<p>
+					<p className="align-center">
 						<Link to="/sec/lektors/new/">Přidat lektora</Link>
 					</p>
 				)}

@@ -90,6 +90,11 @@ const TutoringsList = () => {
 			: null;
 		content = (
 			<div>
+				{(isAdmin || isMentor) && (
+					<p className="align-center">
+						<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
+					</p>
+				)}
 				<div className="table-responsive">
 					<table className="table--tutorings table table-hover">
 						<thead className="table_header">
@@ -136,7 +141,7 @@ const TutoringsList = () => {
 					<br />
 				</div>
 				{(isAdmin || isMentor) && (
-					<p>
+					<p className="align-center">
 						<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
 					</p>
 				)}

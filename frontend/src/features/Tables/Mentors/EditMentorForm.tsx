@@ -54,7 +54,7 @@ const EditMentorForm = ({ mentor }: any) => {
 	const [dateOfBirth, setDateOfBirth] = useState(mentor.date_of_birth);
 	const [active, setActive] = useState(mentor.active);
 
-	const { id, role } = useAuth();
+	const { id, role, isAdmin, isTest } = useAuth();
 
 	useEffect(() => {
 		if (isSuccess || isDelSuccess) {
@@ -313,80 +313,86 @@ const EditMentorForm = ({ mentor }: any) => {
 						onChange={onUsernameChanged}
 					/>
 					<br />
-					<details>
-						<summary>Změnit heslo</summary>
-						<label
-							className="form__label"
-							htmlFor="client-passwordOld">
-							Staré heslo (Písmena, čísla a znaky !@#$. Délka
-							4-12.):
-						</label>
-						<input
-							className={`form__input ${validPasswordOldClass}`}
-							id="client-passwordOld"
-							name="password"
-							type={passwordTypeOld}
-							autoComplete="current-password"
-							value={passwordOld}
-							onChange={onPasswordOldChanged}
-						/>
-						<button
-							className="font__input--change-password-visibility"
-							onClick={togglePasswordOld}>
-							{passwordTypeOld === "password" ? (
-								<i>
-									<FontAwesomeIcon icon={faEyeSlash} />
-								</i>
-							) : (
-								<i>
-									<FontAwesomeIcon icon={faEye} />
-								</i>
-							)}
-						</button>
-						<br />
-						<label
-							className="form__label"
-							htmlFor="client-password-new">
-							Nové heslo (Písmena, čísla a znaky !@#$. Délka
-							4-12.):
-						</label>
-						<input
-							className={`form__input ${validPasswordNewClass}`}
-							id="client-password-new"
-							name="password"
-							type={passwordTypeNew}
-							autoComplete="new-password"
-							value={passwordNew}
-							onChange={onPasswordNewChanged}
-						/>
-						<button
-							className="font__input--change-password-visibility"
-							onClick={togglePasswordNew}>
-							{passwordTypeNew === "password" ? (
-								<i>
-									<FontAwesomeIcon icon={faEyeSlash} />
-								</i>
-							) : (
-								<i>
-									<FontAwesomeIcon icon={faEye} />
-								</i>
-							)}
-						</button>
-					</details>
+					{!isTest && (
+						<details>
+							<summary>Změnit heslo</summary>
+							<label
+								className="form__label"
+								htmlFor="client-passwordOld">
+								Staré heslo (Písmena, čísla a znaky !@#$. Délka
+								4-12.):
+							</label>
+							<input
+								className={`form__input ${validPasswordOldClass}`}
+								id="client-passwordOld"
+								name="password"
+								type={passwordTypeOld}
+								autoComplete="current-password"
+								value={passwordOld}
+								onChange={onPasswordOldChanged}
+							/>
+							<button
+								className="font__input--change-password-visibility"
+								onClick={togglePasswordOld}>
+								{passwordTypeOld === "password" ? (
+									<i>
+										<FontAwesomeIcon icon={faEyeSlash} />
+									</i>
+								) : (
+									<i>
+										<FontAwesomeIcon icon={faEye} />
+									</i>
+								)}
+							</button>
+							<br />
+							<label
+								className="form__label"
+								htmlFor="client-password-new">
+								Nové heslo (Písmena, čísla a znaky !@#$. Délka
+								4-12.):
+							</label>
+							<input
+								className={`form__input ${validPasswordNewClass}`}
+								id="client-password-new"
+								name="password"
+								type={passwordTypeNew}
+								autoComplete="new-password"
+								value={passwordNew}
+								onChange={onPasswordNewChanged}
+							/>
+							<button
+								className="font__input--change-password-visibility"
+								onClick={togglePasswordNew}>
+								{passwordTypeNew === "password" ? (
+									<i>
+										<FontAwesomeIcon icon={faEyeSlash} />
+									</i>
+								) : (
+									<i>
+										<FontAwesomeIcon icon={faEye} />
+									</i>
+								)}
+							</button>
+						</details>
+					)}
 					<MentorSetings />
-					<label
-						className="form__label form__checkbox-container"
-						htmlFor="mentor-active">
-						účet aktivní:
-					</label>
-					<input
-						className="form__checkbox"
-						id="mentor-active"
-						name="mentor-active"
-						type="checkbox"
-						checked={active}
-						onChange={onActiveChanged}
-					/>
+					{isAdmin && (
+						<>
+							<label
+								className="form__label form__checkbox-container"
+								htmlFor="mentor-active">
+								účet aktivní:
+							</label>
+							<input
+								className="form__checkbox"
+								id="mentor-active"
+								name="mentor-active"
+								type="checkbox"
+								checked={active}
+								onChange={onActiveChanged}
+							/>
+						</>
+					)}
 				</details>
 				<br />
 				<details>

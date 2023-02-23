@@ -55,6 +55,9 @@ const MentorsList = () => {
 		content = (
 			<div>
 				<div>
+					<p className="align-center">
+						<Link to={"/sec/mentors/new"}>Vytvořit mentora</Link>
+					</p>
 					<table className="table table--mentors">
 						<thead className="table_header">
 							<tr>
@@ -104,7 +107,7 @@ const MentorsList = () => {
 					</table>
 				</div>
 				<br />
-				<p>
+				<p className="align-center">
 					<Link to={"/sec/mentors/new"}>Vytvořit mentora</Link>
 				</p>
 			</div>

@@ -75,6 +75,11 @@ const InvoiceList = () => {
 		content = (
 			<div>
 				<div>
+					{(isAdmin || isMentor) && (
+						<p className="align-center">
+							<Link to={`/sec/invoices/new`}>Nová faktura</Link>
+						</p>
+					)}
 					<table className="table table--invoices">
 						<thead className="table_header">
 							<tr>
@@ -110,7 +115,7 @@ const InvoiceList = () => {
 				</div>
 				<br />
 				{(isAdmin || isMentor) && (
-					<p>
+					<p className="align-center">
 						<Link to={`/sec/invoices/new`}>Nová faktura</Link>
 					</p>
 				)}

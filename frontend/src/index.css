@@ -234,6 +234,10 @@ table th {
 .orange {
   background-color: coral !important;
 }
+.align-center {
+  align-content: center;
+  text-align: center;
+}
 
 /* Loading animation */
 @keyframes tick { to { transform: rotate(359deg);}}
