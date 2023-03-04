@@ -172,6 +172,25 @@ const NewLektorForm = ({ mentors }: any) => {
 		: "";
 	const validDateOfBirthClass = !dateOfBirth ? "form__input--incomplete" : "";
 
+	const validAccountDetailsClass =
+		validMentorClass + validUsernameClass + validPasswordClass !== ""
+			? "details_incomplete"
+			: "";
+
+	const validContactDetailsClass =
+		validEmailClass + validGmailClass + validPhoneNumberClass !== ""
+			? "details_incomplete"
+			: "";
+	const validDetailsClass =
+		validNameClass +
+			validSurnameClass +
+			validContactDetailsClass +
+			validBankAccountClass +
+			validDateOfBirthClass !==
+		""
+			? "details_incomplete"
+			: "";
+
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
@@ -224,7 +243,7 @@ const NewLektorForm = ({ mentors }: any) => {
 						</button>
 					</div>
 				</div>
-				<details open>
+				<details open className={validAccountDetailsClass}>
 					<summary>Účet</summary>
 					<label className="form__label" htmlFor="mentors">
 						Příslušný mentor:
@@ -283,7 +302,7 @@ const NewLektorForm = ({ mentors }: any) => {
 					<LektorSettings />
 				</details>
 				<br />
-				<details open>
+				<details open className={validDetailsClass}>
 					<summary>Údaje</summary>
 					<label className="form__label" htmlFor="lektor-name">
 						Jméno:
@@ -328,7 +347,7 @@ const NewLektorForm = ({ mentors }: any) => {
 						onChange={onDateOfBirthChanged}
 					/>
 					<br />
-					<details open>
+					<details open className={validContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label className="form__label" htmlFor="lektor-gmail">
 							G-mail:

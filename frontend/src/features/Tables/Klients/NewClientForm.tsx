@@ -266,6 +266,43 @@ const NewClientForm = ({ mentors }: any) => {
 		? "form__input--incomplete"
 		: "";
 
+	const validAccountDetailsClass =
+		validMentorClass + validUsernameClass + validPasswordClass !== ""
+			? "details_incomplete"
+			: "";
+
+	const validParentContactDetailsClass =
+		validParentEmailClass +
+			validParentGmailClass +
+			validParentPhoneNumberClass !==
+		""
+			? "details_incomplete"
+			: "";
+	const validParentDetailsClass =
+		validParentNameClass +
+			validParentSurnameClass +
+			validParentContactDetailsClass +
+			validBankAccountClass !==
+		""
+			? "details_incomplete"
+			: "";
+
+	const validChildContactDetailsClass =
+		validChildEmailClass +
+			validChildGmailClass +
+			validChildPhoneNumberClass !==
+		""
+			? "details_incomplete"
+			: "";
+	const validChildDetailsClass =
+		validChildNameClass +
+			validChildSurnameClass +
+			validChildDateOfBirthClass +
+			validChildContactDetailsClass !==
+		""
+			? "details_incomplete"
+			: "";
+
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
@@ -301,7 +338,7 @@ const NewClientForm = ({ mentors }: any) => {
 						</button>
 					</div>
 				</div>
-				<details open>
+				<details open className={validAccountDetailsClass}>
 					<summary>Účet</summary>
 					<label className="form__label" htmlFor="mentors">
 						Příslušný mentor:
@@ -360,7 +397,7 @@ const NewClientForm = ({ mentors }: any) => {
 					<ClientSetings />
 				</details>
 				<br />
-				<details open>
+				<details open className={validParentDetailsClass}>
 					<summary>Rodič</summary>
 					<label className="form__label" htmlFor="client-name_parent">
 						Jméno rodiče:
@@ -392,7 +429,7 @@ const NewClientForm = ({ mentors }: any) => {
 						onChange={onParentSurnameChanged}
 					/>
 					<br />
-					<details open>
+					<details open className={validParentContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label
 							className="form__label"
@@ -459,7 +496,7 @@ const NewClientForm = ({ mentors }: any) => {
 					</details>
 				</details>
 				<br />
-				<details open>
+				<details open className={validChildDetailsClass}>
 					<summary>Dítě</summary>
 					<label className="form__label" htmlFor="client-name_child">
 						Jméno dítěte:
@@ -506,7 +543,7 @@ const NewClientForm = ({ mentors }: any) => {
 						onChange={onChildDateOfBirthChanged}
 					/>
 					<br />
-					<details open>
+					<details open className={validChildContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label
 							className="form__label"

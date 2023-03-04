@@ -373,6 +373,50 @@ const EditClientForm = ({ client, mentors }: any) => {
 		? "form__input--not_required_incomplete"
 		: "";
 
+	const validPasswordSettingsDetailsClass =
+		validPasswordOldClass + validPasswordNewClass !== ""
+			? "details_incomplete"
+			: "";
+	const validAccountDetailsClass =
+		validMentorClass +
+			validUsernameClass +
+			validPasswordSettingsDetailsClass !==
+		""
+			? "details_incomplete"
+			: "";
+
+	const validParentContactDetailsClass =
+		validParentEmailClass +
+			validParentGmailClass +
+			validParentPhoneNumberClass +
+			validBankAccountClass !==
+		""
+			? "details_incomplete"
+			: "";
+	const validParentDetailsClass =
+		validParentNameClass +
+			validParentSurnameClass +
+			validParentContactDetailsClass !==
+		""
+			? "details_incomplete"
+			: "";
+
+	const validChildContactDetailsClass =
+		validChildEmailClass +
+			validChildGmailClass +
+			validChildPhoneNumberClass !==
+		""
+			? "details_incomplete"
+			: "";
+	const validChildDetailsClass =
+		validChildNameClass +
+			validChildSurnameClass +
+			validChildDateOfBirthClass +
+			validChildContactDetailsClass !==
+		""
+			? "details_incomplete"
+			: "";
+
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
@@ -428,7 +472,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 						)}
 					</div>
 				</div>
-				<details>
+				<details className={validAccountDetailsClass}>
 					<summary>Účet</summary>
 					{(isAdmin || isMentor) && (
 						<>
@@ -467,7 +511,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 						</>
 					)}
 					{!isTest && (
-						<details>
+						<details className={validPasswordSettingsDetailsClass}>
 							<summary>Změnit heslo</summary>
 							<label
 								className="form__label"
@@ -548,7 +592,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					)}
 				</details>
 				<br />
-				<details>
+				<details className={validParentDetailsClass}>
 					<summary>Rodič</summary>
 					<label className="form__label" htmlFor="client-name_parent">
 						Jméno rodiče:
@@ -580,7 +624,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 						onChange={onParentSurnameChanged}
 					/>
 					<br />
-					<details>
+					<details className={validParentContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label
 							className="form__label"
@@ -647,7 +691,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 					</details>
 				</details>
 				<br />
-				<details>
+				<details className={validChildDetailsClass}>
 					<summary>Dítě</summary>
 					<label className="form__label" htmlFor="client-name_child">
 						Jméno dítěte:
@@ -694,7 +738,7 @@ const EditClientForm = ({ client, mentors }: any) => {
 						onChange={onChildDateOfBirthChanged}
 					/>
 					<br />
-					<details>
+					<details className={validChildContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label
 							className="form__label"

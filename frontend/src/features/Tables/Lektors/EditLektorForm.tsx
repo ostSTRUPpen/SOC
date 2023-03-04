@@ -274,6 +274,32 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 		? "form__input--not_required_incomplete"
 		: "";
 
+	const validPasswordSettingsDetailsClass =
+		validPasswordOldClass + validPasswordNewClass !== ""
+			? "details_incomplete"
+			: "";
+	const validAccountDetailsClass =
+		validMentorClass +
+			validUsernameClass +
+			validPasswordSettingsDetailsClass !==
+		""
+			? "details_incomplete"
+			: "";
+
+	const validContactDetailsClass =
+		validEmailClass + validGmailClass + validPhoneNumberClass !== ""
+			? "details_incomplete"
+			: "";
+	const validDetailsClass =
+		validNameClass +
+			validSurnameClass +
+			validContactDetailsClass +
+			validBankAccountClass +
+			validDateOfBirthClass !==
+		""
+			? "details_incomplete"
+			: "";
+
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
@@ -329,7 +355,7 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 						)}
 					</div>
 				</div>
-				<details>
+				<details className={validAccountDetailsClass}>
 					<summary>Účet</summary>
 					{(isAdmin || isMentor) && (
 						<>
@@ -364,7 +390,7 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 						onChange={onUsernameChanged}
 					/>
 					{!isTest && (
-						<details>
+						<details className={validPasswordSettingsDetailsClass}>
 							<summary>Změnit heslo</summary>
 							<label
 								className="form__label"
@@ -445,7 +471,7 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 					)}
 				</details>
 				<br />
-				<details>
+				<details className={validDetailsClass}>
 					<summary>Údaje</summary>
 					<label className="form__label" htmlFor="lektor-name">
 						Jméno:
@@ -490,7 +516,7 @@ const EditLektorForm = ({ lektor, mentors }: any) => {
 						onChange={onDateOfBirthChanged}
 					/>
 					<br />
-					<details>
+					<details className={validContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label className="form__label" htmlFor="lektor-gmail">
 							G-mail:

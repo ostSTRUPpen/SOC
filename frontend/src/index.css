@@ -36,6 +36,10 @@ textarea #lessonimfo, #lesson-theme {
 }
 
 /* Details */
+.details_incomplete {
+  text-decoration: underline red;
+}
+
 details[open] {
   background-color: lightgray;
 }

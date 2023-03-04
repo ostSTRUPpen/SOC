@@ -244,6 +244,29 @@ const EditMentorForm = ({ mentor }: any) => {
 		? "form__input--not_required_incomplete"
 		: "";
 
+	const validPasswordSettingsDetailsClass =
+		validPasswordOldClass + validPasswordNewClass !== ""
+			? "details_incomplete"
+			: "";
+	const validAccountDetailsClass =
+		validUsernameClass + validPasswordSettingsDetailsClass !== ""
+			? "details_incomplete"
+			: "";
+
+	const validContactDetailsClass =
+		validEmailClass + validGmailClass + validPhoneNumberClass !== ""
+			? "details_incomplete"
+			: "";
+	const validDetailsClass =
+		validNameClass +
+			validSurnameClass +
+			validContactDetailsClass +
+			validBankAccountClass +
+			validDateOfBirthClass !==
+		""
+			? "details_incomplete"
+			: "";
+
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
@@ -297,7 +320,7 @@ const EditMentorForm = ({ mentor }: any) => {
 						</button>
 					</div>
 				</div>
-				<details>
+				<details className={validAccountDetailsClass}>
 					<summary>Účet</summary>
 					<label className="form__label" htmlFor="mentor-username">
 						Uživatelské jméno (Pouze písmena, délka 3-20 znaků.):
@@ -314,7 +337,7 @@ const EditMentorForm = ({ mentor }: any) => {
 					/>
 					<br />
 					{!isTest && (
-						<details>
+						<details className={validPasswordSettingsDetailsClass}>
 							<summary>Změnit heslo</summary>
 							<label
 								className="form__label"
@@ -395,7 +418,7 @@ const EditMentorForm = ({ mentor }: any) => {
 					)}
 				</details>
 				<br />
-				<details>
+				<details className={validDetailsClass}>
 					<summary>Údaje</summary>
 					<label className="form__label" htmlFor="mentor-name">
 						Jméno:
@@ -440,7 +463,7 @@ const EditMentorForm = ({ mentor }: any) => {
 						onChange={onDateOfBirthChanged}
 					/>
 					<br />
-					<details>
+					<details className={validContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label className="form__label" htmlFor="mentor-gmail">
 							G-mail:

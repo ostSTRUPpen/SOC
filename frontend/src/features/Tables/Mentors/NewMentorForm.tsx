@@ -152,6 +152,25 @@ const NewMentorForm = ({ mentors }: any) => {
 		? "form__input--not_required_incomplete"
 		: "";
 
+	const validAccountDetailsClass =
+		validUsernameClass + validPasswordClass !== ""
+			? "details_incomplete"
+			: "";
+
+	const validContactDetailsClass =
+		validEmailClass + validGmailClass + validPhoneNumberClass !== ""
+			? "details_incomplete"
+			: "";
+	const validDetailsClass =
+		validNameClass +
+			validSurnameClass +
+			validContactDetailsClass +
+			validBankAccountClass +
+			validDateOfBirthClass !==
+		""
+			? "details_incomplete"
+			: "";
+
 	let errorContent;
 	if (error) {
 		if ("status" in error) {
@@ -187,7 +206,7 @@ const NewMentorForm = ({ mentors }: any) => {
 						</button>
 					</div>
 				</div>
-				<details open>
+				<details open className={validAccountDetailsClass}>
 					<summary>Účet</summary>
 					<label className="form__label" htmlFor="mentor-username">
 						Uživatelské jméno (Pouze písmena, délka 3-20 znaků.):
@@ -231,7 +250,7 @@ const NewMentorForm = ({ mentors }: any) => {
 					<MentorSetings />
 				</details>
 				<br />
-				<details open>
+				<details open className={validDetailsClass}>
 					<summary>Údaje</summary>
 					<label className="form__label" htmlFor="mentor-name">
 						Jméno:
@@ -276,7 +295,7 @@ const NewMentorForm = ({ mentors }: any) => {
 						onChange={onDateOfBirthChanged}
 					/>
 					<br />
-					<details open>
+					<details open className={validContactDetailsClass}>
 						<summary>Kontakt</summary>
 						<label className="form__label" htmlFor="mentor-gmail">
 							G-mail:
