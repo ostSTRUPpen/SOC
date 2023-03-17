@@ -1,7 +1,7 @@
 {
   "name": "lt_is_frontend_soc",
-  "version": "0.1.0",
-  "description": "Learning Triangle Information System - SOC version (https://create-react-app.dev/docs/adding-typescript/ | https://blog.logrocket.com/how-use-typescript-react-tutorial-examples/ | https://medium.com/bb-tutorials-and-thoughts/how-to-develop-and-build-mern-stack-typescript-version-36086ce20f01)",
+  "version": "1.0.0",
+  "description": "Learning Triangle Information System - SOC version",
   "private": true,
   "homepage": "https://learning-triangle-is-soc.onrender.com/",
   "dependencies": {

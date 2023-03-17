@@ -101,7 +101,7 @@ const createNewClient = async (req: any, res: any) => {
 
 	if (duplicate) {
 		return res.status(400).json({
-			message: `TODO`,
+			message: `Uživatelské jméno je již zabrané`,
 		});
 	}
 
@@ -228,7 +228,7 @@ const updateClient = async (req: any, res: any) => {
 		: undefined;
 	if (duplicate && duplicate?._id.toString() !== id) {
 		return res.status(400).json({
-			message: `TODO`,
+			message: `Uživatelské jméno je již zabrané`,
 		});
 	}
 
