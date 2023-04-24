@@ -79,33 +79,35 @@ const SalaryList = () => {
 							<Link to={`/sec/salaries/new`}>Nová výplata</Link>
 						</p>
 					)}
-					<table className="table table--salaries">
-						<thead className="table_header">
-							<tr>
-								<th
-									scope="col"
-									className="table__th salary__mentor">
-									Mentor
-								</th>
-								<th
-									scope="col"
-									className="table__th salary__lektor">
-									Lektor
-								</th>
-								<th
-									scope="col"
-									className="table__th salary__date">
-									Datum
-								</th>
-								<th
-									scope="col"
-									className="table__th salary__value">
-									Částka
-								</th>
-							</tr>
-						</thead>
-						<tbody>{tableContent}</tbody>
-					</table>
+					<div className="table-responsive-div">
+						<table className="table table--salaries">
+							<thead className="table_header">
+								<tr>
+									<th
+										scope="col"
+										className="table__th salary__mentor">
+										Mentor
+									</th>
+									<th
+										scope="col"
+										className="table__th salary__lektor">
+										Lektor
+									</th>
+									<th
+										scope="col"
+										className="table__th salary__date">
+										Datum
+									</th>
+									<th
+										scope="col"
+										className="table__th salary__value">
+										Částka
+									</th>
+								</tr>
+							</thead>
+							<tbody>{tableContent}</tbody>
+						</table>
+					</div>
 				</div>
 				<br />
 				{(isAdmin || isMentor) && (

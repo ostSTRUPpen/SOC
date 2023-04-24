@@ -76,73 +76,75 @@ const LektorsList = () => {
 							<Link to="/sec/lektors/new/">Přidat lektora</Link>
 						</p>
 					)}
-					<table className="table table--lektors">
-						<thead className="table_header">
-							<tr>
-								<th
-									scope="col"
-									className="table__th lektor__mentor">
-									Příslušný mentor
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__username">
-									Uživatelské jméno
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__name">
-									Jméno
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__surname">
-									Příjmení
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__date_of_birth">
-									Datum narození
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__gmail">
-									g-mail
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__email">
-									e-mail
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__phone_number">
-									Telefoní číslo
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__bank_account">
-									Bankovní účet
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__bank_account">
-									Proběhlé lekce celkem
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__bank_account">
-									Bilance
-								</th>
-								<th
-									scope="col"
-									className="table__th lektor__bank_account">
-									Celkem doučování
-								</th>
-							</tr>
-						</thead>
-						<tbody>{tableContent}</tbody>
-					</table>
+					<div className="table-responsive-div">
+						<table className="table table--lektors">
+							<thead className="table_header">
+								<tr>
+									<th
+										scope="col"
+										className="table__th lektor__mentor">
+										Příslušný mentor
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__username">
+										Uživatelské jméno
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__name">
+										Jméno
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__surname">
+										Příjmení
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__date_of_birth">
+										Datum narození
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__gmail">
+										g-mail
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__email">
+										e-mail
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__phone_number">
+										Telefoní číslo
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__bank_account">
+										Bankovní účet
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__bank_account">
+										Proběhlé lekce celkem
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__bank_account">
+										Bilance
+									</th>
+									<th
+										scope="col"
+										className="table__th lektor__bank_account">
+										Celkem doučování
+									</th>
+								</tr>
+							</thead>
+							<tbody>{tableContent}</tbody>
+						</table>
+					</div>
 				</div>
 				<br />
 				{(isAdmin || isMentor) && (

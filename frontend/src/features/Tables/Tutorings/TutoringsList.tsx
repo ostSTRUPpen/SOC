@@ -95,7 +95,7 @@ const TutoringsList = () => {
 						<Link to={`/sec/tutorings/new`}>Nové doučování</Link>
 					</p>
 				)}
-				<div className="table-responsive">
+				<div className="table-responsive-div">
 					<table className="table--tutorings table table-hover">
 						<thead className="table_header">
 							<tr>

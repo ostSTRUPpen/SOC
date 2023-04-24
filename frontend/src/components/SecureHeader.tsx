@@ -10,6 +10,7 @@ import {
 	faChalkboardTeacher,
 	faHouseUser,
 	faPeopleRoof,
+	faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSendLogoutMutation } from "../features/auth/authApiSlice";
@@ -123,7 +124,7 @@ const SecureHeader = () => {
 
 	const logoutButton: JSX.Element = (
 		<button
-			className="secure__header--logout header_icon_button"
+			className="secure__header--logout secure-header__button header_icon_button"
 			title="Odhlásit se"
 			onClick={onLogOutClicked}>
 			<FontAwesomeIcon icon={faRightFromBracket} /> Odhlásit se
@@ -316,8 +317,17 @@ const SecureHeader = () => {
 						alt="Learning Triangle logo"
 						height="1%"
 						width="100%"
+						onClick={onHomeClicked}
 					/>
 					<nav className="secure-header__nav">
+						<label htmlFor="show_ham_menu" id="show_ham_menu_label">
+							<FontAwesomeIcon icon={faBars} />
+						</label>
+						<input
+							type="checkbox"
+							id="show_ham_menu"
+							placeholder="Navigační menu"
+						/>
 						{homeButton}
 						{navButtons}
 						{logoutButton}

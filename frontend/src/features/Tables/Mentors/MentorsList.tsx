@@ -58,53 +58,55 @@ const MentorsList = () => {
 					<p className="align-center">
 						<Link to={"/sec/mentors/new"}>Vytvořit mentora</Link>
 					</p>
-					<table className="table table--mentors">
-						<thead className="table_header">
-							<tr>
-								<th
-									scope="col"
-									className="table__th mentor__username">
-									Uživatelské jméno
-								</th>
-								<th
-									scope="col"
-									className="table__th mentor__name">
-									Jméno
-								</th>
-								<th
-									scope="col"
-									className="table__th mentor__surname">
-									Příjmení
-								</th>
-								<th
-									scope="col"
-									className="table__th mentor__date_of_birth">
-									Datum narození
-								</th>
-								<th
-									scope="col"
-									className="table__th mentor__gmail">
-									g-mail
-								</th>
-								<th
-									scope="col"
-									className="table__th mentor__email">
-									e-mail
-								</th>
-								<th
-									scope="col"
-									className="table__th mentor__phone_number">
-									Telefoní číslo
-								</th>
-								<th
-									scope="col"
-									className="table__th mentor__bank_account">
-									Bankovní účet
-								</th>
-							</tr>
-						</thead>
-						<tbody>{tableContent}</tbody>
-					</table>
+					<div className="table-responsive-div">
+						<table className="table table--mentors">
+							<thead className="table_header">
+								<tr>
+									<th
+										scope="col"
+										className="table__th mentor__username">
+										Uživatelské jméno
+									</th>
+									<th
+										scope="col"
+										className="table__th mentor__name">
+										Jméno
+									</th>
+									<th
+										scope="col"
+										className="table__th mentor__surname">
+										Příjmení
+									</th>
+									<th
+										scope="col"
+										className="table__th mentor__date_of_birth">
+										Datum narození
+									</th>
+									<th
+										scope="col"
+										className="table__th mentor__gmail">
+										g-mail
+									</th>
+									<th
+										scope="col"
+										className="table__th mentor__email">
+										e-mail
+									</th>
+									<th
+										scope="col"
+										className="table__th mentor__phone_number">
+										Telefoní číslo
+									</th>
+									<th
+										scope="col"
+										className="table__th mentor__bank_account">
+										Bankovní účet
+									</th>
+								</tr>
+							</thead>
+							<tbody>{tableContent}</tbody>
+						</table>
+					</div>
 				</div>
 				<br />
 				<p className="align-center">

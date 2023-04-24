@@ -80,38 +80,40 @@ const InvoiceList = () => {
 							<Link to={`/sec/invoices/new`}>Nová faktura</Link>
 						</p>
 					)}
-					<table className="table table--invoices">
-						<thead className="table_header">
-							<tr>
-								<th
-									scope="col"
-									className="table__th invoice__number">
-									Číslo faktury
-								</th>
-								<th
-									scope="col"
-									className="table__th invoice__mentor">
-									Mentor
-								</th>
-								<th
-									scope="col"
-									className="table__th invoice__klient">
-									Klient
-								</th>
-								<th
-									scope="col"
-									className="table__th invoice__date">
-									Datum
-								</th>
-								<th
-									scope="col"
-									className="table__th invoice__value">
-									Částka
-								</th>
-							</tr>
-						</thead>
-						<tbody>{tableContent}</tbody>
-					</table>
+					<div className="table-responsive-div">
+						<table className="table table--invoices">
+							<thead className="table_header">
+								<tr>
+									<th
+										scope="col"
+										className="table__th invoice__number">
+										Číslo faktury
+									</th>
+									<th
+										scope="col"
+										className="table__th invoice__mentor">
+										Mentor
+									</th>
+									<th
+										scope="col"
+										className="table__th invoice__klient">
+										Klient
+									</th>
+									<th
+										scope="col"
+										className="table__th invoice__date">
+										Datum
+									</th>
+									<th
+										scope="col"
+										className="table__th invoice__value">
+										Částka
+									</th>
+								</tr>
+							</thead>
+							<tbody>{tableContent}</tbody>
+						</table>
+					</div>
 				</div>
 				<br />
 				{(isAdmin || isMentor) && (
