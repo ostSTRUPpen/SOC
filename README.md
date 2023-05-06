@@ -36,7 +36,7 @@ Práce SOČ <br>
 
 Výsledky práce (k datu 5. 5. 2023) <br>
 
--   Školní kolo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**1.** místo <br>
+-   Školní kolo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**1.** místo <br>
 -   Okresní kolo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**2.** místo <br>
 -   Krajské kolo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**1.** místo a nominace na celostátní kolo <br>
 -   Celostátní kolo:&nbsp;**NEPROBĚHLO** <br>
