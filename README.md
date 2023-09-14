@@ -11,7 +11,7 @@ Ročník: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
 Odkazy
 
 -   [Oficiální stránky Learning Triangle](https://www.learningtriangle.cz/) <br>
--   [Informační systém Learning Triangle](https://learning-triangle-is-soc.onrender.com/) <br>
+-   [Informační systém Learning Triangle](https://learning-triangle-is-soc.onrender.com/) (Pozastaveno) <br>
 
 <br>
 Kontakt autor	<br>
@@ -34,7 +34,7 @@ Práce SOČ <br>
 
 <br>
 
-Výsledky práce (k datu 5. 5. 2023) <br>
+Výsledky práce <br>
 
 -   Školní kolo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**1.** místo <br>
 -   Okresní kolo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**2.** místo <br>
