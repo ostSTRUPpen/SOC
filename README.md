@@ -28,9 +28,9 @@ Práce SOČ <br>
 
 -   [Video prezentace práce](https://youtu.be/vsR5USHdX0E) <br>
 
--   [Text práce](https://1drv.ms/b/s!ArJptXeCnkq-nzuLKwGY-iPh13J-?e=VJsBiN) <br>
+-   [Text práce](https://1drv.ms/b/s!ArJptXeCnkq-nzuLKwGY-iPh13J-?e=7gm3NE) <br>
 
--   [Prezentace práce](https://1drv.ms/p/s!ArJptXeCnkq-nzw2268G9vSG4t50?e=v0q7v0) <br>
+-   [Prezentace práce](https://1drv.ms/p/s!ArJptXeCnkq-nzw2268G9vSG4t50?e=VbvTVN) <br>
 
 <br>
 
