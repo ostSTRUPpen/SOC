@@ -8,17 +8,19 @@ Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 Škola: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gymnázium Havlíčkův Brod <br>
 Ročník: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2022-2023 <br>
 
+## Anotace
+Tato práce se zaměřuje na vývoj informačního systému pro správu doučování. Webová aplikace řídí veškeré finance, zápisy lekcí a&nbsp;uchovává vhodné informace jak klientů, tak lektorů. Implementace je provedena s využitím technologií MERN, což znamená, že byl využit framework Express.js a&nbsp;Node.js sloužící k&nbsp;tvorbě webových aplikací, spolu s&nbsp;databázovým systémem MongoDB a knihovnou React.js pro tvorbu uživatelského rozhraní. Výsledkem je funkční a nasazený informační systém, na kterém bylo provedeno uživatelské testování a&nbsp;který bude dále použit jako základ pro aktivně používaný systém.
+
 Odkazy
 
 -   [Oficiální stránky Learning Triangle](https://www.learningtriangle.cz/) <br>
--   [Informační systém Learning Triangle](https://learning-triangle-is-soc.onrender.com/) (Pozastaveno) <br>
 
 <br>
-Kontakt autor	<br>
+Kontakt na autora	<br>
 
 -   e-mail: <vojvol@post.cz> <br>
 
-Kontakt Learning Triangle <br>
+Kontakt na Learning Triangle <br>
 
 -   e-mail: <info@learningtriangle.cz> <br>
 
@@ -28,9 +30,9 @@ Práce SOČ <br>
 
 -   [Video prezentace práce](https://youtu.be/vsR5USHdX0E) <br>
 
--   [Text práce](https://1drv.ms/b/s!ArJptXeCnkq-nzuLKwGY-iPh13J-?e=7gm3NE) <br>
+-   [Text práce](https://drive.proton.me/urls/7TV6C26RG0#504fF6wAMP2W) <br>
 
--   [Prezentace práce](https://1drv.ms/p/s!ArJptXeCnkq-nzw2268G9vSG4t50?e=VbvTVN) <br>
+-   [Prezentace práce](https://drive.proton.me/urls/J3PSFCDY38#vwIgf4dUUA8W) <br>
 
 <br>
 
