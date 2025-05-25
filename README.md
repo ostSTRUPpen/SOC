@@ -8,8 +8,13 @@ Autor: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
 Škola: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Gymnázium Havlíčkův Brod <br>
 Ročník: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2022-2023 <br>
 
-## Anotace
+---
+
+Anotace
+
 Tato práce se zaměřuje na vývoj informačního systému pro správu doučování. Webová aplikace řídí veškeré finance, zápisy lekcí a&nbsp;uchovává vhodné informace jak klientů, tak lektorů. Implementace je provedena s využitím technologií MERN, což znamená, že byl využit framework Express.js a&nbsp;Node.js sloužící k&nbsp;tvorbě webových aplikací, spolu s&nbsp;databázovým systémem MongoDB a knihovnou React.js pro tvorbu uživatelského rozhraní. Výsledkem je funkční a nasazený informační systém, na kterém bylo provedeno uživatelské testování a&nbsp;který bude dále použit jako základ pro aktivně používaný systém.
+
+---
 
 Odkazy
 
